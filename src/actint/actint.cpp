@@ -25,6 +25,7 @@
 #include "../uvs/diagen.h"
 
 #include "../sound/hsound.h"
+#include "../network.h"
 
 /* ----------------------------- STRUCT SECTION ----------------------------- */
 /* ----------------------------- EXTERN SECTION ----------------------------- */
@@ -4232,7 +4233,7 @@ void actIntDispatcher::i_finit(void)
 	aciPrepareWorldsMenu();
 
   char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
-  if (NetworkON && strcmp(game_name,"arena")==0 && !(CurrentWorld==13)) {
+  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld != 13) {
     aScrDisp -> send_event(EV_TELEPORT,13);
   };
 

@@ -1635,6 +1635,7 @@ void iGetMultiGameParameters(void)
 	time_t tm;
 
 	my_server_data.GameType = iCurMultiGame;
+    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
 	switch(iCurMultiGame){
 		case iMP_VAN_WAR:
@@ -1651,6 +1652,7 @@ void iGetMultiGameParameters(void)
 			my_server_data.Van_War.TeamMode = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY);
+            if(strcmp(game_name,"arena")==0) value = 2;
 			my_server_data.Van_War.Nascency = value - 1;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS);
@@ -1737,6 +1739,7 @@ void iSetMultiGameParameters(void)
 	int value = 0;
 
 	iCurMultiGame = my_server_data.GameType;
+    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
 	switch(iCurMultiGame){
 		case iMP_VAN_WAR:
@@ -1754,6 +1757,7 @@ void iSetMultiGameParameters(void)
 
 			value = my_server_data.Van_War.Nascency + 1;
 			if(value > 3) value = 0;
+			if(strcmp(game_name,"arena")==0) value = 2;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY,value);
 
 			value = my_server_data.Van_War.WorldAccess;
