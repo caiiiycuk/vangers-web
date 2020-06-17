@@ -41,6 +41,7 @@
 #include "../sound/hsound.h"
 #include "diagen.h"
 #include "univang.h"
+#include "../iscreen/iscreen.h"
 
 const int TABUTASK_BAD = ACI_TABUTASK_FAILED;
 const int TABUTASK_GOOD = ACI_TABUTASK_SUCCESSFUL;
@@ -123,6 +124,7 @@ void MLReset(void);
 
 int GeneralMapReload = 0;
 extern uchar** WorldPalData;
+extern iScreenOption** iScrOpt;
 
 const int uvsVANGER_ARRIVAL = 0;
 const int uvsVANGER_FAILED = 1;
@@ -575,9 +577,10 @@ void uniVangPrepare(void){
 #ifdef ALL_ITEM_IN_SHOP
 			if(1)
 #else
-			if (i == UVS_ITEM_TYPE::MACHOTINE_GUN_LIGHT ||
+			if ((i == UVS_ITEM_TYPE::MACHOTINE_GUN_LIGHT ||
 			    i == UVS_ITEM_TYPE::SPEETLE_SYSTEM_LIGHT ||
-			    i == UVS_ITEM_TYPE::GHORB_GEAR_LIGHT )
+			    i == UVS_ITEM_TYPE::GHORB_GEAR_LIGHT ) ||
+                (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0))
 #endif
 				for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
 			else
@@ -589,20 +592,24 @@ void uniVangPrepare(void){
 			for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
 #else
 
-			switch(i){
-			case UVS_ITEM_TYPE::COPTE_RIG:
-				WorldTable[2] -> generate_item( i );
-				break;
-			case UVS_ITEM_TYPE::CROT_RIG:
-				WorldTable[0] -> generate_item( i );
-				break;
-			case UVS_ITEM_TYPE::CUTTE_RIG:
-				WorldTable[1] -> generate_item( i );
-				break;
-			case UVS_ITEM_TYPE::RADAR_DEVICE:
-				WorldTable[RND(3)] -> generate_item( i );
-				break;
-			}//  end switch
+			if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)
+                for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
+            else {
+                switch(i){
+                    case UVS_ITEM_TYPE::COPTE_RIG:
+                        WorldTable[2] -> generate_item( i );
+                        break;
+                    case UVS_ITEM_TYPE::CROT_RIG:
+                        WorldTable[0] -> generate_item( i );
+                        break;
+                    case UVS_ITEM_TYPE::CUTTE_RIG:
+                        WorldTable[1] -> generate_item( i );
+                        break;
+                    case UVS_ITEM_TYPE::RADAR_DEVICE:
+                        WorldTable[RND(3)] -> generate_item( i );
+                        break;
+                }//  end switch
+            }
 #endif
 		} else
 			for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
