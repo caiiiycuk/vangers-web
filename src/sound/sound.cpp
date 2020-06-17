@@ -195,9 +195,9 @@ static time_t lastTimeCD = 0;
 void InstallSOUND(void)
 {
     if (lang() == RUSSIAN) {
-        TrackCDTime = new int[11] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 200 };
+        TrackCDTime = new int[12] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 200, 104 };
     } else {
-        TrackCDTime = new int[11] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 60 };
+        TrackCDTime = new int[12] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 60, 104 };
     }
 
 	if(!SoundInit(EFFECT_KHZ, 16)){
@@ -593,22 +593,23 @@ void StartWTRACK(void)
 	if (CurrentWorld == -1)
 		w_id = getWID();
 
-  if (w_id == 10) {
-    xsPlayOneTrackMusic(ST_STADIUM);
-    TimeCD = TrackCDTime[ST_STADIUM];
-  } else {
-    if(w_id >= 0 && w_id <= 3){
-//		xsPlayOneTrackCD(ST_FOSTRAL + w_id);
-		  xsPlayOneTrackMusic(ST_FOSTRAL + w_id);
-		  TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
-	  } else {
-		  if(w_id > 3){
-//			xsPlayOneTrackCD(ST_SECRETS);
-			  xsPlayOneTrackMusic(ST_SECRETS);
-			  TimeCD = TrackCDTime[ST_SECRETS];
-		  }
-	  }
-  }
+	switch (w_id) {
+	    case 0:
+	    case 1:
+	    case 2:
+	    case 3:
+	        xsPlayOneTrackMusic(ST_FOSTRAL + w_id);
+	        TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
+	        break;
+	    case 10:
+            xsPlayOneTrackMusic(ST_STADIUM);
+            TimeCD = TrackCDTime[ST_STADIUM];
+            break;
+	    default:
+            xsPlayOneTrackMusic(ST_SECRETS);
+            TimeCD = TrackCDTime[ST_SECRETS];
+            break;
+	}
 	time(&lastTimeCD);
 	activeWTRACK = 1;
 #endif
