@@ -372,6 +372,8 @@ const int AI_MESSAGE_DESTROY_THREALL_MESSAGE = 50;
 //NEW for STEAM REALESE
 const int AI_MESSAGE_CAMERA_HELP = 51;
 
+const int AI_MESSAGE_STADIUM = 52;
+
 void NetworkSetTnt(int id);
 
 void aiMessageTouch(int speed,int ind);

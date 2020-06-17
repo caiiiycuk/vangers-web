@@ -1604,9 +1604,12 @@ void KeyCenter(SDL_Event *key)
 			break;
 #endif
 #ifdef SCREENSHOT
-//  		case SDL_SCANCODE_F4:
-//  			creat_poster();
-//  			break;
+ 		case SDL_SCANCODE_F4:
+        mod = SDL_GetModState();
+        if (mod&KMOD_CTRL) {
+    			creat_poster();
+        }
+  			break;
 		case SDL_SCANCODE_F11:
 			shotFlush();
 			break;

@@ -11718,7 +11718,7 @@ int uvsReturnTreasureStatus(int Type, int TreasureStatus){
 }
 
 int uvsReturnWorldGamerVisit(int where){
-	if(where < 0 || where > 9) ErrH.Abort("uvsReturnWorldGamerVisit : Bad world");
+	if(where < 0 || where > 10) ErrH.Abort("uvsReturnWorldGamerVisit : Bad world");
 	return WorldTable[where] -> GamerVisit;
 }
 

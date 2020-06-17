@@ -43,6 +43,9 @@
 #define iSTR_WORLD_ARK_A_ZNOY_CHAR1	"A"
 #define iSTR_WORLD_ARK_A_ZNOY_CHAR2	"Ä"
 
+#define iSTR_WORLD_STADIUM_CHAR1	"S"
+#define iSTR_WORLD_STADIUM_CHAR2	"ê"
+
 // Color letters...
 #define iSTR_COLOR_GREEN_CHAR1		"G"
 #define iSTR_COLOR_GREEN_CHAR2		"á"

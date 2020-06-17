@@ -593,17 +593,22 @@ void StartWTRACK(void)
 	if (CurrentWorld == -1)
 		w_id = getWID();
 
-	if(w_id >= 0 && w_id <= 3){
+  if (w_id == 10) {
+    xsPlayOneTrackMusic(ST_STADIUM);
+    TimeCD = TrackCDTime[ST_STADIUM];
+  } else {
+    if(w_id >= 0 && w_id <= 3){
 //		xsPlayOneTrackCD(ST_FOSTRAL + w_id);
-		xsPlayOneTrackMusic(ST_FOSTRAL + w_id);
-		TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
-	} else {
-		if(w_id > 3){
+		  xsPlayOneTrackMusic(ST_FOSTRAL + w_id);
+		  TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
+	  } else {
+		  if(w_id > 3){
 //			xsPlayOneTrackCD(ST_SECRETS);
-			xsPlayOneTrackMusic(ST_SECRETS);
-			TimeCD = TrackCDTime[ST_SECRETS];
-		}
-	}
+			  xsPlayOneTrackMusic(ST_SECRETS);
+			  TimeCD = TrackCDTime[ST_SECRETS];
+		  }
+	  }
+  }
 	time(&lastTimeCD);
 	activeWTRACK = 1;
 #endif

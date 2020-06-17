@@ -201,8 +201,9 @@
 #define F_ID			10
 #define W_ID			11
 #define A_ID			12
+#define S_ID			13
 
-#define AS_MAX_WORLD		13
+#define AS_MAX_WORLD		14
 
 #define GLORX_LETTER		71
 #define FOSTRAL_LETTER		70
@@ -217,6 +218,7 @@
 #define F_LETTER		70
 #define W_LETTER		87
 #define A_LETTER		65
+#define S_LETTER		83
 
 // aciWorldInfo flags...
 #define AS_VISIBLE_WORLD	1
@@ -466,6 +468,8 @@
 
 #define ACI_CHANGE_CYCLE	41
 #define ACI_REPAIR		42
+
+#define ACI_TELEPORT_S		43
 
 // Save header flags...
 #define ACI_SAVE_COMPRESSED	1

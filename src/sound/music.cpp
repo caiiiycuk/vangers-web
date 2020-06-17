@@ -36,6 +36,8 @@ const char* getTrackPathName(int track) {
 			return "resource/music/track10.ogg";
 		case ST_DOUBLE:			//11
 			return "resource/music/track01.ogg";
+		case ST_STADIUM:			//12
+			return "resource/music/track11.ogg";
 		default:
 			return "resource/music/track01.ogg";
 	}

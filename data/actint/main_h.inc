@@ -12,6 +12,7 @@ map_name	$K_ID		"resource/actint/640x480/bitmap/map_k.bmp"
 map_name	$T_ID		"resource/actint/640x480/bitmap/map_t.bmp"
 map_name	$H_ID		"resource/actint/640x480/bitmap/map_h.bmp"
 map_name	$W_ID		"resource/actint/640x480/bitmap/map_w.bmp"
+map_name	$S_ID		"resource/actint/640x480/bitmap/map_s.bmp"
 
 /* ----------------------------- ITEMS SECTION ------------------------------ */
 
@@ -969,8 +970,8 @@ world_map {
 		flag	$AS_SPECIAL_WORLD
 		flag	$AS_VISIBLE_WORLD
 
-		x	650
-		y	280
+		x	800
+		y	300
 	}
 
 	world_data $E_ID $E_LETTER $AS_SQUARE {
@@ -1018,6 +1019,17 @@ world_map {
 		y	300
 
 		name	"Ark-a-Znoy"
+	}
+	world_data $S_ID $S_LETTER $AS_SQUARE {
+		font	2
+
+		flag	$AS_SPECIAL_WORLD
+		flag	$AS_VISIBLE_WORLD
+
+		x	800
+		y	300
+
+		name	"Stadium"
 	}
 }
 

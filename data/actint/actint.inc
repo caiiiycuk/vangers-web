@@ -573,6 +573,15 @@ mode_key	$VK_F1
 						event $EV_TELEPORT $A_ID	\
 					}					\
 					fncMenuItem {				\
+						string		$STR_Stadium \
+						function	{ 1000 + $S_ID }  \
+										\
+						font		0		\
+						space		1		\
+										\
+						event $EV_TELEPORT $S_ID	\
+					}					\
+					fncMenuItem {				\
 						string		$STR_OFF	\
 						function	$FMENU_OFF	\
 										\

@@ -3681,11 +3681,11 @@ void GloryPlace::Init(int ind)
 	} else {
 		World = GloryRnd.aiRnd(WORLD_MAX);
 
-		while (World == WORLD_HMOK)
+		while (World == WORLD_HMOK || World == WORLD_STADIUM)
 			World = GloryRnd.aiRnd(WORLD_MAX);
 
 		if(z_my_server_data.mod_id == Z_MODS_RAFARUN_ID ) //tarakan'i bega/ excludes hmok && threall
-			while (World==WORLD_HMOK || World==WORLD_THREALL)
+			while (World==WORLD_HMOK || World==WORLD_THREALL || World==WORLD_STADIUM)
 		World = GloryRnd.aiRnd(WORLD_MAX);
 	};
 	R_curr.x = GloryRnd.aiRnd(WorldTable[World]->x_size);

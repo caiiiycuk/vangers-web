@@ -36,6 +36,7 @@ extern char* iSTR_WORLD_WEEXOW_CHAR;
 extern char* iSTR_WORLD_HMOK_CHAR;
 extern char* iSTR_WORLD_THREALL_CHAR;
 extern char* iSTR_WORLD_ARK_A_ZNOY_CHAR;
+extern char* iSTR_WORLD_STADIUM_CHAR;
 extern char* iSTR_COLOR_GREEN_CHAR;
 extern char* iSTR_COLOR_ORANGE_CHAR;
 extern char* iSTR_COLOR_BLUE_CHAR;
@@ -178,7 +179,8 @@ static char* iChatWorlds[] = {
 	iSTR_WORLD_WEEXOW_CHAR,
 	iSTR_WORLD_HMOK_CHAR,
 	iSTR_WORLD_THREALL_CHAR,
-	iSTR_WORLD_ARK_A_ZNOY_CHAR
+	iSTR_WORLD_ARK_A_ZNOY_CHAR,
+	iSTR_WORLD_STADIUM_CHAR
 };
 
 static char* iChatColors[] = {

@@ -92,6 +92,7 @@ const char* MLTntName[WORLD_MAX][2] = {
 	{"None","None"},
 	{"None","None"},
 	{"None","None"},
+	{"None","None"},
 	{"None","None"}
 };
 

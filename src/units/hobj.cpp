@@ -2595,7 +2595,7 @@ void GeneralTableOpen(void)
 	};
 };
 
-int WorldLightParam[WORLD_MAX][3] = {{205,256,160},{205,256,160},{205,256,160},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0}};
+int WorldLightParam[WORLD_MAX][3] = {{205,256,160},{205,256,160},{205,256,160},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0}};
 int CurrentWorldLightParam;
 int DeltaWorldLightParam;
 
@@ -3795,6 +3795,7 @@ void NetworkWorldOpen(void)
 			aciOpenWorldLink(WORLD_NECROSS,WORLD_BOOZEENA);
 			aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
 			aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
+			aciOpenWorldLink(WORLD_STADIUM,WORLD_STADIUM);
 			aciPrepareWorldsMenu();
 			break;
 		case VAN_WAR:
@@ -3808,6 +3809,7 @@ void NetworkWorldOpen(void)
 				aciOpenWorldLink(WORLD_NECROSS,WORLD_BOOZEENA);
 				aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
 				aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
+  			aciOpenWorldLink(WORLD_STADIUM,WORLD_STADIUM);
 			};			
 			aciPrepareWorldsMenu();
 			break;

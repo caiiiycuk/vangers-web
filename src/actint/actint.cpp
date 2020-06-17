@@ -4217,6 +4217,7 @@ void actIntDispatcher::finit(void)
 	free_cell_frame();
 }
 
+extern iScreenOption** iScrOpt;
 void actIntDispatcher::i_finit(void)
 {
 	CounterPanel* cp;
@@ -4229,6 +4230,11 @@ void actIntDispatcher::i_finit(void)
 
 	aciChangeWorld(CurrentWorld);
 	aciPrepareWorldsMenu();
+
+  char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+  if (NetworkON && strcmp(game_name,"arena")==0 && !(CurrentWorld==13)) {
+    aScrDisp -> send_event(EV_TELEPORT,13);
+  };
 
 	flags &= ~AS_ISCREEN;
 	if(iscr_iP) iscr_iP -> finit();

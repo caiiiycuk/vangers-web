@@ -6121,6 +6121,7 @@ void aciCHandler(int key)
 			aciOpenWorldLink(2,5);
 
 			aciOpenWorldLink(7,7);
+			aciOpenWorldLink(10,10);
 			aciPrepareWorldsMenu();
 			aciTreeData -> reset();
 			SOUND_DROP();
@@ -6267,6 +6268,12 @@ void aciCHandler(int key)
 			if(!actIntLog){
 				SOUND_DROP();
 				aci_SendEvent(EV_TELEPORT,12);
+			}
+			break;
+		case ACI_TELEPORT_S:
+			if(!actIntLog){
+				SOUND_DROP();
+				aci_SendEvent(EV_TELEPORT,13);
 			}
 			break;
 		case ACI_END_GAME0:
