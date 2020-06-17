@@ -1633,7 +1633,7 @@ void MobileLocation::goPhase(int nPhase)
 	goPh = nPhase;
 };
 
-const int MaxAddDanger[WORLD_MAX] = {0,11,0,0,0 ,0,0,0,0,0};
+const int MaxAddDanger[WORLD_MAX] = {0,11,0,0,0 ,0,0,0,0,0,0};
 extern int NumAddDanger;
 
 void VLload(void)

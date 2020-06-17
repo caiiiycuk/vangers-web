@@ -1855,6 +1855,9 @@ void DangerDataType::Quant(void)
 				case WORLD_XPLO:
 					FireWork(800,PI / 6);
 					break;
+                case WORLD_STADIUM:
+                    FireWork(500,PI/8);
+                    break;
 			};
 			break;
 		case DangerTypeList::HOLE:
@@ -1979,7 +1982,40 @@ void DangerDataType::FireWork(int rFactor,int Angle)
 				if(ActD.Active)
 					SOUND_THUNDER(getDistX(ActD.Active->R_curr.x,R_curr.x)) 
 				break;
-			
+            case WORLD_STADIUM:
+                p = BulletD.CreateBullet();
+                vCheck = Vector(getDistX(ActD.Active->R_curr.x,R_curr.x),getDistY(ActD.Active->R_curr.y, R_curr.y),ActD.Active->R_curr.z - R_curr.z)*DBM((Angle >> 1) - (int)(RND(Angle)),Z_AXIS);
+
+                p->Owner = NULL;
+                if (!NetworkON) {
+                    if(RND(100) < 50)
+                        p->CreateBullet(Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                        Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),NULL,&GameBulletData[WD_BULLET_BIG_FIREBALL]);
+                    else
+                        p->CreateBullet(Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                        Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),NULL,&GameBulletData[WD_BULLET_SMALL_FIREBALL]);
+                } else {
+                    if(RND(100) < 50)
+                        p->CreateBullet(
+                                Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),
+                                NULL,
+                                &GameBulletData[WD_BULLET_BIG_FIREBALL],
+                                NULL,
+                                -2); //decrease speed
+                    else
+                        p->CreateBullet(
+                                Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),
+                                NULL,
+                                &GameBulletData[WD_BULLET_SMALL_FIREBALL],
+                                NULL,
+                                -2); //decrease speed
+                }
+
+                if(ActD.Active)
+                    SOUND_THUNDER(getDistX(ActD.Active->R_curr.x,R_curr.x))
+                break;
 		};
 	};
 };
