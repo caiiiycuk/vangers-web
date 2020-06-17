@@ -3573,6 +3573,7 @@ void VangerUnit::DrawQuant(void)
 					else BulletCollision((MaxEnergy + MaxArmor) / 20,NULL);
 				}else{
 					if(!(dynamic_state & TOUCH_OF_AIR)){
+					    if (CurrentWorld == WORLD_STADIUM) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_LIGHT,1);
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_HEAVY,1);
 						UseOxigenResource();
@@ -3588,9 +3589,9 @@ void VangerUnit::DrawQuant(void)
 			};
 		}else{
 			if(dynamic_state & TOUCH_OF_WATER){
-				if(CurrentWorld == WORLD_THREALL)
-					BulletCollision(Energy / 20,NULL);
-				else{
+				if (CurrentWorld == WORLD_THREALL) BulletCollision(Energy / 20,NULL);
+				else if (CurrentWorld == WORLD_STADIUM) BulletCollision(Energy / 150,NULL);
+				else {
 					if(Speed){
 						p = (WaterParticleObject*)(EffD.GetObject(EFF_PARTICLE03));
 						if(p){
