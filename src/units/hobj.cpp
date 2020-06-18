@@ -3795,7 +3795,7 @@ void NetworkWorldOpen(void)
 			aciOpenWorldLink(WORLD_NECROSS,WORLD_BOOZEENA);
 			aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
 			aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
-			aciOpenWorldLink(WORLD_STADIUM,WORLD_STADIUM);
+			aciOpenWorldLink(WORLD_SATADI,WORLD_SATADI);
 			aciPrepareWorldsMenu();
 			break;
 		case VAN_WAR:
@@ -3809,7 +3809,7 @@ void NetworkWorldOpen(void)
 				aciOpenWorldLink(WORLD_NECROSS,WORLD_BOOZEENA);
 				aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
 				aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
-  			aciOpenWorldLink(WORLD_STADIUM,WORLD_STADIUM);
+  			    aciOpenWorldLink(WORLD_SATADI,WORLD_SATADI);
 			};			
 			aciPrepareWorldsMenu();
 			break;

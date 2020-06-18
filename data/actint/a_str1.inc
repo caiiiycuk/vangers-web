@@ -44,7 +44,7 @@
 #define STR_hMok		$STR_hMok1
 #define STR_Threall		$STR_Threall1
 #define STR_Ark_a_Znoy		$STR_Ark_a_Znoy1
-#define STR_Stadium		$STR_Stadium1
+#define STR_Satadi		$STR_Satadi1
 
 
 // Mechoses...

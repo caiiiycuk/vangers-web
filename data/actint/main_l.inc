@@ -1116,7 +1116,7 @@ world_map {
 		x	800
 		y	300
 
-		name	"Stadium"
+		name	"Satadi"
 	}
 }
 

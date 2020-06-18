@@ -602,8 +602,8 @@ void StartWTRACK(void)
 	        TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
 	        break;
 	    case 10:
-            xsPlayOneTrackMusic(ST_STADIUM);
-            TimeCD = TrackCDTime[ST_STADIUM];
+            xsPlayOneTrackMusic(ST_SATADI);
+            TimeCD = TrackCDTime[ST_SATADI];
             break;
 	    default:
             xsPlayOneTrackMusic(ST_SECRETS);

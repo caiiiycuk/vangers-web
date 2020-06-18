@@ -1855,7 +1855,7 @@ void DangerDataType::Quant(void)
 				case WORLD_XPLO:
 					FireWork(800,PI / 6);
 					break;
-                case WORLD_STADIUM:
+                case WORLD_SATADI:
                     FireWork(500,PI/8);
                     break;
 			};
@@ -1982,7 +1982,7 @@ void DangerDataType::FireWork(int rFactor,int Angle)
 				if(ActD.Active)
 					SOUND_THUNDER(getDistX(ActD.Active->R_curr.x,R_curr.x)) 
 				break;
-            case WORLD_STADIUM:
+            case WORLD_SATADI:
                 p = BulletD.CreateBullet();
                 vCheck = Vector(getDistX(ActD.Active->R_curr.x,R_curr.x),getDistY(ActD.Active->R_curr.y, R_curr.y),ActD.Active->R_curr.z - R_curr.z)*DBM((Angle >> 1) - (int)(RND(Angle)),Z_AXIS);
 

@@ -143,7 +143,7 @@ enum SPEECH_VALUE {
 #define ST_THEEND	9
 #define ST_THEEND_DOUBLE	10
 #define ST_DOUBLE	11
-#define ST_STADIUM	12
+#define ST_SATADI	12
 
 void InstallSOUND(void);
 void RestoreSOUND(void); 

@@ -14,7 +14,7 @@
 #define WORLD_HMOK		7
 #define WORLD_THREALL	8
 #define WORLD_ARKONOY	9
-#define WORLD_STADIUM	10
+#define WORLD_SATADI	10
 
 #define Z_MODS_SPEEDOMETER_RU		"‘ˆ„Œ…’"
 #define Z_MODS_NEPTUN_RU			"…’“"

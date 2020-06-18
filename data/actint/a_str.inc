@@ -115,8 +115,8 @@
 #define STR_Ark_a_Znoy1 	"Ark-a-Znoy"
 #define STR_Ark_a_Znoy2 	"Арк-а-Зной"
 
-#define STR_Stadium1 	"Stadium"
-#define STR_Stadium2 	"Ристалище"
+#define STR_Satadi1 	"Satadi"
+#define STR_Satadi2 	"Сатади"
 
 
 // Mechoses...

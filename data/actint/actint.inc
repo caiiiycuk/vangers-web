@@ -573,7 +573,7 @@ mode_key	$VK_F1
 						event $EV_TELEPORT $A_ID	\
 					}					\
 					fncMenuItem {				\
-						string		$STR_Stadium \
+						string		$STR_Satadi \
 						function	{ 1000 + $S_ID }  \
 										\
 						font		0		\
