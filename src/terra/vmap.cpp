@@ -1776,6 +1776,7 @@ void LoadVPR(int ind)
 			}
 		}
 	}
+	if (CurrentWorld==WORLD_SATADI) FloodLvl[0] = (int)round(65);
 
 	ff.close();
 }
