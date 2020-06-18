@@ -1113,7 +1113,7 @@ world_map {
 		flag	$AS_SPECIAL_WORLD
 		flag	$AS_VISIBLE_WORLD
 
-		x	800
+		x	200
 		y	300
 
 		name	"Satadi"

@@ -1606,7 +1606,7 @@ void KeyCenter(SDL_Event *key)
 #ifdef SCREENSHOT
  		case SDL_SCANCODE_F4:
         mod = SDL_GetModState();
-        if (mod&KMOD_CTRL) {
+        if (mod&KMOD_SHIFT) {
     			creat_poster();
         }
   			break;

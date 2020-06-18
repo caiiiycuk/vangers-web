@@ -3568,12 +3568,12 @@ void VangerUnit::DrawQuant(void)
 			};
 
 			if(dynamic_state & TOUCH_OF_WATER){
+                if (CurrentWorld == WORLD_SATADI) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
 				if(CurrentWorld == WORLD_THREALL){
 					if(NetworkON) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
 					else BulletCollision((MaxEnergy + MaxArmor) / 20,NULL);
 				}else{
 					if(!(dynamic_state & TOUCH_OF_AIR)){
-					    if (CurrentWorld == WORLD_SATADI) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_LIGHT,1);
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_HEAVY,1);
 						UseOxigenResource();
