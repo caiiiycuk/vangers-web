@@ -792,13 +792,19 @@ void uniVangPrepare(void){
 	//zNfo  DEFAULT MECHOS 
 	// 16 = моток
 	int MechosID = 0;
-	if (NetworkON) switch (z_my_server_data.mod_id) {
-		case Z_MODS_RAFARUN_ID:		{ MechosID = 16; break; } // моток
-		case Z_MODS_TRAKTRIAL_ID:	{ MechosID =  7; break; } // аттрактор
-		case Z_MODS_NEPTUN_ID:		{ MechosID = 21; break; } // жаба
-		case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
-		default: MechosID = 5; // дряхлый душегуб
+    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+	if (NetworkON) {
+        switch (z_my_server_data.mod_id) {
+            case Z_MODS_RAFARUN_ID:		{ MechosID = 16; break; } // моток
+            case Z_MODS_TRAKTRIAL_ID:	{ MechosID =  7; break; } // аттрактор
+            case Z_MODS_NEPTUN_ID:		{ MechosID = 21; break; } // жаба
+            case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
+            default: MechosID = 5; // дряхлый душегуб
+        }
+        if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
 	}
+
+    // NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0
 	v -> Pescave -> Pshop -> sellMechos(v -> Pmechos, MechosID);
 	v -> Pmechos -> type = MechosID;
 	//zNfo  /DEFAULT MECHOS 
@@ -1036,6 +1042,22 @@ void uvsContimer::Quant(void){
 			}
 		}
 	}
+    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+
+    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld!=10) {
+        countFromDeath = 0;
+    }
+	if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld==10) {
+        countFromDeath++;
+        if (countFromDeath%1200==0) {
+            int cr;
+            cr = aciGetCurCredits();
+            cr += 1000 * pow(2,(countFromDeath/1200)-1) * (int(my_player_body.kills)+1);
+            aciUpdateCurCredits(cr);
+            SetWorldBeebos(cr);
+            std::cout<<"ARENA minutes alive:"<<round(countFromDeath/1200)<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<(1000 * pow(2,(countFromDeath/1200)-1) * (int(my_player_body.kills)+1))<<std::endl;
+        }
+    }
 }
 
 char* uvsContimer::GetTime(void){

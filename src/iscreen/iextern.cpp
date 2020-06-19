@@ -1640,6 +1640,7 @@ void iGetMultiGameParameters(void)
 	switch(iCurMultiGame){
 		case iMP_VAN_WAR:
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH);
+            if(strcmp(game_name,"arena")==0) value = 1000;
 			my_server_data.Van_War.InitialCash = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ARTEFACTS_USING);
@@ -1744,6 +1745,7 @@ void iSetMultiGameParameters(void)
 	switch(iCurMultiGame){
 		case iMP_VAN_WAR:
 			value = my_server_data.Van_War.InitialCash;
+            if(strcmp(game_name,"arena")==0) value = 1000;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH,value);
 
 			value = my_server_data.Van_War.ArtefactsUsing;
