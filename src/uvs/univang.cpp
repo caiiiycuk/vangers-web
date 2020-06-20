@@ -1047,18 +1047,34 @@ void uvsContimer::Quant(void){
 	}
     char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld!=10) {
-        countFromDeath = 0;
-    }
-	if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld==10) {
-        countFromDeath++;
-        if (countFromDeath%1200==0) {
-            int cr;
-            cr = aciGetCurCredits();
-            cr += 1000 * pow(2,(countFromDeath/1200)-1) * (int(my_player_body.kills)+1);
-            aciUpdateCurCredits(cr);
-            SetWorldBeebos(cr);
-            std::cout<<"ARENA minutes alive:"<<round(countFromDeath/1200)<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<(1000 * pow(2,(countFromDeath/1200)-1) * (int(my_player_body.kills)+1))<<std::endl;
+    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
+        if (CurrentWorld==10) {
+            countFromDeath++;
+            if (countFromDeath%1200==0) {
+                int cr, bonus, bonus_len;
+                char *bonus_msg;
+                cr = aciGetCurCredits();
+                bonus = 1000 * pow(2,(countFromDeath/1200)-1) * (int(my_player_body.kills)+1);
+                cr += bonus;
+                aciUpdateCurCredits(cr);
+                SetWorldBeebos(cr);
+
+                bonus_len = (int)floor(log10(bonus))+1;
+                char bonus_str[bonus_len+1];
+                sprintf(bonus_str, "%d", bonus);
+
+                bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + bonus_len + 4];
+                strcpy(bonus_msg,bot_tag);
+                strcat(bonus_msg,aciGetPlayerName());
+                strcat(bonus_msg," +");
+                strcat(bonus_msg,bonus_str);
+                strcat(bonus_msg,"$");
+                message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
+
+                std::cout<<"ARENA minutes alive:"<<round(countFromDeath/1200)<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+            }
+        } else {
+            countFromDeath = 0;
         }
     }
 }
