@@ -631,12 +631,16 @@ void uniVangPrepare(void){
 	cVngNumber = atoi(pfile.getAtom());
 	int meanN = cVngNumber/(MAIN_WORLD_MAX-1);	// среднее число с-вангеров на мир (эскэйв)
 	int j = 0;
+  int guaranteedMechoses = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
 	uvsVanger* v;
 	uvsMechos* pm;
 	meanN = 0;
 
 	//zNfo инициализация мехосов
-	for( int k = 0; k < MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA; k++){
+  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+    guaranteedMechoses = MAX_MECHOS_TYPE;
+  }
+	for( int k = 0; k < guaranteedMechoses; k++){
 		pe = WorldTable[RND(3)] -> escT[0];
 
 #ifdef ALL_ITEM_IN_SHOP
@@ -804,7 +808,6 @@ void uniVangPrepare(void){
         if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
 	}
 
-    // NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0
 	v -> Pescave -> Pshop -> sellMechos(v -> Pmechos, MechosID);
 	v -> Pmechos -> type = MechosID;
 	//zNfo  /DEFAULT MECHOS 
