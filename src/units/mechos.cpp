@@ -49,6 +49,7 @@
 #include "magnum.h"
 
 #include "../actint/credits.h"
+#include "../iscreen/iscreen.h"
 
 #define INSECTOIDS
 
@@ -13660,12 +13661,19 @@ void XpeditionOFF(int type)
 
 const int NETWORK_NUM_ESCAVE = 7;
 const char* NetworkEscaveName[NETWORK_NUM_ESCAVE] ={"Podish","Incubator","VigBoo","Lampasso","Ogorod","ZeePa","B-Zone"};
+extern iScreenOption** iScrOpt;
 
 void NetworkGetStart(char* name,int& x,int& y)
 {
 	int i,j,t;
 	SensorSortedData = new SensorDataType*[SnsTableSize];
 	StaticSort(SnsTableSize,(StaticObject**)SensorObjectData,(StaticObject**)SensorSortedData);
+
+    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+        x = 1024;
+        y = 1024;
+        return;
+    };
 
 	for(i = 0;i < NETWORK_NUM_ESCAVE;i++){
 		if(!strcmp(name,NetworkEscaveName[i])){

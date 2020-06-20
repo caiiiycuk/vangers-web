@@ -4232,10 +4232,10 @@ void actIntDispatcher::i_finit(void)
 	aciChangeWorld(CurrentWorld);
 	aciPrepareWorldsMenu();
 
-  char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
-  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld != 13) {
-    aScrDisp -> send_event(EV_TELEPORT,13);
-  };
+    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld != 13) {
+        aScrDisp -> send_event(EV_TELEPORT,13);
+    };
 
 	flags &= ~AS_ISCREEN;
 	if(iscr_iP) iscr_iP -> finit();
