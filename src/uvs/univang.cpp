@@ -1050,28 +1050,43 @@ void uvsContimer::Quant(void){
     if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
         if (CurrentWorld==10) {
             countFromDeath++;
-            if (countFromDeath%1200==0) {
+            if (countFromDeath%400==0) {
                 int cr, bonus, bonus_len;
                 char *bonus_msg;
+
                 cr = aciGetCurCredits();
-                bonus = 1000 * pow(2,(countFromDeath/1200)-1) * (int(my_player_body.kills)+1);
-                cr += bonus;
-                aciUpdateCurCredits(cr);
-                SetWorldBeebos(cr);
+                if (cr > 2000000) {
+                    bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + 5];
+                    strcpy(bonus_msg,bot_tag);
+                    strcat(bonus_msg,aciGetPlayerName());
+                    strcat(bonus_msg," +0$");
+                    message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                bonus_len = (int)floor(log10(bonus))+1;
-                char bonus_str[bonus_len+1];
-                sprintf(bonus_str, "%d", bonus);
+                    std::cout<<"ARENA stages (~20 sec) alive:"<<round(countFromDeath/400)<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
+                } else {
+                    bonus = 1000 * pow(2,(countFromDeath/400)-1) * (int(my_player_body.kills)+1);
+					
+                    if (bonus > 250000) {
+						bonus = 250000;
+					}
+                    cr += bonus;
+                    aciUpdateCurCredits(cr);
+                    SetWorldBeebos(cr);
 
-                bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + bonus_len + 4];
-                strcpy(bonus_msg,bot_tag);
-                strcat(bonus_msg,aciGetPlayerName());
-                strcat(bonus_msg," +");
-                strcat(bonus_msg,bonus_str);
-                strcat(bonus_msg,"$");
-                message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
+                    bonus_len = (int)floor(log10(bonus))+1;
+                    char bonus_str[bonus_len+1];
+                    sprintf(bonus_str, "%d", bonus);
 
-                std::cout<<"ARENA minutes alive:"<<round(countFromDeath/1200)<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+                    bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + bonus_len + 4];
+                    strcpy(bonus_msg,bot_tag);
+                    strcat(bonus_msg,aciGetPlayerName());
+                    strcat(bonus_msg," +");
+                    strcat(bonus_msg,bonus_str);
+                    strcat(bonus_msg,"$");
+                    message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
+
+                    std::cout<<"ARENA stages (~20 sec) alive:"<<round(countFromDeath/400)<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+                }
             }
         } else {
             countFromDeath = 0;

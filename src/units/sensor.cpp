@@ -1856,7 +1856,7 @@ void DangerDataType::Quant(void)
 					FireWork(800,PI / 6);
 					break;
                 case WORLD_SATADI:
-                    FireWork(100,PI/8);
+					FireWork(1000,PI/8);
                     break;
 			};
 			break;
