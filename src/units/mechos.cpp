@@ -13669,7 +13669,7 @@ void NetworkGetStart(char* name,int& x,int& y)
 	SensorSortedData = new SensorDataType*[SnsTableSize];
 	StaticSort(SnsTableSize,(StaticObject**)SensorObjectData,(StaticObject**)SensorSortedData);
 
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 && time(nullptr)>ARENA_UNLOCK) {
         x = 1024;
         y = 1024;
         return;

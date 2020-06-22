@@ -1640,7 +1640,7 @@ void iGetMultiGameParameters(void)
 	switch(iCurMultiGame){
 		case iMP_VAN_WAR:
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH);
-            if(strcmp(game_name,"arena")==0) value = 3000;
+            if(strcmp(game_name,"arena")==0 && time(nullptr)>ARENA_UNLOCK) value = 3000;
 			my_server_data.Van_War.InitialCash = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ARTEFACTS_USING);
@@ -1653,7 +1653,7 @@ void iGetMultiGameParameters(void)
 			my_server_data.Van_War.TeamMode = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY);
-            if(strcmp(game_name,"arena")==0) value = 2;
+            if(strcmp(game_name,"arena")==0 && time(nullptr)>ARENA_UNLOCK) value = 2;
 			my_server_data.Van_War.Nascency = value - 1;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS);
@@ -1745,7 +1745,7 @@ void iSetMultiGameParameters(void)
 	switch(iCurMultiGame){
 		case iMP_VAN_WAR:
 			value = my_server_data.Van_War.InitialCash;
-            if(strcmp(game_name,"arena")==0) value = 3000;
+            if(strcmp(game_name,"arena")==0 && time(nullptr)>ARENA_UNLOCK) value = 3000;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH,value);
 
 			value = my_server_data.Van_War.ArtefactsUsing;
@@ -1759,7 +1759,7 @@ void iSetMultiGameParameters(void)
 
 			value = my_server_data.Van_War.Nascency + 1;
 			if(value > 3) value = 0;
-			if(strcmp(game_name,"arena")==0) value = 2;
+			if(strcmp(game_name,"arena")==0 && time(nullptr)>ARENA_UNLOCK) value = 2;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY,value);
 
 			value = my_server_data.Van_War.WorldAccess;
