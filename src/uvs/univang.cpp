@@ -974,6 +974,8 @@ void uvsContimer::Start(void){
 	counter = 0;
 	day = 1;
 	hour = min = sec = 0;
+	countFromDeath = 0;
+	stagesFromDeath = 0;
 }
 
 void uvsContimer::load(XStream& pfile){
@@ -1049,12 +1051,15 @@ void uvsContimer::Quant(void){
 
     if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
         if (CurrentWorld==10) {
+            // after 10, next 20, next 30, then each 60 ~sec
             countFromDeath++;
-            if (countFromDeath%400==0) {
+            if (countFromDeath==200 || countFromDeath==600 || countFromDeath%1200==0) {
                 int cr, bonus, bonus_len;
                 char *bonus_msg;
 
+                stagesFromDeath++;
                 cr = aciGetCurCredits();
+
                 if (cr > 2000000) {
                     bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + 5];
                     strcpy(bonus_msg,bot_tag);
@@ -1062,13 +1067,11 @@ void uvsContimer::Quant(void){
                     strcat(bonus_msg," +0$");
                     message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                    std::cout<<"ARENA stages (~20 sec) alive:"<<round(countFromDeath/400)<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
+                    std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
                 } else {
-                    bonus = 1000 * pow(2,(countFromDeath/400)-1) * (int(my_player_body.kills)+1);
-					
-                    if (bonus > 250000) {
-						bonus = 250000;
-					}
+                    bonus = 1000 * pow(2,stagesFromDeath-1) * (int(my_player_body.kills)+1);
+
+                    if (bonus > 250000) bonus = 250000;
                     cr += bonus;
                     aciUpdateCurCredits(cr);
                     SetWorldBeebos(cr);
@@ -1085,11 +1088,12 @@ void uvsContimer::Quant(void){
                     strcat(bonus_msg,"$");
                     message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                    std::cout<<"ARENA stages (~20 sec) alive:"<<round(countFromDeath/400)<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+                    std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
                 }
             }
         } else {
             countFromDeath = 0;
+            stagesFromDeath = 0;
         }
     }
 }
