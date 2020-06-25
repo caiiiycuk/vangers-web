@@ -580,7 +580,7 @@ void uniVangPrepare(void){
 			if ((i == UVS_ITEM_TYPE::MACHOTINE_GUN_LIGHT ||
 			    i == UVS_ITEM_TYPE::SPEETLE_SYSTEM_LIGHT ||
 			    i == UVS_ITEM_TYPE::GHORB_GEAR_LIGHT ) ||
-                (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 && time(nullptr)>ARENA_UNLOCK))
+                (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0))
 #endif
 				for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
 			else
@@ -592,7 +592,7 @@ void uniVangPrepare(void){
 			for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
 #else
 
-			if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 && time(nullptr)>ARENA_UNLOCK)
+			if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)
                 for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
             else {
                 switch(i){
@@ -631,15 +631,15 @@ void uniVangPrepare(void){
 	cVngNumber = atoi(pfile.getAtom());
 	int meanN = cVngNumber/(MAIN_WORLD_MAX-1);	// среднее число с-вангеров на мир (эскэйв)
 	int j = 0;
-    int guaranteedMechoses = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
+  int guaranteedMechoses = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
 	uvsVanger* v;
 	uvsMechos* pm;
 	meanN = 0;
 
 	//zNfo инициализация мехосов
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 && time(nullptr)>ARENA_UNLOCK) {
-        guaranteedMechoses = MAX_MECHOS_TYPE;
-    }
+  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+    guaranteedMechoses = MAX_MECHOS_TYPE;
+  }
 	for( int k = 0; k < guaranteedMechoses; k++){
 		pe = WorldTable[RND(3)] -> escT[0];
 
@@ -805,7 +805,7 @@ void uniVangPrepare(void){
             case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
             default: MechosID = 5; // дряхлый душегуб
         }
-        if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && time(nullptr)>ARENA_UNLOCK) MechosID = 16;
+        if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
 	}
 
 	v -> Pescave -> Pshop -> sellMechos(v -> Pmechos, MechosID);
@@ -1049,7 +1049,7 @@ void uvsContimer::Quant(void){
 	}
     char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && time(nullptr)>ARENA_UNLOCK) {
+    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
         if (CurrentWorld==10) {
             // after 10, next 20, next 30, then each 60 ~sec
             countFromDeath++;
