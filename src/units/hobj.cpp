@@ -654,6 +654,9 @@ void GeneralSystemOpen(void)
 				case WORLD_ARKONOY:
 					AddTarget2Compas(CMP_TARGET_PASSAGE,(void*)("A2N"),rCmpPassNecross);
 					break;
+			    case WORLD_SATADI:
+                    AddTarget2Compas(CMP_TARGET_SENSOR,(void*)("FireUpdate1"),rCmpGhOrb);
+                    break;
 			};
 		}else{
 			switch(CurrentWorld){
@@ -718,6 +721,9 @@ void GeneralSystemOpen(void)
 				case WORLD_ARKONOY:
 					AddTarget2Compas(CMP_TARGET_PASSAGE,(void*)("A2N"),eCmpPassNecross	);
 					break;
+			    case WORLD_SATADI:
+                    AddTarget2Compas(CMP_TARGET_SENSOR,(void*)("FireUpdate1"),eCmpGhOrb);
+                    break;
 			};
 /*			switch(CurrentWorld){
 				case WORLD_FOSTRAL:
