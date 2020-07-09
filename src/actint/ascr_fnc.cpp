@@ -1360,8 +1360,13 @@ void show_map(int x,int y,int sx,int sy)
 			_y = y0;
 			index = 0;
 			m_index = y0 * p -> SizeX + cx - sx2;
+			int max_frames_size = p->SizeX * p->SizeY * p->Size;
 			for(i = 0; i < sy; i ++){
-				memcpy(ptr + index,p -> frames + m_index,sx);
+				if (m_index + sx >= max_frames_size) {
+					memcpy(ptr + index, p -> frames + m_index, max_frames_size - m_index);
+				} else {
+					memcpy(ptr + index, p -> frames + m_index, sx);
+				}
 
 				index += sx;
 				m_index += p -> SizeX;
@@ -4951,6 +4956,9 @@ int acsQuant(void)
 		}
 		if (e->type == SDL_KEYDOWN || e->type == SDL_TEXTINPUT) {
 			acsScrD->KeyTrap(0, e);
+			if (e->key.keysym.scancode == SDL_SCANCODE_ESCAPE && !acsScrD -> QuantCode) {
+				acsScrD -> QuantCode = 1;
+			}
 		}
 
 	}
@@ -5024,7 +5032,7 @@ void acsHandleExtEvent(int code,int data0,int data1,int data2)
 				iAbortGameFlag = 1;
 			}
 			if(NetworkON) iMultiFlag = 1;
-			acsScrD -> QuantCode = 1;
+			acsScrD -> QuantCode = 1; // resume game pause
 			if(!GameOverID)
 				GameOverID = GAME_OVER_ABORT;
 			break;
