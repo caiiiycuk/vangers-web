@@ -70,6 +70,13 @@
 #define iSTR_BLUE			$iSTR_BLUE2
 #define iSTR_GREEN			$iSTR_GREEN2
 
+#define iSTR_RED			$iSTR_RED2
+#define iSTR_WHITE			$iSTR_WHITE2
+#define iSTR_GRAY			$iSTR_GRAY2
+#define iSTR_BLACK			$iSTR_BLACK2
+#define iSTR_CAMOUFLAGE			$iSTR_CAMOUFLAGE2
+#define iSTR_PATROL			$iSTR_PATROL2
+
 #define iSTR_Connection_failed		$iSTR_Connection_failed2
 
 #define iSTR_OK 			$iSTR_OK2

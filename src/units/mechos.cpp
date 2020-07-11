@@ -760,6 +760,8 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 					case 2:
 						s |= UVS_KRON_FLAG::ZEEX;
 						break;
+				    default:
+				        break;
 				};
 				TabuUse |= TABUTASK_COUNT_OTHER;
 			};
@@ -2394,8 +2396,8 @@ void ActionDispatcher::Quant(void)
 	char* ThreallText;
 
 	PlayerData* pd;
-	int n_score[4],n_total,n_position,n_current;
-	int c_score[4],n2_score[4];
+	int n_score[10],n_total,n_position,n_current;
+	int c_score[10],n2_score[10];
 	int drop_log;
 	uvsPassage* pass;	
 
@@ -2457,8 +2459,8 @@ void ActionDispatcher::Quant(void)
 					case VAN_WAR:
 						strcpy(aciCurRaceType,"VWR");
 						if(my_server_data.Van_War.TeamMode){
-							memset(n_score,0,sizeof(int)*4);
-							memset(c_score,0,sizeof(int)*4);
+							memset(n_score,0,sizeof(int)*10);
+							memset(c_score,0,sizeof(int)*10);
 							pd = players_list.first();
 							while(pd){
 								if(pd->status == GAMING_STATUS){
@@ -2468,8 +2470,8 @@ void ActionDispatcher::Quant(void)
 								pd = (PlayerData*)pd -> next;
 							};
 							n_position = 1;
-							n_total = 4;
-							for(i = 0;i < 4;i++){
+							n_total = 10;
+							for(i = 0;i < 10;i++){
 								if(n_score[i] >= my_server_data.Van_War.MaxKills) drop_log = 1;
 								if(i != my_player_body.color){
 									if(n_score[i] > n_score[my_player_body.color]){
@@ -2567,9 +2569,9 @@ void ActionDispatcher::Quant(void)
 					case MECHOSOMA:
 						strcpy(aciCurRaceType,"MHS");
 						if(my_server_data.Mechosoma.TeamMode){
-							memset(n_score,0,sizeof(int)*4);
-							memset(c_score,0,sizeof(int)*4);
-							memset(n2_score,0,sizeof(int)*4);
+							memset(n_score,0,sizeof(int)*10);
+							memset(c_score,0,sizeof(int)*10);
+							memset(n2_score,0,sizeof(int)*10);
 							pd = players_list.first();
 							while(pd){
 								if(pd->status == GAMING_STATUS){
@@ -2581,8 +2583,8 @@ void ActionDispatcher::Quant(void)
 							};
 
 							n_position = 1;
-							n_total = 4;
-							for(i = 0;i < 4;i++){
+							n_total = 10;
+							for(i = 0;i < 10;i++){
 								if(i != my_player_body.color){
 									if((n_score[i] + n2_score[i]) > (n_score[my_player_body.color] + n2_score[my_player_body.color])){
 										n_position++;
@@ -5835,6 +5837,30 @@ void VangerUnit::CreateVangerUnit(void)
 			set_body_color(COLORS_IDS::BODY_YELLOW);
 			aiModifier = AI_MODIFIER_ZEEX;
 			break;
+        case 4:
+            set_body_color(COLORS_IDS::BODY_MAROON);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 5:
+            set_body_color(COLORS_IDS::BODY_GRAY);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 6:
+            set_body_color(COLORS_IDS::ROTTEN_ITEM);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 7:
+            set_body_color(COLORS_IDS::MATERIAL_3);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 8:
+            set_body_color(COLORS_IDS::MATERIAL_1);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 9:
+            set_body_color(COLORS_IDS::MATERIAL_0);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
 	};
 
 //	FeatureEnable = 0;
@@ -9191,6 +9217,24 @@ void VangerFunctionType::Quant(void)
 								case 3:
 									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_YELLOW);
 									break;
+                                case 4:
+                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_MAROON);
+                                    break;
+                                case 5:
+                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_GRAY);
+                                    break;
+                                case 6:
+                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::ROTTEN_ITEM);
+                                    break;
+                                case 7:
+                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_3);
+                                    break;
+                                case 8:
+                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_1);
+                                    break;
+                                case 9:
+                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_0);
+                                    break;
 							};
 						};
 					};
@@ -13991,6 +14035,30 @@ void VangerUnit::ChangeVangerProcess(void)
 			set_body_color(COLORS_IDS::BODY_YELLOW);
 			aiModifier = AI_MODIFIER_ZEEX;
 			break;
+        case 4:
+            set_body_color(COLORS_IDS::BODY_MAROON);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 5:
+            set_body_color(COLORS_IDS::BODY_GRAY);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 6:
+            set_body_color(COLORS_IDS::ROTTEN_ITEM);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 7:
+            set_body_color(COLORS_IDS::MATERIAL_3);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 8:
+            set_body_color(COLORS_IDS::MATERIAL_1);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
+        case 9:
+            set_body_color(COLORS_IDS::MATERIAL_0);
+            aiModifier = AI_MODIFIER_ZEEX;
+            break;
 	};
 
 	DoorFlag = 0;

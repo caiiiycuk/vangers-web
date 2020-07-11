@@ -51,6 +51,20 @@ extern char* iSTR_Orange;
 extern char* iSTR_Blue;
 extern char* iSTR_Green;
 
+extern char* iSTR_COLOR_RED_CHAR;
+extern char* iSTR_COLOR_WHITE_CHAR;
+extern char* iSTR_COLOR_GRAY_CHAR;
+extern char* iSTR_COLOR_BLACK_CHAR;
+extern char* iSTR_COLOR_CAMOUFLAGE_CHAR;
+extern char* iSTR_COLOR_PATROL_CHAR;
+
+extern char* iSTR_Red;
+extern char* iSTR_White;
+extern char* iSTR_Gray;
+extern char* iSTR_Black;
+extern char* iSTR_Camouflage;
+extern char* iSTR_Patrol;
+
 extern aciFont** aScrFonts32;
 
 /* --------------------------- PROTOTYPE SECTION ---------------------------- */
@@ -111,6 +125,13 @@ unsigned char UTF8toCP866(unsigned short utf);
 
 #define ICS_BACK_BUTTON 	0x10
 
+#define ICS_RED_BUTTON	0x11
+#define ICS_WHITE_BUTTON	0x12
+#define ICS_GRAY_BUTTON	0x13
+#define ICS_BLACK_BUTTON	0x14
+#define ICS_CAMOUFLAGE_BUTTON	0x15
+#define ICS_PATROL_BUTTON	0x16
+
 // Chat Screen Colors...
 const int  ICS_FON_COLOR	= 184;
 const int  ICS_BORDER_COLOR	= 184;
@@ -152,20 +173,34 @@ int iChatBackLog = 1;
 int iChatCursorFlag = 0;
 int iChatCursorTimer = 0;
 
-static int aciChatColors0[4] =
+static int aciChatColors0[10] =
 {
 	(214 | (2 << 16)),
 	(230 | (2 << 16)),
 	(244 | (2 << 16)),
-	(150 | (2 << 16))
+	(150 | (2 << 16)),
+
+    (177 | (2 << 16)),
+    (6 | (2 << 16)),
+    (3 | (2 << 16)),
+    (0 | (2 << 16)),
+    (201 | (2 << 16)),
+    (241 | (2 << 16))
 };
 
-static int aciChatColors1[4] =
+static int aciChatColors1[10] =
 {
 	(244 | (2 << 16)),
 	(134 | (2 << 16)),
 	(150 | (2 << 16)),
-	(176 | (2 << 16))
+	(176 | (2 << 16)),
+
+    (196 | (2 << 16)),
+    (230 | (2 << 16)),
+    (226 | (2 << 16)),
+    (224 | (2 << 16)),
+    (240 | (2 << 16)),
+    (144 | (2 << 16))
 };
 
 static char* iChatWorlds[] = {
@@ -187,7 +222,13 @@ static char* iChatColors[] = {
 	iSTR_COLOR_GREEN_CHAR,
 	iSTR_COLOR_ORANGE_CHAR,
 	iSTR_COLOR_BLUE_CHAR,
-	iSTR_COLOR_YELLOW_CHAR
+	iSTR_COLOR_YELLOW_CHAR,
+    iSTR_COLOR_RED_CHAR,
+    iSTR_COLOR_WHITE_CHAR,
+    iSTR_COLOR_GRAY_CHAR,
+    iSTR_COLOR_BLACK_CHAR,
+    iSTR_COLOR_CAMOUFLAGE_CHAR,
+    iSTR_COLOR_PATROL_CHAR
 };
 
 iChatScreenObject::iChatScreenObject(void)
@@ -450,7 +491,7 @@ void iChatInit(void)
 	iChatButtons -> AddElement((XListElement*)p);
 
 	p = new iChatButton(2);
-	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + (ICS_BUTTON_SIZE_Y + ICS_DELTA) * 2,ICS_BUTTON_SIZE_X,ICS_BUTTON_SIZE_Y,bcol,bcol);
+	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 2,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
 	p -> ID = ICS_YELLOW_BUTTON;
 	p -> set_string(iSTR_Yellow);
 	if(!iScreenChat){
@@ -466,7 +507,7 @@ void iChatInit(void)
 	iChatButtons -> AddElement((XListElement*)p);
 
 	p = new iChatButton(2);
-	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + (ICS_BUTTON_SIZE_Y + ICS_DELTA) * 3,ICS_BUTTON_SIZE_X,ICS_BUTTON_SIZE_Y,bcol,bcol);
+	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 3,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
 	p -> ID = ICS_ORANGE_BUTTON;
 	p -> set_string(iSTR_Orange);
 	if(!iScreenChat){
@@ -482,7 +523,7 @@ void iChatInit(void)
 	iChatButtons -> AddElement((XListElement*)p);
 
 	p = new iChatButton(2);
-	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + (ICS_BUTTON_SIZE_Y + ICS_DELTA) * 4,ICS_BUTTON_SIZE_X,ICS_BUTTON_SIZE_Y,bcol,bcol);
+	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 4,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
 	p -> ID = ICS_BLUE_BUTTON;
 	p -> set_string(iSTR_Blue);
 	if(!iScreenChat){
@@ -498,7 +539,7 @@ void iChatInit(void)
 	iChatButtons -> AddElement((XListElement*)p);
 
 	p = new iChatButton(2);
-	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + (ICS_BUTTON_SIZE_Y + ICS_DELTA) * 5,ICS_BUTTON_SIZE_X,ICS_BUTTON_SIZE_Y,bcol,bcol);
+	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 5,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
 	p -> ID = ICS_GREEN_BUTTON;
 	p -> set_string(iSTR_Green);
 	if(!iScreenChat){
@@ -512,6 +553,102 @@ void iChatInit(void)
 	p -> set_color(0,col0);
 	p -> set_color(1,col1);
 	iChatButtons -> AddElement((XListElement*)p);
+
+    p = new iChatButton(2);
+    p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 6,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
+    p -> ID = ICS_RED_BUTTON;
+    p -> set_string(iSTR_Red);
+    if(!iScreenChat){
+        col0 = ICS_STRING_COL0;
+        col1 = ICS_STRING_COL1;
+    }
+    else {
+        col0 = ICS_iSTRING_COL0;
+        col1 = ICS_iSTRING_COL1;
+    }
+    p -> set_color(0,col0);
+    p -> set_color(1,col1);
+    iChatButtons -> AddElement((XListElement*)p);
+
+    p = new iChatButton(2);
+    p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA + ICS_BUTTON_SIZE_X/2 + 1,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 2,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
+    p -> ID = ICS_WHITE_BUTTON;
+    p -> set_string(iSTR_White);
+    if(!iScreenChat){
+        col0 = ICS_STRING_COL0;
+        col1 = ICS_STRING_COL1;
+    }
+    else {
+        col0 = ICS_iSTRING_COL0;
+        col1 = ICS_iSTRING_COL1;
+    }
+    p -> set_color(0,col0);
+    p -> set_color(1,col1);
+    iChatButtons -> AddElement((XListElement*)p);
+
+    p = new iChatButton(2);
+    p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA + ICS_BUTTON_SIZE_X/2 + 1,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 3,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
+    p -> ID = ICS_GRAY_BUTTON;
+    p -> set_string(iSTR_Gray);
+    if(!iScreenChat){
+        col0 = ICS_STRING_COL0;
+        col1 = ICS_STRING_COL1;
+    }
+    else {
+        col0 = ICS_iSTRING_COL0;
+        col1 = ICS_iSTRING_COL1;
+    }
+    p -> set_color(0,col0);
+    p -> set_color(1,col1);
+    iChatButtons -> AddElement((XListElement*)p);
+
+    p = new iChatButton(2);
+    p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA + ICS_BUTTON_SIZE_X/2 + 1,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 4,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
+    p -> ID = ICS_BLACK_BUTTON;
+    p -> set_string(iSTR_Black);
+    if(!iScreenChat){
+        col0 = ICS_STRING_COL0;
+        col1 = ICS_STRING_COL1;
+    }
+    else {
+        col0 = ICS_iSTRING_COL0;
+        col1 = ICS_iSTRING_COL1;
+    }
+    p -> set_color(0,col0);
+    p -> set_color(1,col1);
+    iChatButtons -> AddElement((XListElement*)p);
+
+    p = new iChatButton(2);
+    p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA + ICS_BUTTON_SIZE_X/2 + 1,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 5,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
+    p -> ID = ICS_CAMOUFLAGE_BUTTON;
+    p -> set_string(iSTR_Camouflage);
+    if(!iScreenChat){
+        col0 = ICS_STRING_COL0;
+        col1 = ICS_STRING_COL1;
+    }
+    else {
+        col0 = ICS_iSTRING_COL0;
+        col1 = ICS_iSTRING_COL1;
+    }
+    p -> set_color(0,col0);
+    p -> set_color(1,col1);
+    iChatButtons -> AddElement((XListElement*)p);
+
+    p = new iChatButton(2);
+    p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA + ICS_BUTTON_SIZE_X/2 + 1,y + ICS_DELTA + (ICS_BUTTON_SIZE_Y + ICS_DELTA/5) * 6,ICS_BUTTON_SIZE_X/2 - 1,ICS_BUTTON_SIZE_Y,bcol,bcol);
+    p -> ID = ICS_PATROL_BUTTON;
+    p -> set_string(iSTR_Patrol);
+    if(!iScreenChat){
+        col0 = ICS_STRING_COL0;
+        col1 = ICS_STRING_COL1;
+    }
+    else {
+        col0 = ICS_iSTRING_COL0;
+        col1 = ICS_iSTRING_COL1;
+    }
+    p -> set_color(0,col0);
+    p -> set_color(1,col1);
+    iChatButtons -> AddElement((XListElement*)p);
 
 	p = new iChatButton(2);
 	p -> init(x + ICS_HISTORY_SIZE_X + ICS_DELTA + ICS_BUTTON_SIZE_X/4,y + (ICS_BUTTON_SIZE_Y + ICS_DELTA) * 6,ICS_BUTTON_SIZE_X/2,ICS_BUTTON_SIZE_Y,bcol,bcol);
@@ -788,6 +925,42 @@ void iChatMouseHandler(iChatButton* bt,int bt_id)
 			iChatFilter = MESSAGE_FOR_TEAM;
 			iChatFilterID = TEAM_GREEN;
 			break;
+        case ICS_RED_BUTTON:
+            iChatClearButtons();
+            bt -> CurState = 1;
+            iChatFilter = MESSAGE_FOR_TEAM;
+            iChatFilterID = TEAM_RED;
+            break;
+        case ICS_WHITE_BUTTON:
+            iChatClearButtons();
+            bt -> CurState = 1;
+            iChatFilter = MESSAGE_FOR_TEAM;
+            iChatFilterID = TEAM_WHITE;
+            break;
+        case ICS_GRAY_BUTTON:
+            iChatClearButtons();
+            bt -> CurState = 1;
+            iChatFilter = MESSAGE_FOR_TEAM;
+            iChatFilterID = TEAM_GRAY;
+            break;
+        case ICS_BLACK_BUTTON:
+            iChatClearButtons();
+            bt -> CurState = 1;
+            iChatFilter = MESSAGE_FOR_TEAM;
+            iChatFilterID = TEAM_BLACK;
+            break;
+        case ICS_CAMOUFLAGE_BUTTON:
+            iChatClearButtons();
+            bt -> CurState = 1;
+            iChatFilter = MESSAGE_FOR_TEAM;
+            iChatFilterID = TEAM_CAMOUFLAGE;
+            break;
+        case ICS_PATROL_BUTTON:
+            iChatClearButtons();
+            bt -> CurState = 1;
+            iChatFilter = MESSAGE_FOR_TEAM;
+            iChatFilterID = TEAM_PATROL;
+            break;
 
 		case ICS_MUTE_BUTTON:
 			bt -> CurState ^= 1;
@@ -825,6 +998,12 @@ void iChatClearButtons(void)
 			case ICS_ORANGE_BUTTON:
 			case ICS_BLUE_BUTTON:
 			case ICS_GREEN_BUTTON:
+            case ICS_RED_BUTTON:
+            case ICS_WHITE_BUTTON:
+            case ICS_GRAY_BUTTON:
+            case ICS_BLACK_BUTTON:
+            case ICS_CAMOUFLAGE_BUTTON:
+            case ICS_PATROL_BUTTON:
 			case ICS_PLAYER1_BUTTON:
 			case ICS_PLAYER2_BUTTON:
 			case ICS_PLAYER3_BUTTON:
@@ -847,6 +1026,12 @@ iChatButton* iGetChatPlayerButton(int id)
 			case ICS_ORANGE_BUTTON:
 			case ICS_BLUE_BUTTON:
 			case ICS_GREEN_BUTTON:
+            case ICS_RED_BUTTON:
+            case ICS_WHITE_BUTTON:
+            case ICS_GRAY_BUTTON:
+            case ICS_BLACK_BUTTON:
+            case ICS_CAMOUFLAGE_BUTTON:
+            case ICS_PATROL_BUTTON:
 			case ICS_PLAYER1_BUTTON:
 			case ICS_PLAYER2_BUTTON:
 			case ICS_PLAYER3_BUTTON:
@@ -926,18 +1111,24 @@ void iChatInputBack(void)
 void iInitChatScreen(void)
 {
 	int i;
+	int teamFilterId = ICS_GREEN_BUTTON + iChatFilterID;
 	iChatButton* p;
 	MessageElement* el;
 
 	iInitChatButtons();
 	iChatClearButtons();
+
+	if (iChatFilterID > 3) {
+	    teamFilterId = teamFilterId + 9;
+	}
+
 	switch(iChatFilter){
 		case MESSAGE_FOR_ALL:
 			p = iGetChatButton(ICS_ALL_BUTTON);
 			p -> CurState = 1;
 			break;
 		case MESSAGE_FOR_TEAM:
-			p = iGetChatButton(ICS_GREEN_BUTTON + iChatFilterID);
+			p = iGetChatButton(teamFilterId);
 			p -> CurState = 1;
 			break;
 		case MESSAGE_FOR_PLAYER:
