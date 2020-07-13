@@ -65,6 +65,7 @@ extern iGameMap* curGMap;
 extern int frame;
 extern uchar* palbufOrg;
 extern uchar* FireColorTable;
+extern uchar* PlasmaColorTable;
 extern int multi_analysis;
 extern int multi_draw;
 extern int RAM16;
@@ -3583,6 +3584,7 @@ void VangerUnit::DrawQuant(void)
 					if(!(dynamic_state & TOUCH_OF_AIR)){
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_LIGHT,1);
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_HEAVY,1);
+                        ChargeWeapon(this,ACI_NETTLE_ACG,1);
 						UseOxigenResource();
 						if(Speed){
 							p = (WaterParticleObject*)(EffD.GetObject(EFF_PARTICLE03));
@@ -4833,7 +4835,8 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 				break;
 			case SensorTypeList::FIRE_UPDATE:				
 				ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
-				ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);			
+				ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
+                ChargeWeapon(this,ACI_VERVEMITTER,1);
 				break;
 		};
 	}else{
@@ -4934,11 +4937,13 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 						case 0:
 							s = ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
 							s += ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
+                            s += ChargeWeapon(this,ACI_VERVEMITTER,1);
 							if(s) r_log = 1;
 							break;
 						case 1:
 							s = ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,0);
 							s += ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,0);
+                            s += ChargeWeapon(this,ACI_VERVEMITTER,0);
 							if(s) r_log = 1;
 							break;
 						case 2:						
@@ -5007,6 +5012,7 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 			aiMessageQueue.Send(AI_MESSAGE_GHORB,Speed,1);//aiMessageData[AI_MESSAGE_GHORB].Send(Speed,1);
 			ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
 			ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
+            ChargeWeapon(this,ACI_VERVEMITTER,1);
 //			ActD.AddFireResource();
 			break;
 		case SensorTypeList::KEY_UPDATE:
@@ -9674,11 +9680,13 @@ int ChargeWeapon(VangerUnit* p,int ind,int sign)
 				switch(ind){
 					case ACI_MACHOTINE_GUN_LIGHT:
 					case ACI_MACHOTINE_GUN_HEAVY:
+                    case ACI_NETTLE_ACG:
 						aiMessageQueue.Send(AI_MESSAGE_MACHOTINE,p->Speed,1,0);//aiMessageData[AI_MESSAGE_MACHOTINE].Send(p->Speed,1,0);
 						SOUND_CHARGE_MACHOTIN();
 						break;
 					case ACI_GHORB_GEAR_LIGHT:
 					case ACI_GHORB_GEAR_HEAVY:
+                    case ACI_VERVEMITTER:
 						aiMessageQueue.Send(AI_MESSAGE_GHORB,p->Speed,2,0);//aiMessageData[AI_MESSAGE_GHORB].Send(p->Speed,2,0);
 						SOUND_CHARGE_GHORB();
 						break;
@@ -9689,6 +9697,7 @@ int ChargeWeapon(VangerUnit* p,int ind,int sign)
 				switch(ind){
 					case ACI_GHORB_GEAR_LIGHT:
 					case ACI_GHORB_GEAR_HEAVY:
+                    case ACI_VERVEMITTER:
 						aiMessageQueue.Send(AI_MESSAGE_DGHORB,p->Speed,1,0);//aiMessageData[AI_MESSAGE_DGHORB].Send(p->Speed,1,0);
 						SOUND_DISCHARGE();
 						break;
@@ -10201,6 +10210,60 @@ void GunSlot::Fire(void)
 			GunStatus = GUN_FIRE;
 			if(NetworkON) NetUpdate();
 			break;
+		case ACI_NETTLE_ACG:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_SHOTGUN(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			};
+			break;
+    case ACI_VERVEMITTER:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_FLAME(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			};			
+      break;
+		case ACI_DIFFORD_REACTOR:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_MINELAYER(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			}else{
+				l = GetStuffObject(Owner,ACI_CRUSTEST_CANNON_AMMO);
+				if(l){
+					ObjectDestroy(l);
+					ItemData->ActIntBuffer.data1 = l->ActIntBuffer.data1;
+					if(Owner->ID == ID_VANGER && (Owner->Status & SOBJ_ACTIVE)) aciSendEvent2actint(ACI_DROP_ITEM,&(l->ActIntBuffer));
+					l->Storage->Deactive(l);
+					Owner->DelDevice(l);
+				};
+			};			
+			break;
+    case ACI_TRAIL_TRACER:
+        if(ItemData->ActIntBuffer.data1 > 0){
+            GunStatus = GUN_FIRE;
+            ItemData->ActIntBuffer.data1--;
+            if(NetworkON) NetUpdate();
+            if(ActD.Active)
+                SOUND_SEISMIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+        };
+            break;
+    case ACI_BADREEVE:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_ELECTRIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			};			
+      break;
 	};
 };
 
@@ -10236,6 +10299,21 @@ void GunSlot::RemoteFire(void)
 			case ACI_TERMINATOR2:
 			case ACI_TERMINATOR:
 				SOUND_TERMINATOR_SHOT(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_NETTLE_ACG:			
+				SOUND_SHOTGUN(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_VERVEMITTER:			
+				SOUND_FLAME(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_DIFFORD_REACTOR:			
+				SOUND_MINELAYER(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_TRAIL_TRACER:			
+				SOUND_SEISMIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_BADREEVE:			
+				SOUND_ELECTRIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
 		};
 	};
@@ -10363,6 +10441,29 @@ void GunSlot::Quant(void)
 					break;
 			};
 			break;
+        case BULLET_TYPE_ID::SHOTGUN:
+            switch(GunStatus){
+                case GUN_FIRE:
+                    Time = 0;
+                    if(Owner->Speed > 0) RealSpeed = Owner->Speed;
+                    else RealSpeed = 0;
+                    mFire = Owner->RotMat;
+                    vFire = Owner->R_curr;
+                    if((1 << ItemData->ActIntBuffer.slot) & Owner->slots_existence) vFire += Owner->A_l2g*(Owner->R_slots[ItemData->ActIntBuffer.slot]*Owner->scale_real);
+                    cycleTor(vFire.x,vFire.y);
+                    GunStatus = GUN_WAIT;
+                    for(i = 0;i < pData->TapeSize;i++){
+                        b = BulletD.CreateBullet();
+                        b->Owner = Owner;
+                        b->CreateBullet(this,pData);
+                    };
+                    break;
+                case GUN_WAIT:
+                    Time++;
+                    if(Time > pData->WaitTime) GunStatus = GUN_READY;
+                    break;
+            };
+            break;
 	};
 };
 
@@ -13504,6 +13605,8 @@ void VangerUnit::DischargeItem(StuffObject* p)
 		case ACI_SPEETLE_SYSTEM_HEAVY:
 		case ACI_GHORB_GEAR_LIGHT:
 		case ACI_GHORB_GEAR_HEAVY:
+		case ACI_NETTLE_ACG:
+		case ACI_VERVEMITTER:
 			if(NetworkON) p->ActIntBuffer.data1 = RND(p->ActIntBuffer.data1);
 			else p->ActIntBuffer.data1 = RND(aiCutLuck) * p->ActIntBuffer.data1 / 100;
 			CheckOutDevice(p);

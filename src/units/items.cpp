@@ -44,6 +44,7 @@
 extern int RAM16;
 extern iGameMap* curGMap;
 extern uchar* FireColorTable;
+extern uchar* PlasmaColorTable;
 
 const char DEBRIS_LIFE_TIME = 100;
 
@@ -52,7 +53,7 @@ extern int AdvancedView;
 
 const int MAX_STUFF_SCATTER = 150;
 
-const int MAX_BULLET_ID = 8;
+const int MAX_BULLET_ID = 9;
 const int MAX_STORAGE_NAME = 2;
 
 const char* BULLET_ID_NAME[MAX_BULLET_ID] = {
@@ -63,7 +64,8 @@ const char* BULLET_ID_NAME[MAX_BULLET_ID] = {
 	"JumpBall",
 	"Laser",
 	"Horde",
-	"Hypnotise"
+	"Hypnotise",
+	"Shotgun"
 };
 
 const int MAX_BULLET_TARGET_MODE_NAME = 6;
@@ -90,7 +92,7 @@ const char* BULLET_CONTROL_MODE_NAME[MAX_BULLET_CONTROL_MODE_NAME] = {
 };
 const int BULLET_CONTROL_MODE_VALUE[MAX_BULLET_CONTROL_MODE_NAME] = {0,1,2,4,8,16,32,64,128};
 
-const int MAX_BULLET_SHOW_ID_NAME = 7;
+const int MAX_BULLET_SHOW_ID_NAME = 8;
 const char* BULLET_SHOW_ID_NAME[MAX_BULLET_SHOW_ID_NAME] = {
 		"Particle",
 		"FireBall",
@@ -98,7 +100,8 @@ const char* BULLET_SHOW_ID_NAME[MAX_BULLET_SHOW_ID_NAME] = {
 		"Dust",
 		"Crater",
 		"JumpBall",
-		"Laser"
+		"Laser",
+		"Shotgun"
 };
 
 Vector GeneralMousePoint;
@@ -1319,7 +1322,7 @@ void BulletObject::CreateBullet(GunSlot* p,WorldBulletTemplate* n)
 	Speed = n->Speed;
 	if(BulletMode & BULLET_CONTROL_MODE::SPEED) Speed += p->RealSpeed;
 
-	if(BulletID == BULLET_TYPE_ID::LASER)
+	if(BulletID == BULLET_TYPE_ID::LASER || BulletID == BULLET_TYPE_ID::SHOTGUN)
 		vDelta = Vector(Speed,3 - RND(6),0)*p->mFire;
 	else 
 		vDelta = Vector(Speed,0,0)*p->mFire;
@@ -1417,6 +1420,9 @@ void BulletObject::Event(int type)
 					case BULLET_SHOW_TYPE_ID::LASER:
 						if(CraterType >= 0) MapD.CreateCrater(R_curr,CraterType);
 						break;
+                    case BULLET_SHOW_TYPE_ID::SHOTGUN:
+                        if(CraterType >= 0) MapD.CreateCrater(R_curr,CraterType);
+                        break;
 				};
 			};
 			break;
@@ -1478,6 +1484,9 @@ void BulletObject::Event(int type)
 //					EffD.CreateDeform(R_curr + Vector(16 - RND(32),16 - RND(32),0),DEFORM_ALL,PASSING_WAVE_PROCESS);
 					if(CraterType >= 0) MapD.CreateCrater(R_curr,CraterType);
 					break;
+                case BULLET_SHOW_TYPE_ID::SHOTGUN:
+                    EffD.CreateExplosion(R_curr + Vector(0,0,20),EFF_EXPLOSION05);
+                    break;
 			};
 			break;
 	};
@@ -1693,6 +1702,17 @@ void BulletObject::DrawQuant(void)
 			cycleTor(vCheck.x,vCheck.y);
 			ScreenLineTrace(R_curr,vCheck,FireColorTable,0);
 			break;
+        case BULLET_SHOW_TYPE_ID::SHOTGUN:
+            vCheck = Vector(getDistX(R_prev.x,R_curr.x),getDistY(R_prev.y,R_curr.y),R_prev.z - R_curr.z);
+
+            vCheck.x = 2*vCheck.x / 3;
+            vCheck.y = 2*vCheck.y / 3;
+            vCheck.z = 2*vCheck.z / 3;
+
+            vCheck += R_curr;
+            cycleTor(vCheck.x,vCheck.y);
+            ScreenLineTrace(R_curr,vCheck,PlasmaColorTable,0);
+            break;
 	};
 	R_prev = vTail;
 };

@@ -12,6 +12,7 @@
 #include "partmap.h"
 
 extern uchar* FireColorTable;
+extern uchar* PlasmaColorTable;
 extern unsigned char* draw_vbuf;
 extern unsigned char** draw_lt;
 extern int draw_k_xscr_x;

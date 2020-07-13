@@ -406,6 +406,31 @@ invItem $ITM78_NAME
 	$ITM78_COMMENTS
 	bmp_file	"resource/actint/800x600/items/itm78.bmp"
 }
+invItem $ITM79_NAME
+	$ITM79
+	$ITM79_COMMENTS
+	bmp_file	"resource/actint/800x600/items/itm79.bmp"
+}
+invItem $ITM80_NAME
+	$ITM80
+	$ITM80_COMMENTS
+	bmp_file	"resource/actint/800x600/items/itm80.bmp"
+}
+invItem $ITM81_NAME
+	$ITM81
+	$ITM81_COMMENTS
+	bmp_file	"resource/actint/800x600/items/itm81.bmp"
+}
+invItem $ITM82_NAME
+	$ITM82
+	$ITM82_COMMENTS
+	bmp_file	"resource/actint/800x600/items/itm82.bmp"
+}
+invItem $ITM83_NAME
+	$ITM83
+	$ITM83_COMMENTS
+	bmp_file	"resource/actint/800x600/items/itm83.bmp"
+}
 
 /* -------------------------------------------------------------------------- */
 

@@ -726,6 +726,56 @@ iscreen_section {
 		avi_id		$ACI_TEXT_AVI_ENG	"items/text/itm57.avi"
 		avi_id		$ACI_TEXT_AVI_RUS	"items/text/itm57r.avi"
 	}
+	invItem $ITM79_NAME
+		$ITM79
+		$iITM79_COMMENTS
+		bmp_file	"resource/actint/iscreen/items/itm79.bmp"
+		num_avi_ids	3
+		avi_id		$ACI_PICTURE_AVI_ENG	"items/itm79.avi"
+		avi_id		$ACI_TEXT_AVI_ENG	"items/text/itm79.avi"
+		avi_id		$ACI_TEXT_AVI_RUS	"items/text/itm79r.avi"
+        no_show_shots
+	}
+	invItem $ITM80_NAME
+		$ITM80
+		$iITM80_COMMENTS
+		bmp_file	"resource/actint/iscreen/items/itm80.bmp"
+		num_avi_ids	3
+		avi_id		$ACI_PICTURE_AVI_ENG	"items/itm80.avi"
+		avi_id		$ACI_TEXT_AVI_ENG	"items/text/itm80.avi"
+		avi_id		$ACI_TEXT_AVI_RUS	"items/text/itm80r.avi"
+        no_show_shots
+	}
+	invItem $ITM81_NAME
+		$ITM81
+		$iITM81_COMMENTS
+		bmp_file	"resource/actint/iscreen/items/itm81.bmp"
+		num_avi_ids	3
+		avi_id		$ACI_PICTURE_AVI_ENG	"items/itm81.avi"
+		avi_id		$ACI_TEXT_AVI_ENG	"items/text/itm81.avi"
+		avi_id		$ACI_TEXT_AVI_RUS	"items/text/itm81r.avi"
+        no_show_shots
+	}
+	invItem $ITM82_NAME
+		$ITM82
+		$iITM82_COMMENTS
+		bmp_file	"resource/actint/iscreen/items/itm82.bmp"
+		num_avi_ids	3
+		avi_id		$ACI_PICTURE_AVI_ENG	"items/itm82.avi"
+		avi_id		$ACI_TEXT_AVI_ENG	"items/text/itm82.avi"
+		avi_id		$ACI_TEXT_AVI_RUS	"items/text/itm82r.avi"
+        no_show_shots
+	}
+	invItem $ITM83_NAME
+		$ITM83
+		$iITM83_COMMENTS
+		bmp_file	"resource/actint/iscreen/items/itm83.bmp"
+		num_avi_ids	3
+		avi_id		$ACI_PICTURE_AVI_ENG	"items/itm83.avi"
+		avi_id		$ACI_TEXT_AVI_ENG	"items/text/itm83.avi"
+		avi_id		$ACI_TEXT_AVI_RUS	"items/text/itm83r.avi"
+        no_show_shots
+	}
 
 /* -------------------------------------------------------------------------- */
 

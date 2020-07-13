@@ -171,7 +171,13 @@ static SndParameters SndData[EFF_MAX] = {
 	{8,1,255,0,LOCAL_SOUND,"spobs",NULL},
 	{9,1,0,0,0,"beep",NULL},
 	{1,4,255,0,0,"damage",NULL},
-	{2,1,20,0,0,"shot",NULL}
+	{2,1,20,0,0,"shot",NULL},
+
+	{3,1,20,0,0,"shotgun",NULL},
+	{4,1,20,0,0,"flame",NULL},
+	{5,1,20,0,0,"minelayer",NULL},
+	{14,1,20,0,0,"seismic",NULL},
+	{6,1,20,0,0,"electric",NULL}
 };
 
 static int SpeechForce[2*SPEECH_MAX] = {

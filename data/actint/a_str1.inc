@@ -327,6 +327,21 @@
 // Mechoscope (empty)
 #define ITM78_NAME		$ITM78_NAME1
 
+// NettleACG
+#define ITM79_NAME		$ITM79_NAME1
+
+// Vervemitter
+#define ITM80_NAME		$ITM80_NAME1
+
+// Difford
+#define ITM81_NAME		$ITM81_NAME1
+
+// TrailTracer
+#define ITM82_NAME		$ITM82_NAME1
+
+// Badreeve
+#define ITM83_NAME		$ITM83_NAME1
+
 /* ---------------------------- COMMENTS SECTION ---------------------------- */
 
 // MacHOTine Gun (light)
@@ -562,6 +577,21 @@
 
 // Mechoscope (empty)
 #define ITM78_COMMENTS		$ITM78_COMMENTS1
+
+// NettleACG
+#define ITM79_COMMENTS		$ITM79_COMMENTS1
+
+// Vervemitter
+#define ITM80_COMMENTS		$ITM80_COMMENTS1
+
+// Difford
+#define ITM81_COMMENTS		$ITM81_COMMENTS1
+
+// TrailTracer
+#define ITM82_COMMENTS		$ITM82_COMMENTS1
+
+// Badreeve
+#define ITM83_COMMENTS		$ITM83_COMMENTS1
 
 /* ------------------------- SHOP COMMENTS SECTION -------------------------- */
 
@@ -799,6 +829,21 @@
 // Mechoscope (empty)
 #define iITM78_COMMENTS 	$iITM78_COMMENTS1
 
+// NettleACG
+#define iITM79_COMMENTS 	$iITM79_COMMENTS1
+
+// Vervemitter
+#define iITM80_COMMENTS 	$iITM80_COMMENTS1
+
+// Difford
+#define iITM81_COMMENTS 	$iITM81_COMMENTS1
+
+// TrailTracer
+#define iITM82_COMMENTS 	$iITM82_COMMENTS1
+
+// Badreeve
+#define iITM83_COMMENTS 	$iITM83_COMMENTS1
+
 /* --------------------------- ITEMS INFO SECTION --------------------------- */
 
 // MacHOTine Gun (light)
@@ -899,6 +944,21 @@
 
 // Zeex
 #define ITM64_INFO		$ITM64_INFO1
+
+// NettleACG
+#define ITM79_INFO		$ITM79_INFO1
+
+// Vervemitter
+#define ITM80_INFO		$ITM80_INFO1
+
+// Difford
+#define ITM81_INFO		$ITM81_INFO1
+
+// TrailTracer
+#define ITM82_INFO		$ITM82_INFO1
+
+// Badreeve
+#define ITM83_INFO		$ITM83_INFO1
 
 /* --------------------------- PARAMETERS SECTION --------------------------- */
 
@@ -1135,6 +1195,21 @@
 
 // Mechoscope (empty)
 #define ITM78_PARAMS		$ITM78_PARAMS1
+
+// NettleACG
+#define ITM79_PARAMS		$ITM79_PARAMS1
+
+// Vervemitter
+#define ITM80_PARAMS		$ITM80_PARAMS1
+
+// Difford
+#define ITM81_PARAMS		$ITM81_PARAMS1
+
+// TrailTracer
+#define ITM82_PARAMS		$ITM82_PARAMS1
+
+// Badreeve
+#define ITM83_PARAMS		$ITM83_PARAMS1
 
 // Tips...
 

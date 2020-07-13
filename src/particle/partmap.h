@@ -12,6 +12,11 @@ const int  RED_POINT = WHITE_POINT/3;
 const int  YELLOW_POINT = RED_POINT*2;
 const int  MAX_MASK_TOTAL = 20;
 
+const int  PLASMA_COLOR_BITS = 3;
+const int  PLASMA_COLOR_FIRST = 144;
+const int  PLASMA_PROCESS_COLOR_MAX = 1 << PLASMA_COLOR_BITS;
+const int  BLUE_POINT = 1 << PLASMA_COLOR_BITS;
+
 const int  FIRE_CENTER_DEV_AMPL = 10;
 
 //const int  PARTICLE_MAP_GAP = 100;
@@ -85,6 +90,7 @@ extern Mask* ParticleMapProcessMaskArray;
 extern int ParticleMapProcessMaskTotal;
 
 void FirePaletteInit(unsigned char* palbuf);
+void PlasmaPaletteInit(unsigned char* palbuf);
 void FirePaletteTableInit(unsigned char *pal);
 
 enum {	 EXPLOSION_64x64 = 0,
