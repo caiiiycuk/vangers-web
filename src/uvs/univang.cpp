@@ -575,7 +575,7 @@ void uniVangPrepare(void){
 		}
 
 	//znfo генерация итемов в мире
-	for( i = 0; i < MAX_ITEM_TYPE; i++){
+	for( i = 0; i < MAX_ITEM_TYPE-5; i++){
 		if ( uvsItemTable[i] -> type == UVS_ITEM_STATUS::WEAPON) {
 #ifdef ALL_ITEM_IN_SHOP
 			if(1)
@@ -3637,11 +3637,11 @@ void uvsShop::updateResource(void){
 
 	if (  GetItem( Pitem, UVS_ITEM_TYPE::CIRTAINER, 0) == NULL ) addItem(new uvsItem(UVS_ITEM_TYPE::CIRTAINER));
 
-	for(i = UVS_ITEM_TYPE::NETTLE_ACG; i <= UVS_ITEM_TYPE::BADREEVE; i++){
+	/*for(i = UVS_ITEM_TYPE::NETTLE_ACG; i <= UVS_ITEM_TYPE::BADREEVE; i++){
 		if (GetItem( Pitem, i, 0) == NULL) {
 			addItem(pi = new uvsItem(i));
 		}
-	}
+	}*/
 }
 
 void uvsBunch::QuantCirt(int counter){
