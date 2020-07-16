@@ -285,7 +285,7 @@ void SaveProtoCrypt(XStream& in)
 	};
 };
 
-const int OLD_CRYPT_MAX[WORLD_MAX] = {26,25,19,5,1,1,4,2,4,5,0};
+const int OLD_CRYPT_MAX[WORLD_MAX] = {26,25,19,5,1,1,4,2,4,5,16};
 
 void LoadProtoCrypt(XStream& in,int v)
 {
