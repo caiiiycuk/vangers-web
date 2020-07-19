@@ -276,7 +276,7 @@ iChatInputField::iChatInputField(void)
 
 iChatInputField::~iChatInputField(void)
 {
-	delete string;
+	delete[] string;
 }
 
 void iChatInputField::redraw(void)
@@ -313,10 +313,10 @@ iChatHistoryScreen::~iChatHistoryScreen(void)
 {
 	int i;
 	for(i = 0; i < NumStr; i ++){
-		delete data[i];
+		delete[] data[i];
 	}
-	delete data;
-	delete ColorData;
+	delete[] data;
+	delete[] ColorData;
 }
 
 void iChatHistoryScreen::redraw(void)
@@ -352,8 +352,8 @@ iChatButton::iChatButton(int num_state)
 
 iChatButton::~iChatButton(void)
 {
-	delete StateColors;
-	delete string;
+	delete[] StateColors;
+	delete[] string;
 }
 
 void iChatButton::redraw(void)
