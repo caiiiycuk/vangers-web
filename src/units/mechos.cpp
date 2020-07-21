@@ -761,8 +761,8 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 					case 2:
 						s |= UVS_KRON_FLAG::ZEEX;
 						break;
-				    default:
-				        break;
+					default:
+						break;
 				};
 				TabuUse |= TABUTASK_COUNT_OTHER;
 			};
@@ -5843,30 +5843,30 @@ void VangerUnit::CreateVangerUnit(void)
 			set_body_color(COLORS_IDS::BODY_YELLOW);
 			aiModifier = AI_MODIFIER_ZEEX;
 			break;
-        case 4:
-            set_body_color(COLORS_IDS::BODY_MAROON);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 5:
-            set_body_color(COLORS_IDS::BODY_GRAY);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 6:
-            set_body_color(COLORS_IDS::ROTTEN_ITEM);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 7:
-            set_body_color(COLORS_IDS::MATERIAL_3);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 8:
-            set_body_color(COLORS_IDS::MATERIAL_1);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 9:
-            set_body_color(COLORS_IDS::MATERIAL_0);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
+		case 4:
+			set_body_color(COLORS_IDS::BODY_CRIMSON);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 5:
+			set_body_color(COLORS_IDS::BODY_GRAY);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 6:
+			set_body_color(COLORS_IDS::ROTTEN_ITEM);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 7:
+			set_body_color(COLORS_IDS::MATERIAL_3);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 8:
+			set_body_color(COLORS_IDS::MATERIAL_1);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 9:
+			set_body_color(COLORS_IDS::MATERIAL_0);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
 	};
 
 //	FeatureEnable = 0;
@@ -9223,24 +9223,24 @@ void VangerFunctionType::Quant(void)
 								case 3:
 									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_YELLOW);
 									break;
-                                case 4:
-                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_MAROON);
-                                    break;
-                                case 5:
-                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_GRAY);
-                                    break;
-                                case 6:
-                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::ROTTEN_ITEM);
-                                    break;
-                                case 7:
-                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_3);
-                                    break;
-                                case 8:
-                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_1);
-                                    break;
-                                case 9:
-                                    ((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_0);
-                                    break;
+								case 4:
+									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_CRIMSON);
+									break;
+								case 5:
+									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::BODY_GRAY);
+									break;
+								case 6:
+									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::ROTTEN_ITEM);
+									break;
+								case 7:
+									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_3);
+									break;
+								case 8:
+									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_1);
+									break;
+								case 9:
+									((VangerUnit*)(ActD.mfActive))->set_body_color(COLORS_IDS::MATERIAL_0);
+									break;
 							};
 						};
 					};
@@ -10226,7 +10226,7 @@ void GunSlot::Fire(void)
 				if(NetworkON) NetUpdate();
 				if(ActD.Active)
 					SOUND_FLAME(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
-			};			
+			};
       break;
 		case ACI_DIFFORD_REACTOR:
 			if(ItemData->ActIntBuffer.data1 > 0){
@@ -10244,7 +10244,7 @@ void GunSlot::Fire(void)
 					l->Storage->Deactive(l);
 					Owner->DelDevice(l);
 				};
-			};			
+			};
 			break;
     case ACI_TRAIL_TRACER:
         if(ItemData->ActIntBuffer.data1 > 0){
@@ -10262,7 +10262,7 @@ void GunSlot::Fire(void)
 				if(NetworkON) NetUpdate();
 				if(ActD.Active)
 					SOUND_ELECTRIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
-			};			
+			};
       break;
 	};
 };
@@ -10300,19 +10300,19 @@ void GunSlot::RemoteFire(void)
 			case ACI_TERMINATOR:
 				SOUND_TERMINATOR_SHOT(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
-			case ACI_NETTLE_ACG:			
+			case ACI_NETTLE_ACG:
 				SOUND_SHOTGUN(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
-			case ACI_VERVEMITTER:			
+			case ACI_VERVEMITTER:
 				SOUND_FLAME(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
-			case ACI_DIFFORD_REACTOR:			
+			case ACI_DIFFORD_REACTOR:
 				SOUND_MINELAYER(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
-			case ACI_TRAIL_TRACER:			
+			case ACI_TRAIL_TRACER:
 				SOUND_SEISMIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
-			case ACI_BADREEVE:			
+			case ACI_BADREEVE:
 				SOUND_ELECTRIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
 		};
@@ -14138,30 +14138,31 @@ void VangerUnit::ChangeVangerProcess(void)
 			set_body_color(COLORS_IDS::BODY_YELLOW);
 			aiModifier = AI_MODIFIER_ZEEX;
 			break;
-        case 4:
-            set_body_color(COLORS_IDS::BODY_MAROON);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 5:
-            set_body_color(COLORS_IDS::BODY_GRAY);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 6:
-            set_body_color(COLORS_IDS::ROTTEN_ITEM);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 7:
-            set_body_color(COLORS_IDS::MATERIAL_3);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 8:
-            set_body_color(COLORS_IDS::MATERIAL_1);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
-        case 9:
-            set_body_color(COLORS_IDS::MATERIAL_0);
-            aiModifier = AI_MODIFIER_ZEEX;
-            break;
+
+		case 4:
+			set_body_color(COLORS_IDS::BODY_CRIMSON);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 5:
+			set_body_color(COLORS_IDS::BODY_GRAY);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 6:
+			set_body_color(COLORS_IDS::ROTTEN_ITEM);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 7:
+			set_body_color(COLORS_IDS::MATERIAL_3);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 8:
+			set_body_color(COLORS_IDS::MATERIAL_1);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
+		case 9:
+			set_body_color(COLORS_IDS::MATERIAL_0);
+			aiModifier = AI_MODIFIER_ZEEX;
+			break;
 	};
 
 	DoorFlag = 0;

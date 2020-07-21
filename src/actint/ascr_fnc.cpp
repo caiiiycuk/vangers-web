@@ -1516,24 +1516,24 @@ void show_map(int x,int y,int sx,int sy)
 						if(scr_x > MAP_PTR_XL && scr_x < sx - MAP_PTR_XL && scr_y > MAP_PTR_XL && scr_y < sy - MAP_PTR_XL)
 							XGR_Rectangle(x + scr_x - MAP_PTR_XL2,y + scr_y - MAP_PTR_XL2,MAP_PTR_XL,MAP_PTR_XL,aciMapVngColors[3],aciMapVngColors[2],XGR_FILLED);
 						break;
-                    case 11:
-                        XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[5],aciMapVngColors[5],XGR_FILLED);
-                        break;
-                    case 12:
-                        XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[6],aciMapVngColors[6],XGR_FILLED);
-                        break;
-                    case 13:
-                        XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[7],aciMapVngColors[7],XGR_FILLED);
-                        break;
-                    case 14:
-                        XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[8],aciMapVngColors[8],XGR_FILLED);
-                        break;
-                    case 15:
-                        XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[9],aciMapVngColors[9],XGR_FILLED);
-                        break;
-                    case 16:
-                        XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[10],aciMapVngColors[10],XGR_FILLED);
-                        break;
+					case 11:
+						XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[5],aciMapVngColors[5],XGR_FILLED);
+						break;
+					case 12:
+						XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[6],aciMapVngColors[6],XGR_FILLED);
+						break;
+					case 13:
+						XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[7],aciMapVngColors[7],XGR_FILLED);
+						break;
+					case 14:
+						XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[8],aciMapVngColors[8],XGR_FILLED);
+						break;
+					case 15:
+						XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[9],aciMapVngColors[9],XGR_FILLED);
+						break;
+					case 16:
+						XGR_Rectangle(x + scr_x - MAP_PTR_X2,y + scr_y - MAP_PTR_X2,MAP_PTR_X,MAP_PTR_X,aciMapVngColors[10],aciMapVngColors[10],XGR_FILLED);
+						break;
 				}
 			}
 		}

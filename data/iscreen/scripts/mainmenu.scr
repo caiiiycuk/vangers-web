@@ -4776,62 +4776,60 @@ Screen "Configuration screen"
 			string		$iSTR_GREEN
 			null_level	$DEFAULT_NULL
 		}
+		State 4 "STRING"{
+			align_x center
+			align_y center
 
-        State 4 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			string		$iSTR_RED
+			null_level	$DEFAULT_NULL
+		}
+		State 5 "STRING"{
+			align_x center
+			align_y center
 
-            string		$iSTR_RED
-            null_level	$DEFAULT_NULL
-        }
-        State 5 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			string		$iSTR_WHITE
+			null_level	$DEFAULT_NULL
+		}
+		State 6 "STRING"{
+			align_x center
+			align_y center
 
-            string		$iSTR_WHITE
-            null_level	$DEFAULT_NULL
-        }
-        State 6 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			string		$iSTR_GRAY
+			null_level	$DEFAULT_NULL
+		}
+		State 7 "STRING"{
+			align_x center
+			align_y center
 
-            string		$iSTR_GRAY
-            null_level	$DEFAULT_NULL
-        }
-        State 7 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			string		$iSTR_BLACK
+			null_level	$DEFAULT_NULL
+		}
+		State 8 "STRING"{
+			align_x center
+			align_y center
 
-            string		$iSTR_BLACK
-            null_level	$DEFAULT_NULL
-        }
-        State 8 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			string		$iSTR_CAMOUFLAGE
+			null_level	$DEFAULT_NULL
+		}
+		State 9 "STRING"{
+			align_x center
+			align_y center
 
-            string		$iSTR_CAMOUFLAGE
-            null_level	$DEFAULT_NULL
-        }
-        State 9 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
-
-            string		$iSTR_PATROL
-            null_level	$DEFAULT_NULL
-        }
-
+			string		$iSTR_PATROL
+			null_level	$DEFAULT_NULL
+		}
 		Event {
 			key $VK_LBUTTON
 			key $VK_RBUTTON
@@ -7369,74 +7367,72 @@ Screen "Identification screen"
 			string		$iSTR_GREEN
 			null_level	$DEFAULT_NULL
 		}
+		State 4 "STRING"{
+			align_x center
+			align_y center
 
-        State 4 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_RED
+			null_level	$DEFAULT_NULL
+		}
+		State 5 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_RED
-            null_level	$DEFAULT_NULL
-        }
-        State 5 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_WHITE
+			null_level	$DEFAULT_NULL
+		}
+		State 6 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_WHITE
-            null_level	$DEFAULT_NULL
-        }
-        State 6 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_GRAY
+			null_level	$DEFAULT_NULL
+		}
+		State 7 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_GRAY
-            null_level	$DEFAULT_NULL
-        }
-        State 7 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_BLACK
+			null_level	$DEFAULT_NULL
+		}
+		State 8 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_BLACK
-            null_level	$DEFAULT_NULL
-        }
-        State 8 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_CAMOUFLAGE
+			null_level	$DEFAULT_NULL
+		}
+		State 9 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_CAMOUFLAGE
-            null_level	$DEFAULT_NULL
-        }
-        State 9 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
-
-            font		3
-            space		2
-            string		$iSTR_PATROL
-            null_level	$DEFAULT_NULL
-        }
-
+			font		3
+			space		2
+			string		$iSTR_PATROL
+			null_level	$DEFAULT_NULL
+		}
 		Event {
 			key $VK_LBUTTON
 			key $VK_RBUTTON
@@ -9875,74 +9871,72 @@ Screen "Configuration screen 2"
 			string		$iSTR_GREEN
 			null_level	$DEFAULT_NULL
 		}
+		State 4 "STRING"{
+			align_x center
+			align_y center
 
-        State 4 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_RED
+			null_level	$DEFAULT_NULL
+		}
+		State 5 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_RED
-            null_level	$DEFAULT_NULL
-        }
-        State 5 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_WHITE
+			null_level	$DEFAULT_NULL
+		}
+		State 6 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_WHITE
-            null_level	$DEFAULT_NULL
-        }
-        State 6 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_GRAY
+			null_level	$DEFAULT_NULL
+		}
+		State 7 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_GRAY
-            null_level	$DEFAULT_NULL
-        }
-        State 7 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_BLACK
+			null_level	$DEFAULT_NULL
+		}
+		State 8 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_BLACK
-            null_level	$DEFAULT_NULL
-        }
-        State 8 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_CAMOUFLAGE
+			null_level	$DEFAULT_NULL
+		}
+		State 9 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_CAMOUFLAGE
-            null_level	$DEFAULT_NULL
-        }
-        State 9 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
-
-            font		3
-            space		2
-            string		$iSTR_PATROL
-            null_level	$DEFAULT_NULL
-        }
-
+			font		3
+			space		2
+			string		$iSTR_PATROL
+			null_level	$DEFAULT_NULL
+		}
 		Event {
 			key $VK_LBUTTON
 			key $VK_RBUTTON
@@ -11680,74 +11674,72 @@ Screen "Identification screen2"
 			string		$iSTR_GREEN
 			null_level	$DEFAULT_NULL
 		}
+		State 4 "STRING"{
+			align_x center
+			align_y center
 
-        State 4 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_RED
+			null_level	$DEFAULT_NULL
+		}
+		State 5 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_RED
-            null_level	$DEFAULT_NULL
-        }
-        State 5 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_WHITE
+			null_level	$DEFAULT_NULL
+		}
+		State 6 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_WHITE
-            null_level	$DEFAULT_NULL
-        }
-        State 6 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_GRAY
+			null_level	$DEFAULT_NULL
+		}
+		State 7 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_GRAY
-            null_level	$DEFAULT_NULL
-        }
-        State 7 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_BLACK
+			null_level	$DEFAULT_NULL
+		}
+		State 8 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_BLACK
-            null_level	$DEFAULT_NULL
-        }
-        State 8 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
+			font		3
+			space		2
+			string		$iSTR_CAMOUFLAGE
+			null_level	$DEFAULT_NULL
+		}
+		State 9 "STRING"{
+			align_x center
+			align_y center
 
-            font		3
-            space		2
-            string		$iSTR_CAMOUFLAGE
-            null_level	$DEFAULT_NULL
-        }
-        State 9 "STRING"{
-            align_x center
-            align_y center
+			terrain_num	$TERRAIN3
 
-            terrain_num	$TERRAIN3
-
-            font		3
-            space		2
-            string		$iSTR_PATROL
-            null_level	$DEFAULT_NULL
-        }
-
+			font		3
+			space		2
+			string		$iSTR_PATROL
+			null_level	$DEFAULT_NULL
+		}
 		Event {
 			key $VK_LBUTTON
 			key $VK_RBUTTON

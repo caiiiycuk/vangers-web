@@ -219,6 +219,7 @@
 #define iSTR_PATROL1			"PATROL"
 #define iSTR_PATROL2			"€’“‹›‰"
 
+
 #define iSTR_Connection_failed1 	"Connection failed"
 #define iSTR_Connection_failed2 	"‘΅®© ―®¤ª«ξη¥­¨ο"
 

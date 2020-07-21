@@ -59,23 +59,23 @@
 #define iSTR_COLOR_YELLOW_CHAR1 	"Y"
 #define iSTR_COLOR_YELLOW_CHAR2 	"Ü"
 
-#define iSTR_COLOR_RED_CHAR1 	"R"
-#define iSTR_COLOR_RED_CHAR2 	"ä"
+#define iSTR_COLOR_RED_CHAR1		"R"
+#define iSTR_COLOR_RED_CHAR2		"ä"
 
-#define iSTR_COLOR_WHITE_CHAR1 	"W"
-#define iSTR_COLOR_WHITE_CHAR2 	"Å"
+#define iSTR_COLOR_WHITE_CHAR1		"W"
+#define iSTR_COLOR_WHITE_CHAR2		"Å"
 
-#define iSTR_COLOR_GRAY_CHAR1 	"G"
-#define iSTR_COLOR_GRAY_CHAR2 	"ë"
+#define iSTR_COLOR_GRAY_CHAR1		"G"
+#define iSTR_COLOR_GRAY_CHAR2		"ë"
 
-#define iSTR_COLOR_BLACK_CHAR1 	"B"
-#define iSTR_COLOR_BLACK_CHAR2 	"ó"
+#define iSTR_COLOR_BLACK_CHAR1		"B"
+#define iSTR_COLOR_BLACK_CHAR2		"ó"
 
-#define iSTR_COLOR_CAMOUFLAGE_CHAR1 	"C"
-#define iSTR_COLOR_CAMOUFLAGE_CHAR2 	"ä"
+#define iSTR_COLOR_CAMOUFLAGE_CHAR1		"C"
+#define iSTR_COLOR_CAMOUFLAGE_CHAR2		"ä"
 
-#define iSTR_COLOR_PATROL_CHAR1 	"P"
-#define iSTR_COLOR_PATROL_CHAR2 	"è"
+#define iSTR_COLOR_PATROL_CHAR1		"P"
+#define iSTR_COLOR_PATROL_CHAR2		"è"
 
 // Chat buttons...
 #define iSTR_MUTE_ALL1			"MUTE ALL"
