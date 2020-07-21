@@ -12496,7 +12496,6 @@ int VangerUnit::UsingCutterig(int decr_8)
 	return 0;
 };
 
-extern iScreenOption** iScrOpt;
 void VangerUnit::NetCreateVanger(uvsPassage* pp,uvsEscave* pe,uvsSpot* ps)
 {
 	//zNfo NetCreateVanger
@@ -12517,10 +12516,7 @@ void VangerUnit::NetCreateVanger(uvsPassage* pp,uvsEscave* pe,uvsSpot* ps)
 	my_player_body.NetID = NetID;
 	my_player_body.BirthTime = GLOBAL_CLOCK();
 	my_player_body.CarIndex = uvsPoint->Pmechos->type;
-    my_player_body.color = uvsPoint->Pmechos->color;
-    if (!(my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) && my_player_body.color > 3) {
-        my_player_body.color = 3;
-    };
+	my_player_body.color = uvsPoint->Pmechos->color;
 	if(!pp && !pe && !ps){
 		my_player_body.Data0 = R_curr.x;
 		my_player_body.Data1 = R_curr.y;
@@ -13989,15 +13985,9 @@ void VangerUnit::ChangeVangerProcess(void)
 		if(Status & SOBJ_ACTIVE){
 			uvsPoint->Pmechos->type = MechosChangerType;
 			uvsPoint->Pmechos->color = my_player_body.color;
-            if (!(my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) && uvsPoint->Pmechos->color > 3) {
-                uvsPoint->Pmechos->color = 3;
-            }
 		}else{
 			uvsPoint->Pmechos->type = pNetPlayer->body.CarIndex;
 			uvsPoint->Pmechos->color = pNetPlayer->body.color;
-            if (!(my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) && uvsPoint->Pmechos->color > 3) {
-                uvsPoint->Pmechos->color = 3;
-            }
 		};
 	};
 
