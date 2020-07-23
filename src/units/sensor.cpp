@@ -37,6 +37,7 @@
 #include "sensor.h"
 #include "effect.h"
 #include "mechos.h"
+#include "../iscreen/iscreen.h"
 
 //#define SAVE_TNT_DATA
 
@@ -1740,10 +1741,11 @@ void DangerDataType::CreateDanger(XStream& in)
 	rActive = radius / 2;
 };
 
+extern iScreenOption** iScrOpt;
 void DangerDataType::Quant(void)
 {
 	Vector vPos;
-	int r,n,d1,d2,h;
+	int r,n,d1,d2,h,activity;
 	WaterParticleObject* w;
 	int x,y,z,a;
 
@@ -1856,7 +1858,12 @@ void DangerDataType::Quant(void)
 					FireWork(800,PI / 6);
 					break;
                 case WORLD_SATADI:
-					FireWork(1000,PI/8);
+                    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+                        activity = pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 10),2);
+                        FireWork(activity,PI/8);
+                    } else {
+                        FireWork(1000,PI/8);
+                    }
                     break;
 			};
 			break;

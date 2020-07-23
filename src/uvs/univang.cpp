@@ -1093,6 +1093,7 @@ void uvsContimer::Quant(void){
 
                     std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
                 }
+                std::cout<<"ARENA activity level: "<<pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 10),2)<<std::endl;
             }
         } else {
             countFromDeath = 0;
