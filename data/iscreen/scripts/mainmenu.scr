@@ -6469,7 +6469,7 @@ Screen "Game Params 0"  // VAN-WAR
 			space		$PARAMS_SPACE
 			font		$PARAM_FNT
 			null_level	$DEFAULT_NULL
-			string		"100"
+			string		"30"
 		}
 		Event {
 			key $VK_LBUTTON
