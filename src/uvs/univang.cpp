@@ -808,6 +808,9 @@ void uniVangPrepare(void){
             case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
             default: MechosID = 5; // дряхлый душегуб
         }
+        if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
+        if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck trial")==0) MechosID = 7;
+        if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
         if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
 	}
 

@@ -39,6 +39,8 @@
 
 #include "../sound/hsound.h"
 #include "magnum.h"
+#include "../iscreen/iscreen_options.h"
+#include "../iscreen/iscreen.h"
 
 
 extern int RAM16;
@@ -112,6 +114,8 @@ int WeaponWaitTime;
 
 extern int ProtoCryptTableSize[WORLD_MAX];
 extern SensorDataType* ProtoCryptTable[WORLD_MAX];
+
+extern iScreenOption** iScrOpt;
 
 void ItemsDispatcher::Init(Parser& in)
 {
@@ -3212,10 +3216,12 @@ void FishWarriorList::Init(void)
 		max /= 2;
 		switch(CurrentWorld){
 			case WORLD_GLORX:
-				if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) 
+//				if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID)
+				if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"formula")==0)
 					max = 512;
 			case WORLD_WEEXOW:
-				if (z_my_server_data.mod_id == Z_MODS_NEPTUN_ID) //zmod 1.20 neptun fix
+//				if (z_my_server_data.mod_id == Z_MODS_NEPTUN_ID) //zmod 1.20 neptun fix
+				if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0) //zmod 1.20 neptun fix
 					max = 2;
 				Data = new FishWarrior[max];
 				for(i = 0;i < max;i++){
@@ -3655,7 +3661,8 @@ void GloryPlace::Init(int ind)
 	//zNfo - GloryPlace
 	
 	//Formula-V
-	if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) {
+//	if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) {
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"formula")==0) {
 		World = WORLD_GLORX;
 		switch (ind % 4) {
 		case 0:	R_curr.x = 1341;	R_curr.y = 5971;	break;
@@ -3667,7 +3674,8 @@ void GloryPlace::Init(int ind)
 	} 
 	
 	//Trak-Trial
-	if (z_my_server_data.mod_id == Z_MODS_TRAKTRIAL_ID) {
+//	if (z_my_server_data.mod_id == Z_MODS_TRAKTRIAL_ID) {
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0) {
 		World = WORLD_NECROSS;
 		switch (ind % 2) {
 		case 0:	R_curr.x =  620;	R_curr.y = 14771;	break;
@@ -3677,7 +3685,8 @@ void GloryPlace::Init(int ind)
 	}
 	
 	//khoxrun
-	if (z_my_server_data.mod_id == Z_MODS_KHOXRUN_ID) {
+//	if (z_my_server_data.mod_id == Z_MODS_KHOXRUN_ID) {
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"khox run")==0) {
 		World = WORLD_KHOX;
 		switch (ind) {
 		case  0:	R_curr.x = 1358;	R_curr.y = 7036;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если чек не на трех мирах.
@@ -3705,7 +3714,8 @@ void GloryPlace::Init(int ind)
 		while (World == WORLD_HMOK || World == WORLD_SATADI)
 			World = GloryRnd.aiRnd(WORLD_MAX-1);
 
-		if(z_my_server_data.mod_id == Z_MODS_RAFARUN_ID ) //tarakan'i bega/ excludes hmok && threall
+//		if(z_my_server_data.mod_id == Z_MODS_RAFARUN_ID ) //tarakan'i bega/ excludes hmok && threall
+		if(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"raffa run")==0) //tarakan'i bega/ excludes hmok && threall
 			while (World==WORLD_HMOK || World==WORLD_THREALL || World==WORLD_SATADI)
 		World = GloryRnd.aiRnd(WORLD_MAX-1);
 	};

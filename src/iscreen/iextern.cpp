@@ -1707,6 +1707,7 @@ void iGetMultiGameParameters(void)
 			time(&tm);
 
 			value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_CHECKPOINTS_NUM);
+            if(strcmp(game_name,"khox run")==0) value = 12;
 			my_server_data.Passembloss.CheckpointsNumber = value;
 
 			value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_ESCAVE);
@@ -1808,6 +1809,7 @@ void iSetMultiGameParameters(void)
 			iSetMultiGameParameter(iMP_PASSEMBLOSS,iMP_IN_ESCAVE_TIME,value);
 
 			value = my_server_data.Passembloss.CheckpointsNumber;
+            if(strcmp(game_name,"khox run")==0) value = 12;
 			iSetMultiGameParameter(iMP_PASSEMBLOSS,iMP_CHECKPOINTS_NUM,value);
 
 			value = my_server_data.Passembloss.RandomEscave + 1;
