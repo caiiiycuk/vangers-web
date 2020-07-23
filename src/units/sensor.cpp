@@ -1857,14 +1857,14 @@ void DangerDataType::Quant(void)
 				case WORLD_XPLO:
 					FireWork(800,PI / 6);
 					break;
-                case WORLD_SATADI:
-                    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
-                        activity = pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 10),2);
-                        FireWork(activity,PI/8);
-                    } else {
-                        FireWork(1000,PI/8);
-                    }
-                    break;
+				case WORLD_SATADI:
+					if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+						activity = pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 20),2);
+						FireWork(activity,PI/8);
+					} else {
+						FireWork(1000,PI/8);
+					}
+					break;
 			};
 			break;
 		case DangerTypeList::HOLE:
