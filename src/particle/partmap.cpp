@@ -433,8 +433,8 @@ void PlasmaPaletteInit(unsigned char* pal)
     int i;
     const int NULL_INTENS = 20;
     for(i = 0;i < BLUE_POINT;i++){
-        pal[3*(i + first_col)] = NULL_INTENS + (64 - NULL_INTENS)*i/BLUE_POINT;
-        pal[3*(i + first_col) + 1] = NULL_INTENS + (64 - NULL_INTENS)*i/BLUE_POINT;
+        pal[3*(i + first_col)] = 0;
+        pal[3*(i + first_col) + 1] = 0;
         pal[3*(i + first_col) + 2] = NULL_INTENS + (64 - NULL_INTENS)*i/BLUE_POINT;
     }
     i = BLUE_POINT - 1;

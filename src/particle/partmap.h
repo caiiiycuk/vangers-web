@@ -13,7 +13,7 @@ const int  YELLOW_POINT = RED_POINT*2;
 const int  MAX_MASK_TOTAL = 20;
 
 const int  PLASMA_COLOR_BITS = 3;
-const int  PLASMA_COLOR_FIRST = 224;
+const int  PLASMA_COLOR_FIRST = 144;
 const int  PLASMA_PROCESS_COLOR_MAX = 1 << PLASMA_COLOR_BITS;
 const int  BLUE_POINT = 1 << PLASMA_COLOR_BITS;
 

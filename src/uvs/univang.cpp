@@ -575,7 +575,7 @@ void uniVangPrepare(void){
 		}
 
 	//znfo генерация итемов в мире
-	for( i = 0; i < MAX_ITEM_TYPE-5; i++){
+	for( i = 0; i < MAX_ITEM_TYPE-3; i++){
 		if ( uvsItemTable[i] -> type == UVS_ITEM_STATUS::WEAPON) {
 #ifdef ALL_ITEM_IN_SHOP
 			if(1)
@@ -1094,6 +1094,7 @@ void uvsContimer::Quant(void){
                     std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
                 }
                 std::cout<<"ARENA activity level: "<<pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 20),2)<<std::endl;
+                Gamer -> Pworld -> updateResource();
             }
         } else {
             countFromDeath = 0;
@@ -3638,11 +3639,11 @@ void uvsShop::updateResource(void){
 
 	if (  GetItem( Pitem, UVS_ITEM_TYPE::CIRTAINER, 0) == NULL ) addItem(new uvsItem(UVS_ITEM_TYPE::CIRTAINER));
 
-	/*for(i = UVS_ITEM_TYPE::NETTLE_ACG; i <= UVS_ITEM_TYPE::BADREEVE; i++){
+	for(i = UVS_ITEM_TYPE::NETTLE_ACG; i <= UVS_ITEM_TYPE::VERVEMITTER; i++){
 		if (GetItem( Pitem, i, 0) == NULL) {
 			addItem(pi = new uvsItem(i));
 		}
-	}*/
+	}
 }
 
 void uvsBunch::QuantCirt(int counter){
@@ -10522,7 +10523,7 @@ int uvsGenerateItemForCrypt( int type ){
 		break;
 	case UVS_CRYPT::ARMO_LIGHT:
 		itype = UVS_ITEM_TYPE::MACHOTINE_GUN_LIGHT;
-		icount = UVS_ITEM_TYPE::TERMINATOR2 + 1 - itype;
+            icount = UVS_ITEM_TYPE::TERMINATOR2 + 1 - itype + 2; // +2 due to 2 new weapons
 
 		_type_ = RND(icount);
 		while( !uvsItemTable[itype + _type_]->size
@@ -10532,7 +10533,13 @@ int uvsGenerateItemForCrypt( int type ){
 			)
 			_type_ = RND(icount);
 
-		return(itype  + _type_);
+            if (_type_ == icount-1) {
+                return(UVS_ITEM_TYPE::NETTLE_ACG);
+            } else if (_type_ == icount) {
+                return(UVS_ITEM_TYPE::VERVEMITTER);
+            } else {
+                return(itype + _type_);
+            }
 		break;
 	case UVS_CRYPT::ARMO_HEAVY:
 		itype = UVS_ITEM_TYPE::MACHOTINE_GUN_LIGHT;
