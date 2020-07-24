@@ -3088,7 +3088,7 @@ SkyFarmerObject* SkyFarmerList::CreateSkyFarmer(void)
 
 void HordeList::Init(void)
 {
-	int i,max;
+	int i,max,sourceX,sourceY;
 //zmod 1.21
 	if(NetworkON){
 		double kmax = (1.-zMod_flood_level_delta)/2;
@@ -3102,8 +3102,13 @@ void HordeList::Init(void)
 				max = MAX_HORDE_SOURCE_OBJECT / 2;
 		};
 		max = (int)((double)max * kmax);
-		for(i = 0;i < max;i++)
-			(CreateHorde())->CreateHorde(Vector(NetRnd.Get(map_size_x),NetRnd.Get(map_size_y),270),20,240,400,NULL);
+        for(i = 0;i < max;i++) {
+            sourceX = NetRnd.Get(map_size_x);
+            sourceY = NetRnd.Get(map_size_y);
+            if (!(CurrentWorld == WORLD_SATADI && sourceX > 824 && sourceX < 1224 && sourceY > 824 && sourceY < 1224)) {
+                (CreateHorde())->CreateHorde(Vector(NetRnd.Get(map_size_x),NetRnd.Get(map_size_y),270),20,240,400,NULL);
+            }
+        }
 	}else{
 		switch(CurrentWorld){
 			case WORLD_WEEXOW:
@@ -3126,7 +3131,7 @@ HordeObject* HordeList::CreateHorde(void)
 
 void HordeSourceList::Init(void)
 {
-	int i,max;	
+	int i,max,sourceX,sourceY;
 	UnitBaseListType::Init();
 //zmod 1.21 
 	if(NetworkON){
@@ -3141,8 +3146,13 @@ void HordeSourceList::Init(void)
 				max = MAX_HORDE_SOURCE_OBJECT / 2;
 		};
 		max = (int)((double)max * kmax);
-		for(i = 0;i < max;i++)
-			(CreateSource())->CreateSource(Vector(NetRnd.Get(map_size_x),NetRnd.Get(map_size_y),270),ModelD.FindModel("Horde"),20,60);
+		for(i = 0;i < max;i++) {
+		    sourceX = NetRnd.Get(map_size_x);
+		    sourceY = NetRnd.Get(map_size_y);
+            if (!(CurrentWorld == WORLD_SATADI && sourceX > 824 && sourceX < 1224 && sourceY > 824 && sourceY < 1224)) {
+                (CreateSource())->CreateSource(Vector(sourceX,sourceY,270),ModelD.FindModel("Horde"),20,60);
+            }
+		}
 	}else{
 		switch(CurrentWorld){
 			case WORLD_FOSTRAL:
