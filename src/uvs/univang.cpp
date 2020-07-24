@@ -1097,7 +1097,7 @@ void uvsContimer::Quant(void){
                     std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
                 }
                 std::cout<<"ARENA activity level: "<<pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 20),2)<<std::endl;
-                Gamer -> Pworld -> updateResource();
+                getWorld(1)->updateResource();
             }
         } else {
             countFromDeath = 0;
@@ -3616,11 +3616,17 @@ void uvsShop::updateResource(void){
 		if (  GetItem( Pitem, i, 0) == NULL  && !RND(3)  && ItemHere[i]) {
 			addItem(pi = new uvsItem(i));
 		}
-	}
+		if (GetItem( Pitem, i, 0) == NULL && (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+            addItem(pi = new uvsItem(i));
+		}
+    }
 	for( i = UVS_ITEM_TYPE::TERMINATOR; i <= UVS_ITEM_TYPE::TERMINATOR2; i++){
 		if (  GetItem( Pitem, i, 0) == NULL  && !RND(3) && ItemHere[i]) {
 			addItem(pi = new uvsItem(i));
 		}
+        if (GetItem( Pitem, i, 0) == NULL && (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+            addItem(pi = new uvsItem(i));
+        }
 	}
 
 /*	for( i = UVS_ITEM_TYPE::AMPUTATOR; i <= UVS_ITEM_TYPE::DEGRADATOR; i++){
