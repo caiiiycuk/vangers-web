@@ -323,6 +323,8 @@ const char* nVER = "Patch 4.20";
 
 
 #include "video/winvideo.h"
+#include "ai.h"
+
 sWinVideo winVideo;
 
 void showModal(char* fname, float reelW, float reelH, float screenW, float screenH) {
@@ -1437,6 +1439,10 @@ void ComlineAnalyze(int argc,char** argv)
 						    setLang(RUSSIAN);
 						}
 						break;
+				    case 'B':
+				    case 'b':
+                        setAi(BOT);
+                        break;
 					case '&':
 						if(argv[i][j + 2] == '^') SkipCD = 1;
 						break;

@@ -1,6 +1,7 @@
 /* ---------------------------- INCLUDE SECTION ----------------------------- */
 
 #include "../../src/lang.h"
+#include "../../src/ai.h"
 #include "xglobal.h"
 #include "xt_list.h"
 #include "../xgraph/xgraph.h"
@@ -94,6 +95,7 @@ XStream xtRTO_Log;
 
 int xtSysQuantDisabled = 0;
 extern bool XGR_FULL_SCREEN;
+extern bool X;
 
 
 #ifdef win_arg
@@ -122,6 +124,9 @@ int main(int argc, char *argv[])
 	if(cmd_line.find("-fullscreen")!=std::string::npos) {
 		XGR_FULL_SCREEN = true;
 	}
+	if(cmd_line.find("-ai")!=std::string::npos) {
+		setAi(BOT);
+	}
 	
 #else
 	int i;
@@ -131,6 +136,10 @@ int main(int argc, char *argv[])
             XGR_FULL_SCREEN = true;
         else if (cmd_key == "-russian")
             setLang(RUSSIAN);
+        else if (cmd_key == "-ai") {
+            setAi(BOT);
+            std::cout << "Cx AI control enabled" << std::endl;
+        }
     }
 #endif
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
