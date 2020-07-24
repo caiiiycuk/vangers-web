@@ -1652,6 +1652,7 @@ void iGetMultiGameParameters(void)
 			my_server_data.Van_War.ArtefactsUsing = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_IN_ESCAVE_TIME);
+            if(strcmp(game_name,"arena")==0 && value < 1) value = 1;
 			my_server_data.Van_War.InEscaveTime = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_TEAM_MODE);
@@ -1775,6 +1776,7 @@ void iSetMultiGameParameters(void)
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_ARTEFACTS_USING,value);
 
 			value = my_server_data.Van_War.InEscaveTime;
+            if(strcmp(game_name,"arena")==0 && value < 1) value = 1;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_IN_ESCAVE_TIME,value);
 
 			value = my_server_data.Van_War.TeamMode;

@@ -1748,6 +1748,7 @@ void DangerDataType::Quant(void)
 	int r,n,d1,d2,h,activity;
 	WaterParticleObject* w;
 	int x,y,z,a;
+	double activityStart;
 
 	//if(NetworkON) return; //zmod fixed
 
@@ -1859,7 +1860,8 @@ void DangerDataType::Quant(void)
 					break;
 				case WORLD_SATADI:
 					if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
-						activity = pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 20),2);
+                        activityStart = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
+						activity = pow(round(activityStart * 36),2);
 						FireWork(activity,PI/8);
 					} else {
 						FireWork(1000,PI/8);

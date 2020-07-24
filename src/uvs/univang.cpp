@@ -1014,7 +1014,9 @@ void uvsBunch::Check(char* subj){
 }
 
 void uvsContimer::Quant(void){
-	counter++;
+    double activityLevel;
+
+    counter++;
 	if(++sec == 60){
 		sec = 0;
 		listElem* l = BunchTail;
@@ -1096,7 +1098,8 @@ void uvsContimer::Quant(void){
 
                     std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
                 }
-                std::cout<<"ARENA activity level: "<<pow(round(my_server_data.Van_War.MaxTime*60 / age_of_current_game() * 20),2)<<std::endl;
+                activityLevel = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
+                std::cout<<"ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
                 getWorld(1)->updateResource();
             }
         } else {
