@@ -640,7 +640,7 @@ void uniVangPrepare(void){
 	meanN = 0;
 
 	//zNfo инициализация мехосов
-  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0) {
     guaranteedMechoses = MAX_MECHOS_TYPE;
   }
 	for( int k = 0; k < guaranteedMechoses; k++){
@@ -809,7 +809,7 @@ void uniVangPrepare(void){
             default: MechosID = 5; // дряхлый душегуб
         }
         if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
-        if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck trial")==0) MechosID = 7;
+        if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
         if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
         if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
 	}

@@ -1645,6 +1645,7 @@ void iGetMultiGameParameters(void)
 		case iMP_VAN_WAR:
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH);
             if(strcmp(game_name,"arena")==0) value = 3000;
+            if(strcmp(game_name,"neptune")==0) value = 999999;
 			my_server_data.Van_War.InitialCash = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ARTEFACTS_USING);
@@ -1658,12 +1659,15 @@ void iGetMultiGameParameters(void)
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY);
             if(strcmp(game_name,"arena")==0) value = 2;
+            if(strcmp(game_name,"neptune")==0) value = 2;
 			my_server_data.Van_War.Nascency = value - 1;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS);
+            if(strcmp(game_name,"neptune")==0) value = 0;
 			my_server_data.Van_War.WorldAccess = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_MAX_KILLS);
+            if(strcmp(game_name,"neptune")==0) value = 10;
 			my_server_data.Van_War.MaxKills = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_MAX_TIME);
@@ -1696,6 +1700,11 @@ void iGetMultiGameParameters(void)
 			break;
 		case iMP_PASSEMBLOSS:
 			value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_INITIAL_CASH);
+            if(strcmp(game_name,"warm-up")==0) value = 999999;
+            if(strcmp(game_name,"formula")==0) value = 999999;
+            if(strcmp(game_name,"truck-trial")==0) value = 999999;
+            if(strcmp(game_name,"raffa run")==0) value = 4000;
+            if(strcmp(game_name,"khox run")==0) value = 999999;
 			my_server_data.Passembloss.InitialCash = value;
 
 			value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_ARTEFACTS_USING);
@@ -1708,9 +1717,17 @@ void iGetMultiGameParameters(void)
 
 			value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_CHECKPOINTS_NUM);
             if(strcmp(game_name,"khox run")==0) value = 12;
+            if(strcmp(game_name,"warm-up")==0) value = 6;
+            if(strcmp(game_name,"formula")==0) value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_CHECKPOINTS_NUM)*4;
+            if(strcmp(game_name,"truck-trial")==0) value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_CHECKPOINTS_NUM)*2;
 			my_server_data.Passembloss.CheckpointsNumber = value;
 
 			value = iGetMultiGameParameter(iMP_PASSEMBLOSS,iMP_ESCAVE);
+            if(strcmp(game_name,"warm-up")==0) value = 2;
+            if(strcmp(game_name,"formula")==0) value = 2;
+            if(strcmp(game_name,"truck-trial")==0) value = 3;
+            if(strcmp(game_name,"raffa run")==0) value = 2;
+            if(strcmp(game_name,"khox run")==0) value = 2;
 			my_server_data.Passembloss.RandomEscave = value - 1;
 //			my_server_data.Passembloss.RandomEscave = tm % 3;
 			break;
@@ -1751,6 +1768,7 @@ void iSetMultiGameParameters(void)
 		case iMP_VAN_WAR:
 			value = my_server_data.Van_War.InitialCash;
             if(strcmp(game_name,"arena")==0) value = 3000;
+            if(strcmp(game_name,"neptune")==0) value = 999999;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH,value);
 
 			value = my_server_data.Van_War.ArtefactsUsing;
@@ -1765,12 +1783,15 @@ void iSetMultiGameParameters(void)
 			value = my_server_data.Van_War.Nascency + 1;
 			if(value > 3) value = 0;
 			if(strcmp(game_name,"arena")==0) value = 2;
+            if(strcmp(game_name,"neptune")==0) value = 2;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY,value);
 
 			value = my_server_data.Van_War.WorldAccess;
+            if(strcmp(game_name,"neptune")==0) value = 0;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS,value);
 
 			value = my_server_data.Van_War.MaxKills;
+            if(strcmp(game_name,"neptune")==0) value = 10;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_MAX_KILLS,value);
 
 			value = my_server_data.Van_War.MaxTime;
@@ -1800,6 +1821,11 @@ void iSetMultiGameParameters(void)
 			break;
 		case iMP_PASSEMBLOSS:
 			value = my_server_data.Passembloss.InitialCash;
+            if(strcmp(game_name,"warm-up")==0) value = 999999;
+            if(strcmp(game_name,"formula")==0) value = 999999;
+            if(strcmp(game_name,"truck-trial")==0) value = 999999;
+            if(strcmp(game_name,"raffa run")==0) value = 4000;
+            if(strcmp(game_name,"khox run")==0) value = 999999;
 			iSetMultiGameParameter(iMP_PASSEMBLOSS,iMP_INITIAL_CASH,value);
 
 			value = my_server_data.Passembloss.ArtefactsUsing;
@@ -1810,10 +1836,18 @@ void iSetMultiGameParameters(void)
 
 			value = my_server_data.Passembloss.CheckpointsNumber;
             if(strcmp(game_name,"khox run")==0) value = 12;
+            if(strcmp(game_name,"warm-up")==0) value = 6;
+            if(strcmp(game_name,"formula")==0) value = my_server_data.Passembloss.CheckpointsNumber * 4;
+            if(strcmp(game_name,"truck-trial")==0) value = my_server_data.Passembloss.CheckpointsNumber * 2;
 			iSetMultiGameParameter(iMP_PASSEMBLOSS,iMP_CHECKPOINTS_NUM,value);
 
 			value = my_server_data.Passembloss.RandomEscave + 1;
 			if(value > 3) value = 0;
+            if(strcmp(game_name,"warm-up")==0) value = 1;
+            if(strcmp(game_name,"formula")==0) value = 1;
+            if(strcmp(game_name,"truck-trial")==0) value = 2;
+            if(strcmp(game_name,"raffa run")==0) value = 1;
+            if(strcmp(game_name,"khox run")==0) value = 1;
 			iSetMultiGameParameter(iMP_PASSEMBLOSS,iMP_ESCAVE,value);
 			break;
 		case iMP_HUNTAGE:
