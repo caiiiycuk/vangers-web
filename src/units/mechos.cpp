@@ -50,6 +50,7 @@
 
 #include "../actint/credits.h"
 #include "../iscreen/iscreen.h"
+#include "../ai.h"
 
 #define INSECTOIDS
 
@@ -6693,7 +6694,7 @@ void VangerUnit::NewKeyHandler(void)
 	if(iKeyPressed(iKEY_CHANGE_TARGET))
 		ActD.ChangeLocator();
 
-	if((Status & SOBJ_ACTIVE) && (Status & SOBJ_AUTOMAT) && 
+	if((ai() == PLAYER) && (Status & SOBJ_ACTIVE) && (Status & SOBJ_AUTOMAT) &&
 	   (iKeyPressed(iKEY_TURN_WHEELS_LEFT) || iKeyPressed(iKEY_TURN_WHEELS_RIGHT) || iKeyPressed(iKEY_MOVE_FORWARD) || iKeyPressed(iKEY_MOVE_BACKWARD) || iKeyPressed(iKEY_TURN_OVER_LEFT)
 	   || iKeyPressed(iKEY_TURN_OVER_RIGHT) || iKeyPressed(iKEY_DEVICE_ON) || iKeyPressed(iKEY_DEVICE_OFF) || iKeyPressed(iKEY_ACTIVATE_KID) || iKeyPressed(iKEY_ACCELERATION) || iKeyPressed(iKEY_OPEN))){
 		Status &=~SOBJ_AUTOMAT;
@@ -7463,6 +7464,7 @@ void VangerUnit::CheckOutDevice(StuffObject* p)
 	StuffObject* n;
 	switch(p->ActIntBuffer.type){
 		case ACI_PHLEGMA:
+            // CxInfo: If # of phlegma >= SAFE_STUFF_MAX (3), WeeZyk won't die upon cycle change
 			i = -1;
 			n = DeviceData;
 			while(n){
@@ -7496,6 +7498,7 @@ void VangerUnit::CheckOutDevice(StuffObject* p)
 			};
 			break;
 		case ACI_TOXICK:
+            // CxInfo: If # of toxick >= SAFE_STUFF_MAX (3), eLeech won't die upon cycle change
 			i = -1;
 			n = DeviceData;
 			while(n){

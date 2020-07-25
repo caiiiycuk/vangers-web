@@ -2221,6 +2221,7 @@ int uvsapiDestroyItem(int ind,int ind2)
 		};
 	}else{
 		while(n){
+            // CxInfo: If # of phlegma/toxick >= SAFE_STUFF_MAX (3), WeeZyk/eLeech won't die upon cycle change
 			keep_log = 0;
 			if(ind == UVS_ITEM_TYPE::ELEECH){
 				g = n->DeviceData;
