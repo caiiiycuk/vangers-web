@@ -187,6 +187,8 @@ int aiHotBugAdd01;
 int aiHotBugAdd02;
 int aiHotBugAdd03;
 
+extern iScreenOption** iScrOpt;
+
 void aOutText32clip(int x,int y,int color,void* text,int font,int hspace,int vspace);
 
 void FIRE_ALL_WEAPONS()
@@ -13827,7 +13829,6 @@ void XpeditionOFF(int type)
 
 const int NETWORK_NUM_ESCAVE = 7;
 const char* NetworkEscaveName[NETWORK_NUM_ESCAVE] ={"Podish","Incubator","VigBoo","Lampasso","Ogorod","ZeePa","B-Zone"};
-extern iScreenOption** iScrOpt;
 
 void NetworkGetStart(char* name,int& x,int& y)
 {
@@ -13835,6 +13836,7 @@ void NetworkGetStart(char* name,int& x,int& y)
 	SensorSortedData = new SensorDataType*[SnsTableSize];
 	StaticSort(SnsTableSize,(StaticObject**)SensorObjectData,(StaticObject**)SensorSortedData);
 
+    // CxInfo: if we're in Arena, set exiting point so that we'll happen to be in the center of Satadi upon exiting an escave
     if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
         x = 1024;
         y = 1024;

@@ -894,10 +894,7 @@ void FirstEscaveOutRTO::Init(int id)
 {
 #ifdef ISCREEN
 #ifndef _ACI_SKIP_SHOP_
-    // CxInfo: skip shop for the first spawn on Arena
-    if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
-        iOutEscaveInit();
-    }
+    iOutEscaveInit();
 #endif
 #endif
 _MEM_STATISTIC_("AFTER FIRST ESCZVE INIT -> ");
@@ -909,11 +906,7 @@ int FirstEscaveOutRTO::Quant(void)
 	int val;
 #ifndef _ACI_SKIP_SHOP_
     // CxInfo: skip shop for the first spawn on Arena
-    if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
-        val = iOutEscaveQuant();
-    } else {
-        val = 1;
-    }
+    val = iOutEscaveQuant();
 #else
 	val = 1;
 #endif
@@ -936,11 +929,8 @@ void FirstEscaveOutRTO::Finit(void)
 {
 #ifdef ISCREEN
 #ifndef _ACI_SKIP_SHOP_
-    // CxInfo: skip shop for the first spawn on Arena
-    if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
-        iOutEscaveFinit();
-        aci_LocationQuantFinit();
-    }
+    iOutEscaveFinit();
+    aci_LocationQuantFinit();
 #endif
 #endif
 _MEM_STATISTIC_("AFTER FIRST ESCAVE FINIT -> ");
@@ -1018,10 +1008,6 @@ _MEM_STATISTIC_("AFTER curGMap  -> ");
 	XGR_SetPal(palbuf,0,255);
 #endif
 
-    // CxInfo: skip shop for the first spawn on Arena
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
-        XGR_SetPal(palbuf,0,255);
-    }
 	if(idOS == 1) vMap -> lockMem();
 	XGR_Flush(0,0,XGR_MAXX,XGR_MAXY);
 _MEM_STATISTIC_("AFTER LOADING RTO2 INIT -> ");
@@ -1039,16 +1025,10 @@ _MEM_STATISTIC_("AFTER ACILOADDATA INIT -> ");
 	FirstShopPrepare(aciLoadLog);
 _MEM_STATISTIC_("AFTER FIRSTSHOP PREPARE INIT -> ");
 #ifndef _ACI_SKIP_SHOP_
-// CxInfo: skip shop for the first spawn on Arena
-    if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
-        aci_LocationQuantPrepare();
-        _MEM_STATISTIC_("AFTER LOADQUANT PREPARE INIT -> ");
-        aciShowLocation();
-        _MEM_STATISTIC_("AFTER SHOWLOCATION INIT -> ");
-    } else {
-        aciPrepareMenus();
-        _MEM_STATISTIC_("AFTER PREPARE MENU INIT -> ");
-    }
+    aci_LocationQuantPrepare();
+    _MEM_STATISTIC_("AFTER LOADQUANT PREPARE INIT -> ");
+    aciShowLocation();
+    _MEM_STATISTIC_("AFTER SHOWLOCATION INIT -> ");
 #else
 	aciPrepareMenus();
 _MEM_STATISTIC_("AFTER PREPARE MENU INIT -> ");
@@ -1084,12 +1064,7 @@ int FirstEscaveRTO::Quant(void)
 #ifdef ISCREEN
 	int code;
 #ifndef _ACI_SKIP_SHOP_
-    // CxInfo: skip shop for the first spawn on Arena
-    if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
-        code = iQuantSecond();
-    } else {
-        code = 1;
-    }
+    code = iQuantSecond();
 #else
 	code = 1;
 #endif

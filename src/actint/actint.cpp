@@ -401,6 +401,8 @@ int aciProtractorEvent = 0;
 int aciMechMessiahEvent = 0;
 int aciTeleportEvent = 0;
 
+extern iScreenOption** iScrOpt;
+
 #ifdef _DEBUG
 int aciShotCount = 0;
 int aciCurIND = 0;
@@ -3924,11 +3926,6 @@ void actIntDispatcher::init(void)
 	}
 #endif
 
-	// CxInfo: skip shop for the first spawn on Arena
-    if((NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) && !curMatrix){
-        curMatrix = alloc_matrix(curMatrixID);
-    }
-
 	ibs = (ibsObject*)ibsList -> last;
 	while(ibs){
 		bml = get_back_bml(ibs -> backObjID);
@@ -4226,7 +4223,6 @@ void actIntDispatcher::finit(void)
 	free_cell_frame();
 }
 
-extern iScreenOption** iScrOpt;
 void actIntDispatcher::i_finit(void)
 {
 	CounterPanel* cp;
@@ -4240,6 +4236,7 @@ void actIntDispatcher::i_finit(void)
 	aciChangeWorld(CurrentWorld);
 	aciPrepareWorldsMenu();
 
+    // CxInfo: if we're in Arena, teleport to Satadi upon exiting an escave
     char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
     if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0 && CurrentWorld != 13) {
         aScrDisp -> send_event(EV_TELEPORT,13);
