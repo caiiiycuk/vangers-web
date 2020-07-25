@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
             setLang(RUSSIAN);
         else if (cmd_key == "-ai") {
             setAi(BOT);
-            std::cout << "Cx AI control enabled" << std::endl;
+            std::cout << "AI control enabled" << std::endl;
         }
     }
 #endif

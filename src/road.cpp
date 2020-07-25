@@ -1657,6 +1657,14 @@ void KeyCenter(SDL_Event *key)
 				aciSetCameraMenu();
 			}
 			break;
+			// AI related stuff
+        case SDL_SCANCODE_P:
+            mod = SDL_GetModState();
+            if (mod&KMOD_CTRL && ai() != PLAYER) {
+                std::cout<<"Toggled Peelot mode"<<std::endl;
+                ActD.Active->Status ^= SOBJ_AUTOMAT;
+            }
+            break;
 		}
 	
 	if (iKeyPressed(iKEY_ZOOM_IN)) {
