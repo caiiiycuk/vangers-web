@@ -886,6 +886,13 @@ invMatrix $MECH35_ID {
 	back_bml	"resource/actint/640x480/matrix/matrix35.bmo"
 }
 
+// CxDebug: new mechos
+//invMatrix $MECH39_ID {
+//        $MATRIX_LOWRES
+//        $MATRIX39_BODY
+//        back_bml	"resource/actint/640x480/matrix/matrix39.bmo"
+//}
+
 /*
 invMatrix 83 {
 	x	360

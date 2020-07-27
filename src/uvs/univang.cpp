@@ -137,9 +137,9 @@ const char* BIOS_NAMES[BIOS_MAX] = {
 	};
 
 #ifdef _DEMO_
-const int CAR_COLOR[24] = {0, 1, 0, 0, 0, 0, 2, 0,  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//const int CAR_DEMO[24] = {1, 1, 0, 0, 0, 0, 2, 1,  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-const int CAR_DEMO[24] = {1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const int CAR_COLOR[25] = {0, 1, 0, 0, 0, 0, 2, 0,  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//const int CAR_DEMO[25] = {1, 1, 0, 0, 0, 0, 2, 1,  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const int CAR_DEMO[25] = {1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //const int CAR_COLOR[5] = {0, 1, 2, 0, 1};
 #endif
 
@@ -3399,12 +3399,7 @@ uvsBunch::uvsBunch(PrmFile* pfile,char* atom){
 		int out  = 0;
 		while( !out ){
 			out = 1;
-            // CxInfo: don't need dolly for Satadi "bios", so we'll put her to Satadi
-			if (biosNindex == 3) {
-                cycleTable[i].Pdolly = WorldTable[WORLD_SATADI] -> generateDolly(biosNindex);
-		    } else {
-                cycleTable[i].Pdolly = WorldTable[getRW(Pescave -> Pworld -> gIndex)] -> generateDolly(biosNindex);
-		    }
+            cycleTable[i].Pdolly = WorldTable[getRW(Pescave -> Pworld -> gIndex)] -> generateDolly(biosNindex);
 			if ( cycleTable[i].Pdolly == NULL  ) out = 0;
 		}//  end while
 	}//  end for i
@@ -3526,7 +3521,6 @@ uvsBunch::uvsBunch(XStream& pf, PrmFile* pfile,char* atom){
 void uvsBunch::save(XStream& pfile){
 	int i, j;
 	for(i = 0;i < cycleN;i++){
-        std::cout<<"    CxDebug: uvsBunch::save, i<cycleN, cycleN:"<<cycleN<<", i:"<<i<<", cycleTable[i].name:"<<cycleTable[i].name<<std::endl;
 	    pfile < cycleTable[i].cirtQ;
 		pfile < cycleTable[i].GamerCirt;
 
@@ -3546,7 +3540,6 @@ void uvsBunch::save(XStream& pfile){
 					pfile < cycleTable[i].Pgame -> score[j];
 			}
 		}
-        std::cout<<"    CxDebug: ritual done, now processing dolly"<<std::endl;
 		pfile < cycleTable[i].Pdolly -> gIndex;
 	}
 

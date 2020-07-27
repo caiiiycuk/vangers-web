@@ -1000,6 +1000,11 @@ iscreen_section {
 		$iMATRIX_HIRES
 		$MATRIX38_BODY
 	}
+// CxDebug: new mechos
+//    invMatrix $MECH39_ID {
+//        $iMATRIX_HIRES
+//        $MATRIX39_BODY
+//    }
 
 	fncMenu {
 		menu_type	$SHOP_ITEMS_MENU_ID

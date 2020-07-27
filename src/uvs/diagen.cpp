@@ -772,7 +772,7 @@ void dgFile::load(char* fname,int _len)
 		if(!skip){
 			p2 = detect_text(p);
 			if(!(*p2 == SUBJ_SYMBOL || *p2 == COMMAND_SYMBOL || *p2 == '<' || *p2 == '#')) {
-				if(!((lang() !== RUSSIAN && ISEALPHA(*p2)) || (lang() == RUSSIAN && !ISEALPHA(*p2)))) continue;
+				if(!((lang() != RUSSIAN && ISEALPHA(*p2)) || (lang() == RUSSIAN && !ISEALPHA(*p2)))) continue;
 			}
 			
 		}
@@ -2436,7 +2436,7 @@ void DiagenDispatcher::init(void)
 		pr -> read(pf);
 	}
 	if(!oldVersion) {
-		for(j = 0;j < 3;j++){
+		for(j = 0;j < BIOS_MAX;j++){
 			for(i = 0;i < 3;i++) CycleName[0][j][i] = getSubj(pf -> getElement(DGF_NONE));
 //#if defined(RUSSIAN_VERSION) || defined(DIAGEN_TEST)
 			for(i = 0;i < 3;i++) CycleName[1][j][i] = pf -> getElement(DGF_NONE);
