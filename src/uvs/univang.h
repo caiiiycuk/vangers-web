@@ -11,7 +11,7 @@ const int MAIN_WORLD_MAX = 4;
 // общее количество миров включая секретные
 const int WORLD_MAX = 11;
 // количество основных биосов в Цепи
-const int BIOS_MAX = 3;
+const int BIOS_MAX = 4;
 // количество приказов в памяти с-вангеров
 const int ORDER_V_MAX = 8;
 
@@ -635,7 +635,7 @@ struct uvsCultStage {
 // организация банчей - социумов Цепи
 struct uvsBunch : listElem {
 	uvsEscave* Pescave;			// указатель на эскэйв, в котором находится банч
-	int biosNindex; 				// номер биоса, к которому относится банч: E-B-Z
+	int biosNindex; 				// номер биоса, к которому относится банч: E-B-Z-S
 	int cycleN;					// число периодов в цикле банча
 	uvsCultStage* cycleTable;		//  таблица периодов банча размером cycleN
 	int currentStage;				 // номер текущего периода

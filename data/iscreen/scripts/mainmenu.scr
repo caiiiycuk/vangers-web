@@ -6237,7 +6237,7 @@ Screen "Game Params 0"  // VAN-WAR
 
 		not_unlock
 
-		num_state	4
+		num_state	5
 
 		State 0 "STRING"{
 			align_x center
@@ -6287,6 +6287,18 @@ Screen "Game Params 0"  // VAN-WAR
 
 			string		$iSTR_Necross
 		}
+        State 4 "STRING"{
+            align_x center
+            align_y center
+
+            terrain_num	$TERRAIN4
+
+            space		$PARAMS_SPACE
+            font		$PARAM_FNT
+            null_level	$DEFAULT_NULL
+
+            string		$iSTR_Satadi
+        }
 		Event {
 			key $VK_LBUTTON
 			key $VK_RBUTTON

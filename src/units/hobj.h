@@ -373,6 +373,7 @@ const int AI_MESSAGE_DESTROY_THREALL_MESSAGE = 50;
 const int AI_MESSAGE_CAMERA_HELP = 51;
 
 const int AI_MESSAGE_SATADI = 52;
+const int AI_MESSAGE_ROSTRUM = 53;
 
 void NetworkSetTnt(int id);
 

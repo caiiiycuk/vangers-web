@@ -1757,6 +1757,110 @@ iscreen_section {
 		s_id	$ACI_ANSWER_PANEL_ID		"AnswerPanelBMP"
 		s_id	$ACI_TIME_PANEL_ID		"TimePanelBMP"
 	}
+    // Rostrum...
+    location_data $ESCAVE_ID8 {
+            name		$_ESCAVE_NAME8
+            map_name	"resource/iscreen/ldata/l8/escave.ini"
+            palette 	"resource/iscreen/ldata/l8/escave.pal"
+            screen_id	"LocScreen08"
+
+            sounds		"resource/iscreen/ldata/l8/sound"
+
+            save_screen	37
+            world		$S_ID
+
+            exclude_item	$ACI_TABUTASK
+            exclude_item	$ACI_TABUTASK_FAILED
+            exclude_item	$ACI_TABUTASK_SUCCESSFUL
+            exclude_item	$ACI_ELEEPOD
+            exclude_item	$ACI_BEEBOORAT
+            exclude_item	$ACI_ZEEX
+
+            exclude_item	$ACI_ROTTEN_KERNOBOO
+            exclude_item	$ACI_ROTTEN_PIPETKA
+            exclude_item	$ACI_ROTTEN_WEEZYK
+            exclude_item	$ACI_DEAD_ELEECH
+
+            exclude_item	$ACI_ELEECH
+            exclude_item	$ACI_KERNOBOO
+            exclude_item	$ACI_PIPETKA
+            exclude_item	$ACI_WEEZYK
+            exclude_item	$ACI_BOORAWCHICK
+
+            num_index	$ACI_BUTTON_OFF_TYPE	1
+            num_index	$ACI_BUTTON_ON_TYPE	6
+
+            num_gate_shutters	2
+            gate_shutter 0 {
+                pos 0	0			$ACI_SHUTTER_CENTER
+                pos 1	$ACI_SHUTTER_LEFT	$ACI_SHUTTER_CENTER
+
+                pos 2	$ACI_SHUTTER_LEFT	$ACI_SHUTTER_CENTER
+                pos 3	0			$ACI_SHUTTER_CENTER
+
+                delta	$SHUTTER_DELTA_X	0
+
+                name	"resource/iscreen/ldata/l8/bitmap/g0.bmp"
+            }
+            gate_shutter 1 {
+                pos 0	$ACI_SHUTTER_RIGHT	$ACI_SHUTTER_CENTER
+                pos 1	800			$ACI_SHUTTER_CENTER
+
+                pos 2	800			$ACI_SHUTTER_CENTER
+                pos 3	$ACI_SHUTTER_RIGHT	$ACI_SHUTTER_CENTER
+
+                delta	$SHUTTER_DELTA_X	0
+
+                name	"resource/iscreen/ldata/l8/bitmap/g1.bmp"
+            }
+            num_matrix_shutters	1	1
+            matrix_shutter 1 0 {
+                pos 0	0			$ACI_SHUTTER_CENTER
+                pos 1	$ACI_SHUTTER_LEFT	$ACI_SHUTTER_CENTER
+
+                pos 2	$ACI_SHUTTER_LEFT	$ACI_SHUTTER_CENTER
+                pos 3	0			$ACI_SHUTTER_CENTER
+
+                delta	$SHUTTER_DELTA_X	0
+
+                name	"resource/iscreen/ldata/l8/bitmap/g0.bmp"
+            }
+            num_matrix_shutters	2	1
+            matrix_shutter 2 0 {
+                pos 0	$ACI_SHUTTER_RIGHT	$ACI_SHUTTER_CENTER
+                pos 1	800			$ACI_SHUTTER_CENTER
+
+                pos 2	800			$ACI_SHUTTER_CENTER
+                pos 3	$ACI_SHUTTER_RIGHT	$ACI_SHUTTER_CENTER
+
+                delta	$SHUTTER_DELTA_X	0
+
+                name	"resource/iscreen/ldata/l8/bitmap/g1.bmp"
+            }
+
+            id	$ACI_SHOP_SCREEN_ID		"LocScreen08Shop"
+            id	$ACI_PRICE_PANEL_ID		"PricePanelBMP"
+            id	$ACI_MATRIX_BORDER_ID		"MatrixBorder"
+            id	$ACI_SMATRIX_BORDER_ID		"sMatrixBorder"
+            id	$ACI_MECHOS_ID_OBJ		"MechNameObj"
+            id	$ACI_MECHOS_ID_STR		"MechNameStr"
+            id	$ACI_MECHOS_AVI_ID		"AVI Element"
+            id	$ACI_TRIGGER_ID 		"TRIG00"
+            id	$ACI_INFO_PANEL_ID		"InfoPanelBMP"
+            id	$ACI_CREDITS_PANEL_ID		"CreditsBMP"
+
+            id	$ACI_ITEMS_MENU_ID		"ItemsMenuBMP"
+            id	$ACI_AVI_OBJ_ID 		"Avi00"
+
+            id	$ACI_WEAPONS_BUTTON_ID		"Button06el"
+            id	$ACI_MECHOS_BUTTON_ID		"Button07el"
+            id	$ACI_ITEMS_BUTTON_ID		"Button08el"
+            id	$ACI_MENU_BUTTON_ID		"Button11el"
+
+            s_id	$ACI_QUEST_PANEL_ID		"QuestPanelBMP"
+            s_id	$ACI_ANSWER_PANEL_ID		"AnswerPanelBMP"
+            s_id	$ACI_TIME_PANEL_ID		"TimePanelBMP"
+    }
 }
 
 /* ------------------------- END OF ISCREEN SECTION ------------------------- */

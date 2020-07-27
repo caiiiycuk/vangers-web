@@ -91,6 +91,9 @@
 #define eCmpPassEarth      "Passage to Earth"
 #define rCmpPassEarth      "Коридор на Землю"
 
+#define eCmpRostrum            "Rostrum"
+#define rCmpRostrum            "Ростра"
+
 
 #define SuccessTaskMessageData	"TabuTask Complete"
 #define FailedTaskMessageData	"TabuTask Failed"

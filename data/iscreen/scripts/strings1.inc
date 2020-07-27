@@ -91,6 +91,7 @@
 #define iSTR_Fostral			$iSTR_Fostral1
 #define iSTR_Glorx			$iSTR_Glorx1
 #define iSTR_Necross			$iSTR_Necross1
+#define iSTR_Satadi			$iSTR_Satadi1
 #define iSTR_Team_Mode			$iSTR_Team_Mode1
 #define iSTR_Access			$iSTR_Access1
 #define iSTR_All_Worlds 		$iSTR_All_Worlds1

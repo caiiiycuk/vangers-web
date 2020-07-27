@@ -1659,7 +1659,7 @@ void iGetMultiGameParameters(void)
 			my_server_data.Van_War.TeamMode = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY);
-            if(strcmp(game_name,"arena")==0) value = 2;
+            if(strcmp(game_name,"arena")==0) value = 3;
             if(strcmp(game_name,"neptune")==0) value = 2;
 			my_server_data.Van_War.Nascency = value - 1;
 
@@ -1783,8 +1783,8 @@ void iSetMultiGameParameters(void)
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_TEAM_MODE,value);
 
 			value = my_server_data.Van_War.Nascency + 1;
-			if(value > 3) value = 0;
-			if(strcmp(game_name,"arena")==0) value = 2;
+			if(value > 4) value = 0;
+			if(strcmp(game_name,"arena")==0) value = 3;
             if(strcmp(game_name,"neptune")==0) value = 2;
 			iSetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY,value);
 

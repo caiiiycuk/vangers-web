@@ -992,14 +992,19 @@ void VangerUnit::Destroy(void)
 						ChangeWorldConstraction = CurrentWorld;
 						break;
 					case VAN_WAR:
-						if(my_server_data.Van_War.Nascency == -1) ChangeWorldConstraction = RND(3);
-						else ChangeWorldConstraction = my_server_data.Van_War.Nascency;
+						if (my_server_data.Van_War.Nascency == -1) {
+                            ChangeWorldConstraction = RND(3);
+						} else if (my_server_data.Van_War.Nascency == 3) {
+                            ChangeWorldConstraction = WORLD_SATADI;
+						} else {
+                            ChangeWorldConstraction = my_server_data.Van_War.Nascency;
+						}
 						break;
 					case PASSEMBLOSS:
 						if(UsedCheckNum == 0) ChangeWorldConstraction = GloryPlaceData[0].World;
 						else{
 							for(i = UsedCheckNum - 1;i >= 0;i--){
-								if(GloryPlaceData[i].World  < MAIN_WORLD_MAX - 1){
+								if(GloryPlaceData[i].World < MAIN_WORLD_MAX - 1){
 									ChangeWorldConstraction = GloryPlaceData[i].World;
 									break;
 								};
@@ -7671,7 +7676,7 @@ void BunchEvent(int type)
 	GeneralObject* p;
 	switch(type){
 		case BUNCH_CHANGE_CYCLE:
-			if(CurrentWorld >= MAIN_WORLD_MAX - 1) return;
+			if((CurrentWorld >= MAIN_WORLD_MAX - 1) && (CurrentWorld != WORLD_MAX - 1)) return;
 			WorldPalCurrent = uvsCurrentCycle;
 			if(WorldPalCurrent >= WorldPalNum) WorldPalCurrent = 0;
 //			StartSetColor(100,WorldPalData[WorldPalCurrent]);
@@ -12633,7 +12638,7 @@ void ObjectDestroy(GeneralObject* n,int mode)
 					};
 					p = (VangerUnit*)(p->NextTypeList);
 				};
-				if(CurrentWorld  < MAIN_WORLD_MAX - 1 && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
+				if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
 			};
 		};
 		
@@ -13827,8 +13832,8 @@ void XpeditionOFF(int type)
 	};
 };
 
-const int NETWORK_NUM_ESCAVE = 7;
-const char* NetworkEscaveName[NETWORK_NUM_ESCAVE] ={"Podish","Incubator","VigBoo","Lampasso","Ogorod","ZeePa","B-Zone"};
+const int NETWORK_NUM_ESCAVE = 8;
+const char* NetworkEscaveName[NETWORK_NUM_ESCAVE] ={"Podish","Incubator","VigBoo","Lampasso","Ogorod","ZeePa","B-Zone","Rostrum"};
 
 void NetworkGetStart(char* name,int& x,int& y)
 {
@@ -13836,12 +13841,7 @@ void NetworkGetStart(char* name,int& x,int& y)
 	SensorSortedData = new SensorDataType*[SnsTableSize];
 	StaticSort(SnsTableSize,(StaticObject**)SensorObjectData,(StaticObject**)SensorSortedData);
 
-    // CxInfo: if we're in Arena, set exiting point so that we'll happen to be in the center of Satadi upon exiting an escave
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
-        x = 1024;
-        y = 1024;
-        return;
-    };
+    // CxInfo: here we can change x and y (and then "return;") to manually change spawn point upon exiting an escave
 
 	for(i = 0;i < NETWORK_NUM_ESCAVE;i++){
 		if(!strcmp(name,NetworkEscaveName[i])){

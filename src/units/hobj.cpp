@@ -170,7 +170,7 @@ void OpenCyclicPal(void)
 	int i;
 	XStream fin;	
 	
-	if(CurrentWorld < MAIN_WORLD_MAX - 1){
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
 		WorldPalNum = WorldTable[CurrentWorld]->escT[0]->Pbunch->cycleN;
 		WorldPalData = new uchar*[WorldPalNum];
 		WorldPalCurrent = WorldTable[CurrentWorld]->escT[0]->Pbunch->currentStage;		
@@ -187,7 +187,7 @@ void OpenCyclicPal(void)
 void CloseCyclicPal(void)
 {
 	int i;
-	if(CurrentWorld < MAIN_WORLD_MAX - 1){
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
 		for(i = 0;i < WorldPalNum;i++) {
 			delete[] WorldPalData[i];
 		}
@@ -656,6 +656,7 @@ void GeneralSystemOpen(void)
 					AddTarget2Compas(CMP_TARGET_PASSAGE,(void*)("A2N"),rCmpPassNecross);
 					break;
 			    case WORLD_SATADI:
+                    AddTarget2Compas(CMP_TARGET_ESCAVE,(void*)("Rostrum"),rCmpRostrum);
                     AddTarget2Compas(CMP_TARGET_SENSOR,(void*)("FireUpdate1"),rCmpGhOrb);
                     break;
 			};
@@ -723,6 +724,7 @@ void GeneralSystemOpen(void)
 					AddTarget2Compas(CMP_TARGET_PASSAGE,(void*)("A2N"),eCmpPassNecross	);
 					break;
 			    case WORLD_SATADI:
+                    AddTarget2Compas(CMP_TARGET_ESCAVE,(void*)("Rostrum"),eCmpRostrum);
                     AddTarget2Compas(CMP_TARGET_SENSOR,(void*)("FireUpdate1"),eCmpGhOrb);
                     break;
 			};
@@ -1221,7 +1223,7 @@ void GameObjectDispatcher::Quant(void)
 			p = (VangerUnit*)(p->NextTypeList);
 		};
 
-		if(CurrentWorld  < MAIN_WORLD_MAX - 1 && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
+		if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
 
 		GlobalTime = GLOBAL_CLOCK();
 		FirstQuant = 0;
@@ -2432,7 +2434,7 @@ void CloseBunchPal(void)
 	Vector vColor,vCheck;
 	int MaxVector,dc;
 
-	if(uvsCurrentWorldUnable && CurrentWorld < MAIN_WORLD_MAX - 1){
+	if(uvsCurrentWorldUnable && ((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1))){
 		vColor = Vector(63,63,63);
 		MaxVector = vColor.vabs();		
 
@@ -2470,7 +2472,7 @@ void GeneralTableOpen(void)
 			FirstColorPlace[CurrentWorld][i] = BEGCOLOR[i]; 
 		};
 
-		if(uvsCurrentWorldUnable && CurrentWorld < MAIN_WORLD_MAX - 1){
+		if(uvsCurrentWorldUnable && ((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1))){
 			vColor = Vector(63,63,63);
 			MaxVector = vColor.vabs();		
 
@@ -2496,7 +2498,7 @@ void GeneralTableOpen(void)
 			}else WaterColorTable[i] = i;
 		};
 
-		if(CurrentWorld < MAIN_WORLD_MAX - 1) {
+		if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) {
 			for(k = 0;k < WorldPalNum;k++) {
 			    FirePaletteInit(WorldPalData[k]);
 			    PlasmaPaletteInit(WorldPalData[k]);

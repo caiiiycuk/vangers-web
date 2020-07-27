@@ -342,7 +342,11 @@ void ItemsDispatcher::Close(void)
 //				uvsKronDeleteItem(p->uvsDeviceType,p->ActIntBuffer.data0,p->ActIntBuffer.data1);
 			}else{
 				if(p->CreateMode != STUFF_CREATE_RELAX){
-					if(((int)(RND(100)) < aiCutLuck || p->Hour == ConTimer.hour || p->ActIntBuffer.type == ACI_TABUTASK_SUCCESSFUL || p->ActIntBuffer.type == ACI_TABUTASK || CurrentWorld >= MAIN_WORLD_MAX) && 
+					if(((int)(RND(100)) < aiCutLuck
+					|| p->Hour == ConTimer.hour
+					|| p->ActIntBuffer.type == ACI_TABUTASK_SUCCESSFUL
+					|| p->ActIntBuffer.type == ACI_TABUTASK
+					|| ((CurrentWorld >= MAIN_WORLD_MAX) && (CurrentWorld != WORLD_MAX - 1))) &&
 					   (p->ActIntBuffer.type != ACI_ZEEX && p->ActIntBuffer.type != ACI_BEEBOORAT && p->ActIntBuffer.type != ACI_ELEEPOD && p->ActIntBuffer.type != ACI_TABUTASK_FAILED && p->ActIntBuffer.type != ACI_BOORAWCHIK)){
 						g = new uvsItem(p->uvsDeviceType);
 						g->param1 = p->ActIntBuffer.data0;
@@ -2921,7 +2925,7 @@ void HordeObject::DrawQuant(void)
 			if(tx > UcutLeft && tx < UcutRight && ty > VcutUp && ty < VcutDown) XGR_SetPixelFast(tx,ty,p->Color >> 8);
 		};
 	}else{
-		if(CurrentWorld < MAIN_WORLD_MAX - 1){
+		if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
 			for(i = 0,p = Data;i < NumParticle;i++,p++){
 				p->QuantP(R_curr << 8, vDelta << 8,3 << 8,5);
 				tx = ((int)round(SPGetDistX(p->vR.x,SPViewX) * ScaleMapInvFlt) >> 8) + ScreenCX;

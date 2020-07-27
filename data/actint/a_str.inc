@@ -262,3 +262,6 @@
 #define ESCAVE_NAME71	"Spobs"
 #define ESCAVE_NAME72	"Спобс"
 
+#define ESCAVE_NAME81	"Rostrum"
+#define ESCAVE_NAME82	"Ростра"
+

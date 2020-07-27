@@ -133,7 +133,7 @@ const int uvsVANGER_KILLED = 2;
 /* --------------------------- DEFINITION SECTION -------------------------- */
 
 const char* BIOS_NAMES[BIOS_MAX] = {
-	"Eleepods", "Beeboorats", "Zeexes"
+	"Eleepods", "Beeboorats", "Zeexes", "Spectators"
 	};
 
 #ifdef _DEMO_
@@ -585,8 +585,15 @@ void uniVangPrepare(void){
 			    i == UVS_ITEM_TYPE::GHORB_GEAR_LIGHT ) ||
                 (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0))
 #endif
-				for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
-			else
+            {
+                for (int j = 0; j < MAIN_WORLD_MAX + 1; j++) {
+                    if (j == MAIN_WORLD_MAX) {
+                        WorldTable[WORLD_MAX-1]->generate_item(i);
+                    } else {
+                        WorldTable[j]->generate_item(i);
+                    }
+                }
+            } else
 				WorldTable[RND(3)] -> generate_item( i );
 
 		} else if (uvsItemTable[i] -> type == UVS_ITEM_STATUS::DEVICE){
@@ -596,7 +603,7 @@ void uniVangPrepare(void){
 #else
 
 			if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)
-                for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item( i );
+                WorldTable[WORLD_MAX - 1] -> generate_item( i );
             else {
                 switch(i){
                     case UVS_ITEM_TYPE::COPTE_RIG:
@@ -640,7 +647,7 @@ void uniVangPrepare(void){
 	meanN = 0;
 
 	//zNfo инициализация мехосов
-  if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0) {
+  if (NetworkON && (my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0)) {
     guaranteedMechoses = MAX_MECHOS_TYPE;
   }
 	for( int k = 0; k < guaranteedMechoses; k++){
@@ -745,10 +752,13 @@ void uniVangPrepare(void){
 		switch (my_server_data.GameType){
 		case VAN_WAR:
 			aciUpdateCurCredits(my_server_data.Van_War.InitialCash);
-			if (my_server_data.Van_War.Nascency == 255 || my_server_data.Van_War.Nascency == -1)
-				uvsRandomWorld = my_server_data.Van_War.Nascency;
-			else
-				CurrentWorld = my_server_data.Van_War.Nascency;
+			if (my_server_data.Van_War.Nascency == 255 || my_server_data.Van_War.Nascency == -1) {
+                uvsRandomWorld = my_server_data.Van_War.Nascency;
+            } else if (my_server_data.Van_War.Nascency == 3) {
+                CurrentWorld = WORLD_SATADI;
+            } else {
+                CurrentWorld = my_server_data.Van_War.Nascency;
+			}
 
 			if (my_server_data.Van_War.WorldAccess)
 				uvsNetworkChangeWorld = 1;
@@ -3389,7 +3399,12 @@ uvsBunch::uvsBunch(PrmFile* pfile,char* atom){
 		int out  = 0;
 		while( !out ){
 			out = 1;
-			cycleTable[i].Pdolly = WorldTable[getRW(Pescave -> Pworld -> gIndex)] -> generateDolly(biosNindex);
+            // CxInfo: don't need dolly for Satadi "bios", so we'll put her to Satadi
+			if (biosNindex == 3) {
+                cycleTable[i].Pdolly = WorldTable[WORLD_SATADI] -> generateDolly(biosNindex);
+		    } else {
+                cycleTable[i].Pdolly = WorldTable[getRW(Pescave -> Pworld -> gIndex)] -> generateDolly(biosNindex);
+		    }
 			if ( cycleTable[i].Pdolly == NULL  ) out = 0;
 		}//  end while
 	}//  end for i
@@ -3496,7 +3511,7 @@ uvsBunch::uvsBunch(XStream& pf, PrmFile* pfile,char* atom){
 		while(pd){
 			if(pd -> gIndex == cd ) break;
 			pd = (uvsDolly*)pd -> next;
-			}
+		}
 		if(!pd)
 			ErrH.Abort(PrmWrongValue,XERR_USER,-1,"Dolly");
 		cycleTable[i].Pdolly = pd;
@@ -3511,7 +3526,8 @@ uvsBunch::uvsBunch(XStream& pf, PrmFile* pfile,char* atom){
 void uvsBunch::save(XStream& pfile){
 	int i, j;
 	for(i = 0;i < cycleN;i++){
-		pfile < cycleTable[i].cirtQ;
+        std::cout<<"    CxDebug: uvsBunch::save, i<cycleN, cycleN:"<<cycleN<<", i:"<<i<<", cycleTable[i].name:"<<cycleTable[i].name<<std::endl;
+	    pfile < cycleTable[i].cirtQ;
 		pfile < cycleTable[i].GamerCirt;
 
 		if ( cycleTable[i].Pgame ){
@@ -3530,6 +3546,7 @@ void uvsBunch::save(XStream& pfile){
 					pfile < cycleTable[i].Pgame -> score[j];
 			}
 		}
+        std::cout<<"    CxDebug: ritual done, now processing dolly"<<std::endl;
 		pfile < cycleTable[i].Pdolly -> gIndex;
 	}
 
@@ -4675,7 +4692,7 @@ uvsVanger::uvsVanger(uvsEscave* pe){
 
 	pos_x = pe -> pos_x;
 	pos_y = pe -> pos_y;
-	biosNindex = RND(BIOS_MAX);				    // bios случайный
+	biosNindex = RND(BIOS_MAX-1);				    // bios случайный, кроме "биоса" Сатади
 	orderT = new uvsOrder[ORDER_V_MAX];
 	speed = 10 + RND(V_SPEED_MAX);
 	locTimer = 0;
@@ -7525,7 +7542,7 @@ void uvsVanger::destroy(int how){
 	pos_x =  Pescave -> pos_x;
 	pos_y =  Pescave -> pos_y;
 
-	biosNindex = RND(BIOS_MAX);				    // bios случайный
+	biosNindex = RND(BIOS_MAX-1);				    // bios случайный, кроме "биоса" Сатади
 	//orderT = new uvsOrder[ORDER_V_MAX];
 	for ( i = 0; i < ORDER_V_MAX; i++){
 		orderT[i].type = UVS_ORDER::NONE;
@@ -9095,15 +9112,21 @@ void uvsWorld::generate_item(int n){
 		if ( uvsItemTable[n] -> type == UVS_ITEM_STATUS::WEAPON) count = 1;
 
 		for( i = 0; i < count; i++){
-			if ( i >= (count/2)){
-				int _i_ = RND(escTmax);
-				escT[_i_] -> Pshop -> ItemHere[n] = 1;
-				(pi = new uvsItem(n)) -> link(escT[_i_] -> Pshop -> Pitem);
-			} else {
-				int _i_ = RND(sptTmax);
-				sptT[_i_] -> Pshop -> ItemHere[n] = 1;
-				(pi = new uvsItem(n)) -> link(sptT[_i_] -> Pshop -> Pitem);
-			}
+			if (sptTmax > 0) {
+			    if ( i >= (count/2)){
+                    int _i_ = RND(escTmax);
+                    escT[_i_] -> Pshop -> ItemHere[n] = 1;
+                    (pi = new uvsItem(n)) -> link(escT[_i_] -> Pshop -> Pitem);
+                } else {
+                    int _i_ = RND(sptTmax);
+                    sptT[_i_] -> Pshop -> ItemHere[n] = 1;
+                    (pi = new uvsItem(n)) -> link(sptT[_i_] -> Pshop -> Pitem);
+                }
+		    } else {
+			    int _i_ = RND(escTmax);
+                escT[_i_] -> Pshop -> ItemHere[n] = 1;
+                (pi = new uvsItem(n)) -> link(escT[_i_] -> Pshop -> Pitem);
+		    }
 #ifdef _ROAD_
 			/*if( uvsItemTable[pi -> type] -> type == UVS_ITEM_STATUS::DEVICE ) pi -> param1 = UVS_DEVICE_POWER;
 			if( uvsItemTable[pi -> type] -> type == UVS_ITEM_STATUS::AMMO ) pi -> param2 = uvsItemTable[pi -> type] -> count;

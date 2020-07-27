@@ -770,7 +770,7 @@ void ParticleObject::DrawQuant(void)
 				phi += dphi;
 			};
 		}else{
-			if(CurrentWorld < MAIN_WORLD_MAX - 1){			
+			if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
 				for(i = 0,p = Data;i < NumParticle;i++,p++){
 					p->QuantRingOfLord(Vector(R_curr.x << 8,R_curr.y << 8,R_curr.z << 8),abs(25 * SI[rPI(phi >> 8)] >> 8),32);
 					vPos = p->vR;
@@ -817,7 +817,7 @@ void ParticleObject::DrawQuant(void)
 				};
 			};
 		}else{
-			if(CurrentWorld < MAIN_WORLD_MAX - 1){
+			if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
 				for(i = 0,p = Data;i < NumParticle;i++,p++){
 					p->Quant();
 					vPos = p->vR;

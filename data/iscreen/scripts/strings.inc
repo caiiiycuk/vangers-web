@@ -259,6 +259,9 @@
 #define iSTR_Necross1			"Necross"
 #define iSTR_Necross2			"Некросс"
 
+#define iSTR_Satadi1			"Satadi"
+#define iSTR_Satadi2			"Сатади"
+
 #define iSTR_Team_Mode1 		"Team Mode:"
 #define iSTR_Team_Mode2 		"Командная Игра:"
 
