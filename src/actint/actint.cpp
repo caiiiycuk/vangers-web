@@ -3925,6 +3925,10 @@ void actIntDispatcher::init(void)
 		curMatrix = alloc_matrix(curMatrixID);
 	}
 #endif
+	// CxInfo: skip shop for the first spawn on Arena
+	if((NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) && !curMatrix){
+		curMatrix = alloc_matrix(curMatrixID);
+	}
 
 	ibs = (ibsObject*)ibsList -> last;
 	while(ibs){

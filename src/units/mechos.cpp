@@ -4597,6 +4597,7 @@ void VangerUnit::InitEnvironment(void)
 							}while(i < SnsTableSize && SensorSortedData[i]->R_curr.y < y1);
 						};
 
+						// CxInfo: how to manipulate camera
 						if(ActD.SpobsEntrance){
 							if(!ActD.CameraModifier){
 								camera_direct(1650,820,1 << 8,0,0,20);
@@ -5035,7 +5036,7 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 		case SensorTypeList::SENSOR:
 			if(DoorFlag){
 				if(p->Owner){
-					if(p->Owner->Type == EngineTypeList::DOOR){
+					if(p->Owner->Type == EngineTypeList::DOOR && !(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)){
 						d = (DoorEngine*)(p->Owner);
 						if(d->Luck > 0){
 							if((int)(RND(d->Luck)) <= aiCutLuck){
