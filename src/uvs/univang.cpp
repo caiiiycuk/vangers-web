@@ -1097,51 +1097,59 @@ void uvsContimer::Quant(void){
 				// CxDebug: put autoexit and autoequip here
 			} else if (ActD.Active) {
 				if (my_server_data.GameType == PASSEMBLOSS && UsedCheckNum < GloryPlaceNum) {
-					if (GloryPlaceData[UsedCheckNum].World == CurrentWorld) {
-						FindSensor("MovableSensor")->R_curr.x = GloryPlaceData[UsedCheckNum].R_curr.x;
-						FindSensor("MovableSensor")->R_curr.y = GloryPlaceData[UsedCheckNum].R_curr.y;
+					if ((ActD.Active->PassageCount < 2) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01"))) {
 						if (lang() == RUSSIAN) {
-							SelectCompasTarget(rCmpBotCheck);
+							SelectCompasTarget(rCmpSpiral);
 						} else {
-							SelectCompasTarget(eCmpBotCheck);
+							SelectCompasTarget(eCmpSpiral);
 						}
 					} else {
-						pass = GetPassage(CurrentWorld,GloryPlaceData[UsedCheckNum].World);
-						passName = pass->GetName();
-						if (lang() == RUSSIAN) {
-							if (strcmp(passName,"F2G")==0) SelectCompasTarget(rCmpPassGlorx);
-							if (strcmp(passName,"F2W")==0) SelectCompasTarget(rCmpPassWeexow);
-							if (strcmp(passName,"G2F")==0) SelectCompasTarget(rCmpPassFostral);
-							if (strcmp(passName,"G2N")==0) SelectCompasTarget(rCmpPassNecross);
-							if (strcmp(passName,"G2X")==0) SelectCompasTarget(rCmpPassXplo);
-							if (strcmp(passName,"G2K")==0) SelectCompasTarget(rCmpPassKhox);
-							if (strcmp(passName,"N2G")==0) SelectCompasTarget(rCmpPassGlorx);
-							if (strcmp(passName,"N2B")==0) SelectCompasTarget(rCmpPassBoozeena);
-							if (strcmp(passName,"N2A")==0) SelectCompasTarget(rCmpPassArk);
-							if (strcmp(passName,"X2G")==0) SelectCompasTarget(rCmpPassGlorx);
-							if (strcmp(passName,"X2T")==0) SelectCompasTarget(rCmpPassThreall);
-							if (strcmp(passName,"W2F")==0) SelectCompasTarget(rCmpPassFostral);
-							if (strcmp(passName,"T2X")==0) SelectCompasTarget(rCmpPassXplo);
-							if (strcmp(passName,"K2G")==0) SelectCompasTarget(rCmpPassGlorx);
-							if (strcmp(passName,"B2N")==0) SelectCompasTarget(rCmpPassNecross);
-							if (strcmp(passName,"A2N")==0) SelectCompasTarget(rCmpPassNecross);
+						if (GloryPlaceData[UsedCheckNum].World == CurrentWorld) {
+							FindSensor("MovableSensor")->R_curr.x = GloryPlaceData[UsedCheckNum].R_curr.x;
+							FindSensor("MovableSensor")->R_curr.y = GloryPlaceData[UsedCheckNum].R_curr.y;
+							if (lang() == RUSSIAN) {
+								SelectCompasTarget(rCmpBotCheck);
+							} else {
+								SelectCompasTarget(eCmpBotCheck);
+							}
 						} else {
-							if (strcmp(passName,"F2G")==0) SelectCompasTarget(eCmpPassGlorx);
-							if (strcmp(passName,"F2W")==0) SelectCompasTarget(eCmpPassWeexow);
-							if (strcmp(passName,"G2F")==0) SelectCompasTarget(eCmpPassFostral);
-							if (strcmp(passName,"G2N")==0) SelectCompasTarget(eCmpPassNecross);
-							if (strcmp(passName,"G2X")==0) SelectCompasTarget(eCmpPassXplo);
-							if (strcmp(passName,"G2K")==0) SelectCompasTarget(eCmpPassKhox);
-							if (strcmp(passName,"N2G")==0) SelectCompasTarget(eCmpPassGlorx);
-							if (strcmp(passName,"N2B")==0) SelectCompasTarget(eCmpPassBoozeena);
-							if (strcmp(passName,"N2A")==0) SelectCompasTarget(eCmpPassArk);
-							if (strcmp(passName,"X2G")==0) SelectCompasTarget(eCmpPassGlorx);
-							if (strcmp(passName,"X2T")==0) SelectCompasTarget(eCmpPassThreall);
-							if (strcmp(passName,"W2F")==0) SelectCompasTarget(eCmpPassFostral);
-							if (strcmp(passName,"T2X")==0) SelectCompasTarget(eCmpPassXplo);
-							if (strcmp(passName,"K2G")==0) SelectCompasTarget(eCmpPassGlorx);
-							if (strcmp(passName,"B2N")==0) SelectCompasTarget(eCmpPassNecross);
-							if (strcmp(passName,"A2N")==0) SelectCompasTarget(eCmpPassNecross);
+							pass = GetPassage(CurrentWorld,GloryPlaceData[UsedCheckNum].World);
+							passName = pass->GetName();
+							if (lang() == RUSSIAN) {
+								if (strcmp(passName,"F2G")==0) SelectCompasTarget(rCmpPassGlorx);
+								if (strcmp(passName,"F2W")==0) SelectCompasTarget(rCmpPassWeexow);
+								if (strcmp(passName,"G2F")==0) SelectCompasTarget(rCmpPassFostral);
+								if (strcmp(passName,"G2N")==0) SelectCompasTarget(rCmpPassNecross);
+								if (strcmp(passName,"G2X")==0) SelectCompasTarget(rCmpPassXplo);
+								if (strcmp(passName,"G2K")==0) SelectCompasTarget(rCmpPassKhox);
+								if (strcmp(passName,"N2G")==0) SelectCompasTarget(rCmpPassGlorx);
+								if (strcmp(passName,"N2B")==0) SelectCompasTarget(rCmpPassBoozeena);
+								if (strcmp(passName,"N2A")==0) SelectCompasTarget(rCmpPassArk);
+								if (strcmp(passName,"X2G")==0) SelectCompasTarget(rCmpPassGlorx);
+								if (strcmp(passName,"X2T")==0) SelectCompasTarget(rCmpPassThreall);
+								if (strcmp(passName,"W2F")==0) SelectCompasTarget(rCmpPassFostral);
+								if (strcmp(passName,"T2X")==0) SelectCompasTarget(rCmpPassXplo);
+								if (strcmp(passName,"K2G")==0) SelectCompasTarget(rCmpPassGlorx);
+								if (strcmp(passName,"B2N")==0) SelectCompasTarget(rCmpPassNecross);
+								if (strcmp(passName,"A2N")==0) SelectCompasTarget(rCmpPassNecross);
+							} else {
+								if (strcmp(passName,"F2G")==0) SelectCompasTarget(eCmpPassGlorx);
+								if (strcmp(passName,"F2W")==0) SelectCompasTarget(eCmpPassWeexow);
+								if (strcmp(passName,"G2F")==0) SelectCompasTarget(eCmpPassFostral);
+								if (strcmp(passName,"G2N")==0) SelectCompasTarget(eCmpPassNecross);
+								if (strcmp(passName,"G2X")==0) SelectCompasTarget(eCmpPassXplo);
+								if (strcmp(passName,"G2K")==0) SelectCompasTarget(eCmpPassKhox);
+								if (strcmp(passName,"N2G")==0) SelectCompasTarget(eCmpPassGlorx);
+								if (strcmp(passName,"N2B")==0) SelectCompasTarget(eCmpPassBoozeena);
+								if (strcmp(passName,"N2A")==0) SelectCompasTarget(eCmpPassArk);
+								if (strcmp(passName,"X2G")==0) SelectCompasTarget(eCmpPassGlorx);
+								if (strcmp(passName,"X2T")==0) SelectCompasTarget(eCmpPassThreall);
+								if (strcmp(passName,"W2F")==0) SelectCompasTarget(eCmpPassFostral);
+								if (strcmp(passName,"T2X")==0) SelectCompasTarget(eCmpPassXplo);
+								if (strcmp(passName,"K2G")==0) SelectCompasTarget(eCmpPassGlorx);
+								if (strcmp(passName,"B2N")==0) SelectCompasTarget(eCmpPassNecross);
+								if (strcmp(passName,"A2N")==0) SelectCompasTarget(eCmpPassNecross);
+							}
 						}
 					}
 				} else if (my_server_data.GameType == MECHOSOMA) {

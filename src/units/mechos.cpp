@@ -5231,8 +5231,8 @@ void VangerUnit::SensorQuant(void)
 					break;
 				case SensorTypeList::PASSAGE:
 					if(Status & SOBJ_AUTOMAT){
-						if(aiLocalTarget && aiLocalTarget->Type == UNIT_ORDER_PASSAGE && ((aiLocalTarget->Obj).PassageT)->ActionLink == ExternalSensor){
-
+						if((aiLocalTarget && aiLocalTarget->Type == UNIT_ORDER_PASSAGE && ((aiLocalTarget->Obj).PassageT)->ActionLink == ExternalSensor) || (ai() != PLAYER)){
+							if ((ai() != PLAYER) && (PassageCount > 0)) PassageCount--;
 //							if(MainOrderID != UVS_TARGET::PASSAGE)
 //								ErrH.Abort("Bad Target Sesion");
 //							SensorDebugFlag |= 4;
