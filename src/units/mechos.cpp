@@ -4792,6 +4792,7 @@ void VangerUnit::InitEnvironment(void)
 	};*/
 };
 
+// CxInfo: interactions for bots
 void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 {
 	int etype;
@@ -4805,11 +4806,20 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 			case SensorTypeList::PASSAGE:
 			case SensorTypeList::TRAIN:
 			case SensorTypeList::TRAP:
-				if(!(Status & SOBJ_ACTIVE)){
-					if(ExternalSensor){
-						if(ExternalSensor == ExternalObject && ExternalObject != p) ExternalSensor = p;
-					}else ExternalSensor = p;
-				};
+				if (ai() != PLAYER) {
+					if(ActD.PassageTouchEnable) ActD.PassageTouchEnable = MAX_PASSAGE_DELAY;
+					if(!BeebonationFlag){
+						if(ExternalSensor){
+							if(ExternalSensor == ExternalObject && ExternalObject != p) ExternalSensor = p;
+						}else ExternalSensor = p;
+					};
+				} else {
+					if(!(Status & SOBJ_ACTIVE)){
+						if(ExternalSensor){
+							if(ExternalSensor == ExternalObject && ExternalObject != p) ExternalSensor = p;
+						}else ExternalSensor = p;
+					};
+				}
 				break;
 			case SensorTypeList::IMPULSE:
 				impulse(p->vData,p->Power,0);				
@@ -4845,7 +4855,15 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 			case SensorTypeList::FIRE_UPDATE:				
 				ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
 				ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
-                ChargeWeapon(this,ACI_VERVEMITTER,1);
+				ChargeWeapon(this,ACI_VERVEMITTER,1);
+				break;
+			case SensorTypeList::KEY_UPDATE:
+				if(ai() != PLAYER) {
+					if(PassageCount < MaxPassageCount){
+						aciWorldLinksON();
+						PassageCount = MaxPassageCount;
+					};
+				}
 				break;
 		};
 	}else{

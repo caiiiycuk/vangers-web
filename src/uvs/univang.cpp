@@ -1036,9 +1036,9 @@ void uvsBunch::Check(char* subj){
 }
 
 void uvsContimer::Quant(void){
-    double activityLevel;
+	double activityLevel;
 
-    counter++;
+	counter++;
 	if(++sec == 60){
 		sec = 0;
 		listElem* l = BunchTail;
@@ -1078,63 +1078,68 @@ void uvsContimer::Quant(void){
 		}
 	}
 
-	if (ai() != PLAYER && CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT)) {
-		std::cout<<"CxDebug: Restored Auto mode"<<std::endl;
-		ActD.Active->Status ^= SOBJ_AUTOMAT;
+	if (ActD.Active) {
+		if (ai() != PLAYER && CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT) && ActD.Active->ExternalMode == EXTERNAL_MODE_NORMAL) {
+			std::cout<<"CxDebug: Restoring Auto mode"<<std::endl;
+			ActD.Active->Status ^= SOBJ_AUTOMAT;
+		}
 	}
+//	if (ai() != PLAYER) {
+//		makeDecision();
+//	}
 
-    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+	char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
-    if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
-        if (CurrentWorld==10) {
-            // after 10, next 20, next 30, then each 60 ~sec
-            countFromDeath++;
-            if (countFromDeath==200 || countFromDeath==600 || countFromDeath%1200==0) {
-                int cr, bonus, bonus_len;
-                char *bonus_msg;
+	if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
+		if (CurrentWorld==10) {
+			// after 10, next 20, next 30, then each 60 ~sec
+			countFromDeath++;
+			if (countFromDeath==200 || countFromDeath==600 || countFromDeath%1200==0) {
+				int cr, bonus, bonus_len;
+				char *bonus_msg;
 
-                stagesFromDeath++;
-                cr = aciGetCurCredits();
+				stagesFromDeath++;
+				cr = aciGetCurCredits();
 
-                if (cr > 2000000) {
-                    bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + 5];
-                    strcpy(bonus_msg,bot_tag);
-                    strcat(bonus_msg,aciGetPlayerName());
-                    strcat(bonus_msg," +0$");
-                    message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
+				if (cr > 2000000) {
+					bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + 5];
+					strcpy(bonus_msg,bot_tag);
+					strcat(bonus_msg,aciGetPlayerName());
+					strcat(bonus_msg," +0$");
+					message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                    std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
-                } else {
-                    bonus = 1000 * pow(2,stagesFromDeath-1) * (int(my_player_body.kills)+1);
+					std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
+				} else {
+					bonus = 1000 * pow(2,stagesFromDeath-1) * (int(my_player_body.kills)+1);
 
-                    if (bonus > 250000) bonus = 250000;
-                    cr += bonus;
-                    aciUpdateCurCredits(cr);
-                    SetWorldBeebos(cr);
+					if (bonus > 250000) bonus = 250000;
+					cr += bonus;
+					aciUpdateCurCredits(cr);
+					SetWorldBeebos(cr);
 
-                    bonus_len = (int)floor(log10(bonus))+1;
-                    char bonus_str[bonus_len+1];
-                    sprintf(bonus_str, "%d", bonus);
+					bonus_len = (int)floor(log10(bonus))+1;
+					char bonus_str[bonus_len+1];
+					sprintf(bonus_str, "%d", bonus);
 
-                    bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + bonus_len + 4];
-                    strcpy(bonus_msg,bot_tag);
-                    strcat(bonus_msg,aciGetPlayerName());
-                    strcat(bonus_msg," +");
-                    strcat(bonus_msg,bonus_str);
-                    strcat(bonus_msg,"$");
-                    message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
+					bonus_msg = new char[strlen(bot_tag) + strlen(aciGetPlayerName()) + bonus_len + 4];
+					strcpy(bonus_msg,bot_tag);
+					strcat(bonus_msg,aciGetPlayerName());
+					strcat(bonus_msg," +");
+					strcat(bonus_msg,bonus_str);
+					strcat(bonus_msg,"$");
+					message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                    std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
-                }
-                activityLevel = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
-                std::cout<<"CxDebug: ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
-                getWorld(1)->updateResource();
-            }
-        } else {
-            countFromDeath = 0;
-            stagesFromDeath = 0;
-        }
-    }
+					std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+				}
+				activityLevel = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
+				std::cout<<"CxDebug: ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
+				getWorld(1)->updateResource();
+			}
+		} else {
+			countFromDeath = 0;
+			stagesFromDeath = 0;
+		}
+	}
 }
 
 char* uvsContimer::GetTime(void){

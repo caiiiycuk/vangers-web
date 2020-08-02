@@ -1640,12 +1640,12 @@ void KeyCenter(SDL_Event *key)
 			break;
 #endif
 #ifdef SCREENSHOT
- 		case SDL_SCANCODE_F4:
-        mod = SDL_GetModState();
-        if (mod&KMOD_SHIFT) {
-    			creat_poster();
-        }
-  			break;
+		case SDL_SCANCODE_F4:
+			mod = SDL_GetModState();
+			if (mod&KMOD_SHIFT) {
+				creat_poster();
+			}
+			break;
 //		case SDL_SCANCODE_F11:
 //			shotFlush();
 //			break;
@@ -1686,14 +1686,14 @@ void KeyCenter(SDL_Event *key)
 			}
 			break;
 			// AI related stuff
-        case SDL_SCANCODE_P:
-            mod = SDL_GetModState();
-            if (mod&KMOD_CTRL && ai() != PLAYER) {
-                std::cout<<"CxDebug: Toggled Auto mode"<<std::endl;
-                //setAi(PLAYER);
-                ActD.Active->Status ^= SOBJ_AUTOMAT;
-            }
-            break;
+		case SDL_SCANCODE_P:
+			mod = SDL_GetModState();
+			if (mod&KMOD_CTRL && ai() != PLAYER) {
+				std::cout<<"CxDebug: Toggling Auto mode"<<std::endl;
+				//setAi(PLAYER);
+				ActD.Active->Status ^= SOBJ_AUTOMAT;
+			}
+			break;
 		}
 	
 	if (iKeyPressed(iKEY_ZOOM_IN)) {
