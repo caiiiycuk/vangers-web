@@ -43,6 +43,18 @@
 #include "univang.h"
 #include "../iscreen/iscreen.h"
 
+#include "../3d/3dgraph.h"
+#include "../3d/3dobject.h"
+#include "../units/hobj.h"
+#include "../units/track.h"
+#include "../units/items.h"
+#include "../terra/world.h"
+#include "../dast/poly3d.h"
+#include "../backg.h"
+#include "../particle/light.h"
+#include "../units/mechos.h"
+#include "../ai.h"
+
 const int TABUTASK_BAD = ACI_TABUTASK_FAILED;
 const int TABUTASK_GOOD = ACI_TABUTASK_SUCCESSFUL;
 
@@ -1065,6 +1077,12 @@ void uvsContimer::Quant(void){
 			}
 		}
 	}
+
+	if (ai() != PLAYER && CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT)) {
+		std::cout<<"CxDebug: Restored Auto mode"<<std::endl;
+		ActD.Active->Status ^= SOBJ_AUTOMAT;
+	}
+
     char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
     if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) {
@@ -1085,7 +1103,7 @@ void uvsContimer::Quant(void){
                     strcat(bonus_msg," +0$");
                     message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                    std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
+                    std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
                 } else {
                     bonus = 1000 * pow(2,stagesFromDeath-1) * (int(my_player_body.kills)+1);
 
@@ -1106,10 +1124,10 @@ void uvsContimer::Quant(void){
                     strcat(bonus_msg,"$");
                     message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-                    std::cout<<"ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+                    std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
                 }
                 activityLevel = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
-                std::cout<<"ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
+                std::cout<<"CxDebug: ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
                 getWorld(1)->updateResource();
             }
         } else {

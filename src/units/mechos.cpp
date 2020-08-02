@@ -8246,13 +8246,15 @@ void ActionDispatcher::DrawResource(void)
 
 void uvsUnitType::UseOxigenResource(void)
 {
-	if(OxigenResource > 0){
-		OxigenResource--;
-		if(ActD.Active && ActD.Active->Status & SOBJ_ACTIVE) ActD.DrawResourceValue = OxigenResource;
-	}else{
-		Armor = 0;
-		Energy = 0;
-	};
+	if (ai() == PLAYER) {
+		if(OxigenResource > 0){
+			OxigenResource--;
+			if(ActD.Active && ActD.Active->Status & SOBJ_ACTIVE) ActD.DrawResourceValue = OxigenResource;
+		}else{
+			Armor = 0;
+			Energy = 0;
+		};
+	}
 };
 
 int CheckStartJump(Object* p)

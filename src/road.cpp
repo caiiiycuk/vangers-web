@@ -1689,7 +1689,8 @@ void KeyCenter(SDL_Event *key)
         case SDL_SCANCODE_P:
             mod = SDL_GetModState();
             if (mod&KMOD_CTRL && ai() != PLAYER) {
-                std::cout<<"Toggled Peelot mode"<<std::endl;
+                std::cout<<"CxDebug: Toggled Auto mode"<<std::endl;
+                //setAi(PLAYER);
                 ActD.Active->Status ^= SOBJ_AUTOMAT;
             }
             break;
