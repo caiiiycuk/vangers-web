@@ -1697,6 +1697,8 @@ void VLload(void)
 		ff.read(sign,strlen(VLCsign[2]));
 		if(memcmp(sign,VLCsign[2],strlen(VLCsign[2]))) ErrH.Abort(errm);
 		ff > SnsTableSize;
+		// CxInfo: reserving one place for movable sensor, used by bots
+		SnsTableSize = SnsTableSize + 1;
 /*#ifndef _NT
 		SnsTableSize = 0;
 #endif*/
@@ -1708,12 +1710,16 @@ void VLload(void)
 			SnsTable[i].link();
 		};
 #else
-//#ifdef _NT	
+//#ifdef _NT
+		// CxInfo: reserving one place for movable sensor, used by bots
 		SensorObjectData = new SensorDataType*[SnsTableSize];
-		for(i = 0;i < SnsTableSize;i++){
+		for(i = 0;i < SnsTableSize-1;i++){
 			SensorObjectData[i] = new SensorDataType;
 			SensorObjectData[i]->CreateSensor(ff,i);
 		};
+		// CxInfo: creating movable sensor for bots
+		SensorObjectData[SnsTableSize-1] = new SensorDataType;
+		SensorObjectData[SnsTableSize-1]->CreateMovableSensor(SnsTableSize-1);
 
 //------------------------------------------------------------------------------
 /*		XStream fff;

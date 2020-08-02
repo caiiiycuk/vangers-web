@@ -13,4 +13,3 @@ enum AiMode {
 
 AiMode ai();
 void setAi(AiMode ai);
-void makeDecision();

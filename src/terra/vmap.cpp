@@ -1651,7 +1651,7 @@ void LoadVPR(int ind)
 		// network cycled life of univang.
 		// 1172609523 eq 2007-02-27 23:52 - starting point.
 		//double t = ((double)zGameBirthTime-1172609523.) / (60.*60.*24.);
-		// Cx 0.3: temporary implementation while there's no Mechanicals server
+		// CxInfo 0.3: temporary implementation while there's no Mechanicals server
 		double t = ((double)time(nullptr)-1172609523.) / (60.*60.*24.);
 
 		double period = 0.;

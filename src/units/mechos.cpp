@@ -3586,7 +3586,13 @@ void VangerUnit::DrawQuant(void)
 			if(dynamic_state & TOUCH_OF_WATER){
                 if (CurrentWorld == WORLD_SATADI) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
 				if(CurrentWorld == WORLD_THREALL){
-					if(NetworkON) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
+					if (NetworkON) {
+						if (ai() != PLAYER) {
+							BulletCollision((MaxEnergy + MaxArmor) / 300,NULL);
+						} else {
+							BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
+						}
+					}
 					else BulletCollision((MaxEnergy + MaxArmor) / 20,NULL);
 				}else{
 					if(!(dynamic_state & TOUCH_OF_AIR)){
@@ -4795,7 +4801,8 @@ void VangerUnit::InitEnvironment(void)
 // CxInfo: interactions for bots
 void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 {
-	int etype;
+	int etype,i;
+	TiristorEngine* t;
 	DoorEngine* d;
 
 	if(p->Enable){
@@ -4825,7 +4832,58 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 				impulse(p->vData,p->Power,0);				
 				break;
 			case SensorTypeList::SENSOR:
-				if(!(Status & SOBJ_ACTIVE)){
+				if (ai() != PLAYER) {
+					if(DoorFlag){
+						if(p->Owner){
+							if(p->Owner->Type == EngineTypeList::DOOR && !(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)){
+								d = (DoorEngine*)(p->Owner);
+								if(d->Luck > 0){
+									if((int)(RND(d->Luck)) <= aiCutLuck){
+										DoorFlag = 0;
+										if(d->Mode == EngineModeList::OPEN)
+											d->CloseDoor();
+										else
+											d->OpenDoor();
+									}else{
+										if(d->Luck > 0){
+											for(i = 0;i < d->NumSensor;i++)
+												d->SensorLink[i]->Enable = 0;
+										};
+									};
+								}else{
+									if(d->Luck >= -aiCutLuck){
+										DoorFlag = 0;
+										if(d->Mode == EngineModeList::OPEN)
+											d->CloseDoor();
+										else
+											d->OpenDoor();
+									};
+								};
+							}else{
+								if(p->Owner->Type == EngineTypeList::TIRISTOR){
+									DoorFlag = 0;
+									t = (TiristorEngine*)(p->Owner);
+									if(t->Luck > 0){
+										if((int)(RND(t->Luck)) <= aiCutLuck){
+											t->OpenDoor();
+										}else{
+											if(t->Luck > 0){
+												for(i = 0;i < t->NumSensor;i++)
+													t->SensorLink[i]->Enable = 0;
+											};
+										};
+									}else{
+										if(t->Luck >= -aiCutLuck){
+											if(t->Mode != EngineModeList::OPEN){
+												t->OpenDoor();
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				} else if(!(Status & SOBJ_ACTIVE)){
 					if(p->Owner){
 						if(p->Owner->Type == EngineTypeList::DOOR){
 							d = (DoorEngine*)(p->Owner);

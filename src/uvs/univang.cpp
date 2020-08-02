@@ -53,7 +53,13 @@
 #include "../backg.h"
 #include "../particle/light.h"
 #include "../units/mechos.h"
+
 #include "../ai.h"
+#include "../units/magnum.h"
+#include "../particle/particle.h"
+#include "../terra/render.h"
+#include "../units/moveland.h"
+#include "../units/sensor.h"
 
 const int TABUTASK_BAD = ACI_TABUTASK_FAILED;
 const int TABUTASK_GOOD = ACI_TABUTASK_SUCCESSFUL;
@@ -1037,6 +1043,9 @@ void uvsBunch::Check(char* subj){
 
 void uvsContimer::Quant(void){
 	double activityLevel;
+	uvsPassage* pass;
+	CompasTargetType* p;
+	char* passName;
 
 	counter++;
 	if(++sec == 60){
@@ -1078,15 +1087,72 @@ void uvsContimer::Quant(void){
 		}
 	}
 
-	if (ActD.Active) {
-		if (ai() != PLAYER && CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT) && ActD.Active->ExternalMode == EXTERNAL_MODE_NORMAL) {
-			std::cout<<"CxDebug: Restoring Auto mode"<<std::endl;
+	if (ActD.Active && ai() != PLAYER) {
+		if (CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT) && ActD.Active->ExternalMode == EXTERNAL_MODE_NORMAL) {
+			std::cout<<"CxInfo: Restoring Auto mode"<<std::endl;
 			ActD.Active->Status ^= SOBJ_AUTOMAT;
 		}
+		if (NetworkON) {
+			if (CurrentWorld == -1) {
+				// CxDebug: put autoexit and autoequip here
+			} else if (ActD.Active) {
+				if (my_server_data.GameType == PASSEMBLOSS && UsedCheckNum < GloryPlaceNum) {
+					if (GloryPlaceData[UsedCheckNum].World == CurrentWorld) {
+						FindSensor("MovableSensor")->R_curr.x = GloryPlaceData[UsedCheckNum].R_curr.x;
+						FindSensor("MovableSensor")->R_curr.y = GloryPlaceData[UsedCheckNum].R_curr.y;
+						if (lang() == RUSSIAN) {
+							SelectCompasTarget(rCmpBotCheck);
+						} else {
+							SelectCompasTarget(eCmpBotCheck);
+						}
+					} else {
+						pass = GetPassage(CurrentWorld,GloryPlaceData[UsedCheckNum].World);
+						passName = pass->GetName();
+						if (lang() == RUSSIAN) {
+							if (strcmp(passName,"F2G")==0) SelectCompasTarget(rCmpPassGlorx);
+							if (strcmp(passName,"F2W")==0) SelectCompasTarget(rCmpPassWeexow);
+							if (strcmp(passName,"G2F")==0) SelectCompasTarget(rCmpPassFostral);
+							if (strcmp(passName,"G2N")==0) SelectCompasTarget(rCmpPassNecross);
+							if (strcmp(passName,"G2X")==0) SelectCompasTarget(rCmpPassXplo);
+							if (strcmp(passName,"G2K")==0) SelectCompasTarget(rCmpPassKhox);
+							if (strcmp(passName,"N2G")==0) SelectCompasTarget(rCmpPassGlorx);
+							if (strcmp(passName,"N2B")==0) SelectCompasTarget(rCmpPassBoozeena);
+							if (strcmp(passName,"N2A")==0) SelectCompasTarget(rCmpPassArk);
+							if (strcmp(passName,"X2G")==0) SelectCompasTarget(rCmpPassGlorx);
+							if (strcmp(passName,"X2T")==0) SelectCompasTarget(rCmpPassThreall);
+							if (strcmp(passName,"W2F")==0) SelectCompasTarget(rCmpPassFostral);
+							if (strcmp(passName,"T2X")==0) SelectCompasTarget(rCmpPassXplo);
+							if (strcmp(passName,"K2G")==0) SelectCompasTarget(rCmpPassGlorx);
+							if (strcmp(passName,"B2N")==0) SelectCompasTarget(rCmpPassNecross);
+							if (strcmp(passName,"A2N")==0) SelectCompasTarget(rCmpPassNecross);
+						} else {
+							if (strcmp(passName,"F2G")==0) SelectCompasTarget(eCmpPassGlorx);
+							if (strcmp(passName,"F2W")==0) SelectCompasTarget(eCmpPassWeexow);
+							if (strcmp(passName,"G2F")==0) SelectCompasTarget(eCmpPassFostral);
+							if (strcmp(passName,"G2N")==0) SelectCompasTarget(eCmpPassNecross);
+							if (strcmp(passName,"G2X")==0) SelectCompasTarget(eCmpPassXplo);
+							if (strcmp(passName,"G2K")==0) SelectCompasTarget(eCmpPassKhox);
+							if (strcmp(passName,"N2G")==0) SelectCompasTarget(eCmpPassGlorx);
+							if (strcmp(passName,"N2B")==0) SelectCompasTarget(eCmpPassBoozeena);
+							if (strcmp(passName,"N2A")==0) SelectCompasTarget(eCmpPassArk);
+							if (strcmp(passName,"X2G")==0) SelectCompasTarget(eCmpPassGlorx);
+							if (strcmp(passName,"X2T")==0) SelectCompasTarget(eCmpPassThreall);
+							if (strcmp(passName,"W2F")==0) SelectCompasTarget(eCmpPassFostral);
+							if (strcmp(passName,"T2X")==0) SelectCompasTarget(eCmpPassXplo);
+							if (strcmp(passName,"K2G")==0) SelectCompasTarget(eCmpPassGlorx);
+							if (strcmp(passName,"B2N")==0) SelectCompasTarget(eCmpPassNecross);
+							if (strcmp(passName,"A2N")==0) SelectCompasTarget(eCmpPassNecross);
+						}
+					}
+				} else if (my_server_data.GameType == MECHOSOMA) {
+					//
+				} else if (my_server_data.GameType == VAN_WAR) {
+					//
+				}
+			}
+			//aciRefreshTargetsMenu();
+		}
 	}
-//	if (ai() != PLAYER) {
-//		makeDecision();
-//	}
 
 	char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 
@@ -1108,7 +1174,7 @@ void uvsContimer::Quant(void){
 					strcat(bonus_msg," +0$");
 					message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-					std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
+					std::cout<<"CxInfo: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:0"<<std::endl;
 				} else {
 					bonus = 1000 * pow(2,stagesFromDeath-1) * (int(my_player_body.kills)+1);
 
@@ -1129,10 +1195,10 @@ void uvsContimer::Quant(void){
 					strcat(bonus_msg,"$");
 					message_dispatcher.send(bonus_msg,MESSAGE_FOR_ALL,0);
 
-					std::cout<<"CxDebug: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
+					std::cout<<"CxInfo: ARENA stages alive:"<<stagesFromDeath<<", kills:"<<int(my_player_body.kills)<<", added cash:"<<bonus<<std::endl;
 				}
 				activityLevel = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
-				std::cout<<"CxDebug: ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
+				std::cout<<"CxInfo: ARENA activity level: "<<pow(round(activityLevel * 36),2)<<std::endl;
 				getWorld(1)->updateResource();
 			}
 		} else {

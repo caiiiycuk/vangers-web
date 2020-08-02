@@ -1689,7 +1689,7 @@ void KeyCenter(SDL_Event *key)
 		case SDL_SCANCODE_P:
 			mod = SDL_GetModState();
 			if (mod&KMOD_CTRL && ai() != PLAYER) {
-				std::cout<<"CxDebug: Toggling Auto mode"<<std::endl;
+				std::cout<<"CxInfo: Toggling Auto mode"<<std::endl;
 				//setAi(PLAYER);
 				ActD.Active->Status ^= SOBJ_AUTOMAT;
 			}

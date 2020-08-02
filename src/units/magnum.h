@@ -145,3 +145,6 @@
 #define rPlayerWinnerFirstMessage "Торопись, механик!"
 #define rPlayerWinnerSecondMessage " окончил игру!"
 #define rPlayerWinnerOtherMessage "Ты хочешь быть последним?"
+
+#define eCmpBotCheck          "Checkpoint for bot"
+#define rCmpBotCheck          "Контр. пункт для бота"
