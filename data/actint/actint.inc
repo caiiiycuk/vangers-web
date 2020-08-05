@@ -737,7 +737,7 @@ mode_key	$VK_F1
 #define MECH36_ID	35	$CONSTR5
 #define MECH37_ID	35	{ $CONSTR5 + 1 }
 #define MECH38_ID	35	{ $CONSTR5 + 2 }
-#define MECH39_ID	39	19
+#define MECH39_ID	39	39
 
 #define MATRIX_LOWRES	x	360	\
 			y	60
@@ -2132,59 +2132,57 @@ mode_key	$VK_F1
 				avi_id		$ACI_TEXT_AVI_ENG  "text/mech35.avi"       \
 				avi_id		$ACI_TEXT_AVI_RUS  "text/mech35r.avi"
 
-// CxDebug: new mechos
-/*
 #define MATRIX39_BODY		msize_x 8			\
 				msize_y 14			\
 				matrix {			\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
-					0 0 0 0 0 0 0 0 	\
-					 0 0 0 0 0 1 0 0	\
-					0 0 0 0 0 1 1 0 	\
-					 0 1 0 0 0 1 0 0	\
-					0 0 0 0 0 1 1 0 	\
-					 0 0 0 1 0 0 0 0	\
-					0 0 0 1 1 0 0 0 	\
-					 0 0 1 1 1 0 0 0	\
-					0 0 0 1 1 0 0 0 	\
-					 0 0 0 1 0 0 0 0	\
-					0 0 0 0 0 0 0 0 	\
-					 0 0 0 0 0 0 0 0	\
-				}				\
-								\
-				slot_types {			\
+					0 1 1 1 0 0 1 1 	\
+					 0 1 1 0 1 0 1 0	\
+					0 1 1 1 0 0 0 0 	\
+					 0 1 1 0 1 1 1 0	\
+					1 0 0 0 1 0 1 1 	\
+					 1 1 1 1 1 0 1 0	\
+					0 1 1 1 1 1 1 0 	\
+					 1 0 0 1 0 0 1 0	\
+					1 1 0 1 1 0 1 1 	\
+					 1 0 0 1 0 0 1 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
+				}		\
+						\
+				slot_types {		\
 					0 0 0 0 0 0 0 0 	\
-					 0 0 0 0 0 1 0 0	\
-					0 0 0 0 0 1 1 0 	\
-					 0 2 0 0 0 1 0 0	\
-					0 0 0 0 0 1 1 0 	\
 					 0 0 0 0 0 0 0 0	\
+					0 1 1 1 0 0 3 3 	\
+					 0 1 1 0 2 0 3 0	\
+					0 1 1 1 0 0 0 0 	\
+					 0 1 1 0 0 0 0 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
-				}				\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+				}		\
 				slot_nums {			\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
-					0 0 0 0 0 0 0 0 	\
-					 0 0 0 0 0 3 0 0	\
-					0 0 0 0 0 3 3 0 	\
-					 0 4 0 0 0 3 0 0	\
-					0 0 0 0 0 3 3 0 	\
-					 0 0 0 0 0 0 0 0	\
+					0 1 1 1 0 0 4 4 	\
+					 0 1 1 0 5 0 4 0	\
+					0 1 1 1 0 0 0 0 	\
+					 0 1 1 0 0 0 0 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
 					0 0 0 0 0 0 0 0 	\
 					 0 0 0 0 0 0 0 0	\
-				}				\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+				}		\
 				id	$MECH39_NAME		\
 				num_avi_ids	$ACI_NUM_AVI_ID \
 				avi_id		$ACI_PICTURE_AVI_ENG  "mech39.avi"         \
@@ -2192,7 +2190,7 @@ mode_key	$VK_F1
 				avi_id		$ACI_PICTURE_AVI_ENG3 "mech393.avi"        \
 				avi_id		$ACI_TEXT_AVI_ENG  "text/mech39.avi"       \
 				avi_id		$ACI_TEXT_AVI_RUS  "text/mech39r.avi"
-*/
+
 
 /* ----------------------------- ITEMS SECTION ------------------------------ */
 

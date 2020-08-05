@@ -877,12 +877,11 @@ invMatrix $MECH35_ID {
 	back_bml	"resource/actint/800x600/matrix/matrix35.bmo"
 }
 
-// CxDebug: new mechos
-//invMatrix $MECH39_ID {
-//        $MATRIX_HIRES
-//        $MATRIX39_BODY
-//        back_bml	"resource/actint/800x600/matrix/matrix39.bmo"
-//}
+invMatrix $MECH39_ID {
+	$MATRIX_HIRES
+	$MATRIX39_BODY
+	back_bml	"resource/actint/800x600/matrix/matrix39.bmo"
+}
 
 world_map {
 	size_x		148

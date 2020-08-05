@@ -7080,7 +7080,7 @@ void invMatrix::generate_shape(void)
 	for(i = SHAPE_DEPTH; i > 0; i --)
 		swap_buf_col(i + 83,SHAPE_DEPTH,ssx,ssy,buf);
 
-	fh.open(XBuf,XS_OUT);
+	fh.open(XBuf.buf,XS_OUT);
 	fh < (short)ssx < (short)ssy;
 	fh.write(buf,ssz);
 	fh.close();
@@ -7093,7 +7093,7 @@ void invMatrix::generate_shape(void)
 	int scr_sx = (actintLowResFlag) ? 640 : 800;
 	int scr_sy = (actintLowResFlag) ? 480 : 600;
 
-	fh.open(XBuf,XS_OUT);
+	fh.open(XBuf.buf,XS_OUT);
 	fh < "X0: " <= (512 - scr_sx/2 + ScreenX + ScreenSizeX/2) < "\r\n";
 	fh < "Y0: " <= (512 - scr_sy/2 + ScreenY + ScreenSizeY/2) < "\r\n\r\n";
 
@@ -7115,7 +7115,7 @@ void invMatrix::generate_shape(void)
 	if(internalID < 10) XBuf < "0";
 	XBuf <= internalID < ".pal";
 
-	fh.open(XBuf,XS_OUT);
+	fh.open(XBuf.buf,XS_OUT);
 	fh.write(pal_buf,768);
 	fh.close();
 
@@ -7186,7 +7186,7 @@ void invMatrix::generate_floor(void)
 
 	delete[] p;
 
-	fh.open(XBuf,XS_OUT);
+	fh.open(XBuf.buf,XS_OUT);
 	fh < (short)ssx < (short)ssy;
 	fh.write(buf,ssz);
 	fh.close();
@@ -7199,7 +7199,7 @@ void invMatrix::generate_floor(void)
 	int scr_sx = (actintLowResFlag) ? 640 : 800;
 	int scr_sy = (actintLowResFlag) ? 480 : 600;
 
-	fh.open(XBuf,XS_OUT);
+	fh.open(XBuf.buf,XS_OUT);
 	fh < "X0: " <= (512 - scr_sx/2 + ScreenX + ScreenSizeX/2) < "\r\n";
 	fh < "Y0: " <= (512 - scr_sy/2 + ScreenY + ScreenSizeY/2) < "\r\n\r\n";
 
@@ -7221,7 +7221,7 @@ void invMatrix::generate_floor(void)
 	if(internalID < 10) XBuf < "0";
 	XBuf <= internalID < ".pal";
 
-	fh.open(XBuf,XS_OUT);
+	fh.open(XBuf.buf,XS_OUT);
 	fh.write(pal_buf,768);
 	fh.close();
 

@@ -315,6 +315,7 @@ int MAX_MECHOS_TYPE = 0;  //  число типов мехосов
 int MAX_MECHOS_MAIN = 0;  //  число типов мехосов
 int MAX_MECHOS_RAFFA = 0;  //  число типов мехосов
 int MAX_MECHOS_CONSTRACTOR = 0;  //  число типов мехосов
+int MAX_MECHOS_CUSTOM = 0;  //  число типов мехосов
 
 int MAX_PART_MACHOS = 2; // число запчастей к машине
 
@@ -513,7 +514,8 @@ void uniVangPrepare(void){
 	MAX_MECHOS_MAIN = atoi(pfile.getAtom());
 	MAX_MECHOS_RAFFA = atoi(pfile.getAtom());
 	MAX_MECHOS_CONSTRACTOR = atoi(pfile.getAtom());
-	MAX_MECHOS_TYPE = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA + MAX_MECHOS_CONSTRACTOR;
+	MAX_MECHOS_CUSTOM = atoi(pfile.getAtom());
+	MAX_MECHOS_TYPE = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA + MAX_MECHOS_CONSTRACTOR + MAX_MECHOS_CUSTOM;
 	uvsMechosTable = new uvsMechosType*[MAX_MECHOS_TYPE];
 
 	for( i = 0; i < MAX_MECHOS_TYPE; i++){
@@ -659,22 +661,21 @@ void uniVangPrepare(void){
 	cVngNumber = atoi(pfile.getAtom());
 	int meanN = cVngNumber/(MAIN_WORLD_MAX-1);	// среднее число с-вангеров на мир (эскэйв)
 	int j = 0;
-  int guaranteedMechoses = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
+	int guaranteedMechoses = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
 	uvsVanger* v;
 	uvsMechos* pm;
 	meanN = 0;
 
 	//zNfo инициализация мехосов
-  if (NetworkON && (my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0)) {
-    guaranteedMechoses = MAX_MECHOS_TYPE;
-  }
+	if (NetworkON && (my_server_data.GameType == VAN_WAR && (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0))) {
+		guaranteedMechoses = MAX_MECHOS_TYPE;
+	}
 	for( int k = 0; k < guaranteedMechoses; k++){
 		pe = WorldTable[RND(3)] -> escT[0];
 
 #ifdef ALL_ITEM_IN_SHOP
 		if (1){
 #else
-
 			
 		if (
 			(uvsMechosTable[k] -> type == UVS_CAR_TYPE::RAFFA) ||
@@ -748,6 +749,19 @@ void uniVangPrepare(void){
 		}//  end if
 	}//  end for i
 
+	// CxInfo: new "custom" mechoses generation
+	pe = (uvsEscave*) EscaveTail;
+	for( i = 0; i < MAX_MECHOS_CUSTOM; i++){
+		(pm = new uvsMechos(MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA + MAX_MECHOS_CONSTRACTOR + i)) -> link(pe -> Pshop -> Pmechos);
+		pm -> status |= UVS_MECHOS_USED::USES;
+
+		if(pe -> next){
+			pe = (uvsEscave*)pe -> next;
+		}else {
+			pe = (uvsEscave*) EscaveTail;
+		}
+	}
+
 	pfile.finit();
 
 	ReadPriceList();
@@ -800,7 +814,7 @@ void uniVangPrepare(void){
 			break;
 		case MUSTODONT:
 			aciUpdateCurCredits(my_server_data.Mustodont.InitialCash);
-			uvsUnikumeMechos = my_server_data.Mustodont.UniqueMechosName + MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
+			uvsUnikumeMechos = my_server_data.Mustodont.UniqueMechosName + MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
 			break;
 		};
 
@@ -827,19 +841,20 @@ void uniVangPrepare(void){
 	//zNfo  DEFAULT MECHOS 
 	// 16 = моток
 	int MechosID = 0;
-    char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+	char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 	if (NetworkON) {
-        switch (z_my_server_data.mod_id) {
-            case Z_MODS_RAFARUN_ID:		{ MechosID = 16; break; } // моток
-            case Z_MODS_TRAKTRIAL_ID:	{ MechosID =  7; break; } // аттрактор
-            case Z_MODS_NEPTUN_ID:		{ MechosID = 21; break; } // жаба
-            case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
-            default: MechosID = 5; // дряхлый душегуб
-        }
-        if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
-        if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
-        if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
-        if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
+		switch (z_my_server_data.mod_id) {
+			case Z_MODS_RAFARUN_ID:		{ MechosID = 16; break; } // моток
+			case Z_MODS_TRAKTRIAL_ID:	{ MechosID =  7; break; } // аттрактор
+			case Z_MODS_NEPTUN_ID:		{ MechosID = 21; break; } // жаба
+			case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
+			default: MechosID = 5; // дряхлый душегуб
+		}
+		if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
+		if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
+		if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
+		if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
+		if (NetworkON && strcmp(game_name,"test")==0) MechosID = 24; // CxDebug: for new mechos testing purposes
 	}
 
 	v -> Pescave -> Pshop -> sellMechos(v -> Pmechos, MechosID);
@@ -1042,7 +1057,7 @@ void uvsBunch::Check(char* subj){
 }
 
 void uvsContimer::Quant(void){
-	double activityLevel;
+	double activityLevel, prevActivityLevel;
 	uvsPassage* pass;
 	CompasTargetType* p;
 	char* passName;
@@ -2019,10 +2034,12 @@ void uvsShop::get_list_from_ActInt( uvsActInt*& Mechos, uvsActInt*& Item){
 	int dead_world = (Gamer -> Pworld -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE);
 	//Pmechos = NULL;
 
-	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
+	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+	int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
 	pa = Mechos;
 	while(pa){
-		if (Mechos -> type >= first_constr ){
+		if (Mechos -> type >= first_constr && Mechos -> type < last_constr){
+			std::cout<<"      CxDebug U1:"<<uvsMechosTable[Mechos -> type] -> name<<", type:"<<Mechos -> type<<std::endl;
 			int _type = Mechos -> type - first_constr;
 			Mechos -> type =  first_constr + (_type>>2);
 			_type &= 3;
@@ -2442,21 +2459,29 @@ void uvsVanger::get_list_from_ActInt( uvsActInt*& Item, uvsActInt*& Mechos){
 	Item = NULL;
 
 	if ( Mechos ){
-		int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
-		if (Mechos -> type >= first_constr ){
+		int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+		int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
+		if (Mechos -> type >= first_constr && Mechos -> type < last_constr){
+			std::cout<<"      CxDebug U2:"<<uvsMechosTable[Mechos -> type] -> name<<std::endl;
 			int _type = Mechos -> type - first_constr;
 			Mechos -> type =  first_constr + (_type>>2);
 			_type &= 3;
 			Pmechos = new uvsMechos(Mechos -> type);
 			uvsMechosTable[Mechos -> type] -> constractor = _type;
 		} else {
+			std::cout<<"      CxDebug N1:"<<uvsMechosTable[Mechos -> type] -> name<<std::endl;
 			Pmechos = new uvsMechos(Mechos -> type);
 		}
 
-		if (strcmp(uvsMechosTable[Pmechos -> type] -> name, "LawnMower"))
-			SetMotorFile(uvsMechosTable[Pmechos -> type] -> type);
-		else
+		if (strcmp(uvsMechosTable[Pmechos -> type] -> name, "LawnMower")) {
+			if (Pmechos -> type < 6) {
+				SetMotorFile(uvsMechosTable[Pmechos -> type] -> type);
+			} else {
+				SetMotorFile(5);
+			}
+		} else {
 			SetMotorFile(6);
+		}
 #ifndef _DEMO_
 		Pmechos -> color = Mechos -> param1;
 #else
@@ -2584,10 +2609,14 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 		if ( (!lm[((uvsMechos*)pe) -> type]) || dead_world){
 			 pn = new uvsActInt;
 
-			 int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
+			 int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+			 int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
 
-			 if (( ((uvsMechos*)pe) -> type) >= first_constr){
-				int _type = ( ((uvsMechos*)pe) -> type) - first_constr;
+			 if (( ((uvsMechos*)pe) -> type) >= first_constr && ( ((uvsMechos*)pe) -> type) < last_constr){
+				std::cout<<"      CxDebug U3"<<std::endl;
+				std::cout<<"      CxDebug U3 type:"<<( ((uvsMechos*)pe) -> type)<<std::endl;
+				std::cout<<"      CxDebug U3:"<<uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> name<<std::endl;
+			 	int _type = ( ((uvsMechos*)pe) -> type) - first_constr;
 				((uvsActInt*)pn) -> type =  first_constr + (_type<<2) + uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> constractor;
 
 				if (uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> constractor == 3)
@@ -2597,11 +2626,14 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 				 ((uvsActInt*)pn) -> sell_price = uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> sell_price;
 				 ((uvsActInt*)pn) -> param1 = color;
 			} else {
+				std::cout<<"      CxDebug N2"<<std::endl;
+				std::cout<<"      CxDebug N2 type:"<<( ((uvsMechos*)pe) -> type)<<std::endl;
+				std::cout<<"      CxDebug N2:"<<uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> name<<std::endl;
 				((uvsActInt*)pn) -> type = ( ((uvsMechos*)pe) -> type);
 
-				 ((uvsActInt*)pn) -> price = uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> price;
-				 ((uvsActInt*)pn) -> sell_price = uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> sell_price;
-				 ((uvsActInt*)pn) -> param1 = color;
+				((uvsActInt*)pn) -> price = uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> price;
+				((uvsActInt*)pn) -> sell_price = uvsMechosTable[( ((uvsMechos*)pe) -> type)] -> sell_price;
+				((uvsActInt*)pn) -> param1 = color;
 			}
 
 			if (((uvsActInt*)pn) -> price != 1 && !NetworkON){
@@ -2639,21 +2671,27 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 				pn -> link(pb);
 		}
 
+		std::cout<<"      CxDebug X1"<<std::endl;
 		 pl = pe;
+		std::cout<<"      CxDebug X2"<<std::endl;
 		 pe = pe -> next;
 		if ( !lm[((uvsMechos*)pl) -> type]){
+			std::cout<<"      CxDebug X3"<<std::endl;
 			lm[((uvsMechos*)pl) -> type] = 1;
-		
+
+			std::cout<<"      CxDebug X4"<<std::endl;
 			((uvsMechos*)pl) -> delink(Pmechos);
 			/*;if ( pl == Pmechos ) Pmechos = pe;
 			if(pl -> prev -> next) pl -> prev -> next = pe;
 			if(pe)
 				pe -> prev = pl -> prev;*/
 
+			std::cout<<"      CxDebug X5"<<std::endl;
 			delete ((uvsMechos*)pl);
 		}
 	}
 
+	std::cout<<"      CxDebug X6"<<std::endl;
 	if (!raffa_on && where ){
 		pn = new uvsActInt;
 		int _type_ = MAX_MECHOS_MAIN + RND(MAX_MECHOS_RAFFA);
@@ -2686,14 +2724,17 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 			 }
 		}//  end if
 
-		 if (((uvsActInt*)pn) -> sell_price > ((uvsActInt*)pn) -> price) ((uvsActInt*)pn) -> sell_price = ((uvsActInt*)pn) -> price;
+		std::cout<<"      CxDebug X7"<<std::endl;
+		if (((uvsActInt*)pn) -> sell_price > ((uvsActInt*)pn) -> price) ((uvsActInt*)pn) -> sell_price = ((uvsActInt*)pn) -> price;
 
 		 if (dead_world)
 					 ((uvsActInt*)pn) -> sell_price = ((uvsActInt*)pn) -> price = 0;
 
-		pn -> link(pb);
+		std::cout<<"      CxDebug X8"<<std::endl;
+		 pn -> link(pb);
 	}
 
+	std::cout<<"      CxDebug X9"<<std::endl;
 	Mechos = (uvsActInt*)pb;
 	pb = NULL;
 
@@ -2916,9 +2957,12 @@ void uvsVanger::prepare_list_for_ActInt( uvsActInt*& Item, uvsActInt*& Mechos, u
 
 	if ( Pmechos ){
 		pn = new uvsActInt;
-		int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
+		int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+		int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
 
-		if (Pmechos -> type >= first_constr){
+		if (Pmechos -> type >= first_constr && Pmechos -> type < last_constr){
+			std::cout<<"      CxDebug U4"<<std::endl;
+			std::cout<<"      CxDebug U4:"<<uvsMechosTable[Pmechos -> type] -> name<<std::endl;
 			int _type = Pmechos -> type - first_constr;
 			((uvsActInt*)pn) -> type =  first_constr + (_type<<2) + uvsMechosTable[Pmechos -> type] -> constractor;
 
@@ -2931,6 +2975,8 @@ void uvsVanger::prepare_list_for_ActInt( uvsActInt*& Item, uvsActInt*& Mechos, u
 			((uvsActInt*)pn) -> param1 = Pmechos -> color;
 			((uvsActInt*)pn) -> param2 = Pmechos -> teleport;
 		} else {
+			std::cout<<"      CxDebug N3"<<std::endl;
+			std::cout<<"      CxDebug N3:"<<uvsMechosTable[Pmechos -> type] -> name<<std::endl;
 			((uvsActInt*)pn) -> type =  Pmechos -> type;
 			((uvsActInt*)pn) -> price = uvsMechosTable[Pmechos -> type] -> price;
 			((uvsActInt*)pn) -> sell_price = uvsMechosTable[Pmechos -> type] -> sell_price;
@@ -3196,7 +3242,8 @@ void uvsVanger::prepare_list_for_ActInt( uvsActInt*& Item, uvsActInt*& Mechos, u
 
 void uvsShop::sellMechos(uvsMechos*& Pm, int type){
 	int last_type = type;
-	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
+	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+	int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
 	if ( !Pmechos ) return;
 
 	if (!type) type = ~0;
@@ -3205,15 +3252,18 @@ void uvsShop::sellMechos(uvsMechos*& Pm, int type){
 
 	Pm = (uvsMechos*)Pmechos;
 
-	while( Pm && ((Pm -> type >= first_constr) || ((Pm -> status & type) == 0))){
+	while( Pm && ((Pm -> type >= first_constr && Pm -> type < last_constr) || ((Pm -> status & type) == 0))){
+		std::cout<<"      CxDebug U5:"<<uvsMechosTable[Pm -> type] -> name<<std::endl;
 		Pm = (uvsMechos*)Pm -> next;
 	}
 
 	if (last_type){
 		uvsMechos*_pm_ = Pm;
 		while( Pm ){
-			if ((uvsMechosTable[Pm -> type]->price > uvsMechosTable[_pm_ -> type]->price) &&  (Pm -> type < first_constr))
+			if ((uvsMechosTable[Pm -> type]->price > uvsMechosTable[_pm_ -> type]->price) && (Pm -> type < first_constr || Pm -> type >= last_constr)) {
+				std::cout<<"      CxDebug N4:"<<uvsMechosTable[Pm -> type] -> name<<std::endl;
 				_pm_ = Pm;
+			}
 			Pm = (uvsMechos*)Pm -> next;
 		}
 		Pm = _pm_;
@@ -3223,8 +3273,10 @@ void uvsShop::sellMechos(uvsMechos*& Pm, int type){
 
 		uvsMechos*_pm_ = (uvsMechos*)Pmechos;
 		while( _pm_ ){
-			if (_pm_ -> type < first_constr)
+			if (_pm_ -> type < first_constr || _pm_ -> type >= last_constr) {
+				std::cout<<"      CxDebug N5:"<<uvsMechosTable[_pm_ -> type] -> name<<std::endl;
 				MechosHere[_pm_ -> type] = 1;
+			}
 			_pm_ = (uvsMechos*)_pm_ -> next;
 		}//  end while
 
@@ -3242,7 +3294,8 @@ void uvsShop::sellMechos(uvsMechos*& Pm, int type){
 		Pm = _pm_;
 	}
 
-	if(Pm && (Pm -> type < first_constr)) {
+	if(Pm && (Pm -> type < first_constr || Pm -> type >= last_constr)) {
+		std::cout<<"      CxDebug N6:"<<uvsMechosTable[Pm -> type] -> name<<std::endl;
 		Pm -> delink(Pmechos);
 		Pm -> sort();
 /*		if (((listElem*)Pm) == Pmechos ){
@@ -3258,12 +3311,13 @@ void uvsShop::sellMechos(uvsMechos*& Pm, int type){
 		}*/
 	} else {
 		Pm = (uvsMechos*)Pmechos;
-
-		if (Pm -> type >= first_constr){
+		if (Pm -> type >= first_constr && Pm -> type < last_constr){
+			std::cout<<"      CxDebug U6:"<<uvsMechosTable[Pm -> type] -> name<<std::endl;
 			Pm = new uvsMechos(0);
 			Pm -> sort();
 			return;
 		} else {
+			std::cout<<"      CxDebug N7:"<<uvsMechosTable[Pm -> type] -> name<<std::endl;
 			Pm -> delink(Pmechos);
 			Pm -> sort();
 			return;
@@ -8666,7 +8720,8 @@ void uniVangLoad(XStream &pfile){
 	MAX_MECHOS_MAIN = atoi(pf.getAtom());
 	MAX_MECHOS_RAFFA = atoi(pf.getAtom());
 	MAX_MECHOS_CONSTRACTOR = atoi(pf.getAtom());
-	MAX_MECHOS_TYPE = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA + MAX_MECHOS_CONSTRACTOR;
+	MAX_MECHOS_CUSTOM = atoi(pf.getAtom());
+	MAX_MECHOS_TYPE = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA + MAX_MECHOS_CONSTRACTOR + MAX_MECHOS_CUSTOM;
 	uvsMechosTable = new uvsMechosType*[MAX_MECHOS_TYPE];
 
 	for( i = 0; i < MAX_MECHOS_TYPE; i++){
@@ -9386,15 +9441,19 @@ int uvsChangeTabuTask( int& param1, int& param2, int type, int status){
 }
 
 int uvsMechosType_to_AciInt(int type){
-	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
+	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+	int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
 	int _type;
 	int _type_;
 
-	if ( type >= first_constr){
-		 _type = type - first_constr;
+	if ( type >= first_constr && type < last_constr){
+		std::cout<<"      CxDebug U7:"<<uvsMechosTable[type] -> name<<std::endl;
+		_type = type - first_constr;
 		 _type_ =  first_constr + (_type<<2) + uvsMechosTable[type] -> constractor;
-	} else
+	} else {
+		std::cout<<"      CxDebug N8:"<<uvsMechosTable[type] -> name<<std::endl;
 		_type_ = type;
+	}
 
 	return _type_;
 }
@@ -10037,7 +10096,7 @@ void uvsCloseQuant(void){
 void uvsMechosSave(XStream& fin){
 	int i;
 
-	for( i = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR; i < MAX_MECHOS_TYPE; i++)
+	for( i = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM; i < MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM; i++)
 		fin < uvsMechosTable[i] -> constractor;
 
 	for( i = 0; i < MAX_MECHOS_TYPE; i++){
@@ -10052,7 +10111,7 @@ void uvsMechosSave(XStream& fin){
 void uvsMechosLoad(XStream& fout){
 	int i;
 
-	for( i = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR; i < MAX_MECHOS_TYPE; i++)
+	for( i = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM; i < MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM; i++)
 		fout > uvsMechosTable[i] -> constractor;
 
 	for( i = 0; i < MAX_MECHOS_TYPE; i++){
@@ -10069,6 +10128,7 @@ void uvsMechosLoad(XStream& fout){
 	}
 }
 
+// CxInfo: is this used to decide which mechoses are suitable for different sorts of AI in singleplayer?
 void uvsMechos::sort(void){
 	status &= UVS_MECHOS_USED::USES;
 	if (type <  MAX_MECHOS_MAIN){
@@ -10498,10 +10558,12 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 
 //	FreeMechosList(GGamerList);
 
+	std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: what:"<<what<<std::endl;
 	while(p){
 		if(p -> type == UVS_OBJECT::VANGER ){
 			v = (uvsVanger*)p;
 			if ( v -> status == UVS_VANGER_STATUS::ESCAVE_SLEEPING || v -> status == UVS_VANGER_STATUS::SPOT_SLEEPING){
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before sellMechos"<<std::endl;
 				if (what){
 					v -> locTimer = 1;
 					v -> shape = UVS_VANGER_SHAPE::GAMER;
@@ -10518,15 +10580,27 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 				} else
 					pe -> Pshop -> sellMechos(Gamer -> Pmechos);
 
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 1"<<std::endl;
 				pm = (uvsMechos*)pe -> Pshop -> Pmechos;
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 2"<<std::endl;
 				pl = pe -> Pshop -> Pmechos -> next;
 
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 3"<<std::endl;
 				while(pl){
-					if (uvsMechosTable[pm -> type] -> price > uvsMechosTable[((uvsMechos*)pl) -> type] -> price)
+					std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3 cycle"<<std::endl;
+					//std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3: pm -> type:"<<pm -> type<<std::endl;
+					std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3: ((uvsMechos*)pl) -> type:"<<((uvsMechos*)pl) -> type<<std::endl;
+					//std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3: uvsMechosTable[pm -> type] -> price:"<<uvsMechosTable[pm -> type] -> price<<std::endl;
+					std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3: uvsMechosTable[((uvsMechos*)pl) -> type] -> price:"<<uvsMechosTable[((uvsMechos*)pl) -> type] -> price<<std::endl;
+					if (uvsMechosTable[pm -> type] -> price > uvsMechosTable[((uvsMechos*)pl) -> type] -> price) {
+						std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3: pm price > pl price; pm = (uvsMechos*)pl..."<<std::endl;
 						pm =(uvsMechos*)pl;
+					}
+					std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: 3: going to the next pl?"<<std::endl;
 					pl = pl -> next;
 				}
 
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 4"<<std::endl;
 				if (((listElem*)pm) == pe -> Pshop -> Pmechos ){
 					pe -> Pshop -> Pmechos = pe -> Pshop -> Pmechos -> next;
 					if (pe -> Pshop -> Pmechos)
@@ -10539,7 +10613,9 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 					pm -> prev -> next = pm -> next;
 				}
 
-				pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN;
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 5"<<std::endl;
+				pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN; // CxDebug: change bot mechos on respawn here?
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 6"<<std::endl;
 				Gamer -> Pmechos = pm;
 				if (!Gamer -> Pmechos)
 					ErrH.Abort("uvsMakeNewGamer :: dont have any mechos in shop");
@@ -10554,6 +10630,7 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 /*					if (!Gamer -> addItem(new uvsItem(UVS_ITEM_TYPE::SECTOR)))
 						ErrH.Abort("uvsMakeNewGamerInEscave : dont add artifact");*/
 				}
+				std::cout<<"    CxDebug: uvsMakeNewGamerInEscave: before 7"<<std::endl;
 				if (aciGetCurCredits() < 0)
 					aciUpdateCurCredits(0);
 				return Gamer;
@@ -11632,15 +11709,17 @@ void uvsActIntSell( uvsActInt *pa){
 }
 
 void uvsActIntSellMechos( uvsActInt *pn){
-	 int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR;
-	 uvsBunch* pm  = Gamer -> Pworld -> escT[0] -> Pbunch;
+	int first_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
+	int last_constr = MAX_MECHOS_TYPE - MAX_MECHOS_CUSTOM;
+	uvsBunch* pm  = Gamer -> Pworld -> escT[0] -> Pbunch;
 
 	int cq = pm -> cycleTable[ pm -> currentStage ].cirtQ;
 	int mq = pm -> cycleTable[ pm -> currentStage ].cirtMAX;
 
 
-	if ( ((uvsActInt*)pn) -> type >= first_constr && ((uvsActInt*)pn) -> price == 1){
-		 ((uvsActInt*)pn) -> price = uvsMechosTable[( ((uvsActInt*)pn) -> type)] -> price;
+	if ( ((uvsActInt*)pn) -> type >= first_constr && ((uvsActInt*)pn) -> type < last_constr && ((uvsActInt*)pn) -> price == 1){
+		std::cout<<"      CxDebug U8:"<<uvsMechosTable[((uvsActInt*)pn) -> type] -> name<<std::endl;
+		((uvsActInt*)pn) -> price = uvsMechosTable[( ((uvsActInt*)pn) -> type)] -> price;
 
 		 ((uvsActInt*)pn) -> price = (((uvsActInt*)pn) -> price*1.5*cq + ((uvsActInt*)pn) -> price*(mq-cq))/mq;
 		 ((uvsActInt*)pn) -> sell_price = (((uvsActInt*)pn) -> sell_price*cq + ((uvsActInt*)pn) -> sell_price*0.5*(mq-cq))/mq;

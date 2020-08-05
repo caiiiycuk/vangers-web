@@ -237,9 +237,8 @@
 #define MECH38_NAME1	"Wormaster"
 #define MECH38_NAME2	"Червонец"
 
-// CxDebug: new mechos
-//#define MECH39_NAME1	"Rustpuppy"
-//#define MECH39_NAME2	"Ржавый Пёс"
+#define MECH39_NAME1	"Rustpuppy"
+#define MECH39_NAME2	"Ржавый Пёс"
 
 // Escaves...
 #define ESCAVE_NAME01	"Podish"

@@ -86,8 +86,7 @@
 #define MECH36_NAME		$MECH36_NAME2
 #define MECH37_NAME		$MECH37_NAME2
 #define MECH38_NAME		$MECH38_NAME2
-// CxDebug: new mechos
-//#define MECH39_NAME		$MECH39_NAME2
+#define MECH39_NAME		$MECH39_NAME2
 
 /* --------------------------------- ITEMS ---------------------------------- */
 /* ----------------------------- NAMES SECTION ------------------------------ */

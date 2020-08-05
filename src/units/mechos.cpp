@@ -7125,6 +7125,9 @@ void uvsUnitType::CreateUnitType(uvsVanger* p)
 		case 23://Worm
 			ItemMatrix = &UnitMatrixData[28];
 			break;
+		case 24://Rustpuppy
+			ItemMatrix = &UnitMatrixData[31];
+			break;
 	};	
 };
 
@@ -14137,6 +14140,9 @@ void VangerUnit::ChangeVangerProcess(void)
 			break;
 		case 23://Worm
 			ItemMatrix = &UnitMatrixData[28];
+			break;
+		case 24://Rustpuppy
+			ItemMatrix = &UnitMatrixData[31];
 			break;
 	};
 

@@ -186,7 +186,8 @@ struct UVS_CAR_TYPE {
 		MICROBUS,
 		ATW,
 		TRACK,
-		SPECIAL
+		SPECIAL,
+		CUSTOM
 	};
 };
 
