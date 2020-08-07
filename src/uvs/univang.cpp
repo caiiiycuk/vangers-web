@@ -2073,6 +2073,7 @@ void uvsShop::get_list_from_ActInt( uvsActInt*& Mechos, uvsActInt*& Item){
 	updateList(Pitem);
 }
 
+// CxInfo: could this be used to automatically stuff -ai with items?
 void uvsVanger::addInventory(void){
 //	DBGCHECK;
 	int i;
