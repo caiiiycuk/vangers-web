@@ -45,6 +45,7 @@
 #define STR_Threall		$STR_Threall1
 #define STR_Ark_a_Znoy		$STR_Ark_a_Znoy1
 #define STR_Satadi		$STR_Satadi1
+#define STR_Mirage		$STR_Mirage1
 
 
 // Mechoses...

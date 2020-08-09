@@ -202,8 +202,9 @@
 #define W_ID			11
 #define A_ID			12
 #define S_ID			13
+#define M_ID			14
 
-#define AS_MAX_WORLD		14
+#define AS_MAX_WORLD		15
 
 #define GLORX_LETTER		71
 #define FOSTRAL_LETTER		70
@@ -219,6 +220,7 @@
 #define W_LETTER		87
 #define A_LETTER		65
 #define S_LETTER		83
+#define M_LETTER		77
 
 // aciWorldInfo flags...
 #define AS_VISIBLE_WORLD	1

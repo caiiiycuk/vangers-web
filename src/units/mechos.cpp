@@ -1011,6 +1011,9 @@ void VangerUnit::Destroy(void)
 							};
 						};
 						break;
+					case 3: // HUNTAGE
+						ChangeWorldConstraction = WORLD_FOSTRAL;
+						break;
 				};
 
 				ExternalLock = 1;
@@ -2636,6 +2639,10 @@ void ActionDispatcher::Quant(void)
 							};
 							RaceTxtBuff <= n_position < "|" <= n_total;
 						};
+						break;
+					case 3: // HUNTAGE
+						strcpy(aciCurRaceType,"   ");
+						RaceTxtBuff < "   ";
 						break;
 				};			
 				strcpy(aciCurRaceInfo,RaceTxtBuff.GetBuf());				
@@ -7756,7 +7763,7 @@ void BunchEvent(int type)
 	GeneralObject* p;
 	switch(type){
 		case BUNCH_CHANGE_CYCLE:
-			if((CurrentWorld >= MAIN_WORLD_MAX - 1) && (CurrentWorld != WORLD_MAX - 1)) return;
+			if((CurrentWorld >= MAIN_WORLD_MAX - 1) && (CurrentWorld != WORLD_SATADI)) return;
 			WorldPalCurrent = uvsCurrentCycle;
 			if(WorldPalCurrent >= WorldPalNum) WorldPalCurrent = 0;
 //			StartSetColor(100,WorldPalData[WorldPalCurrent]);
@@ -12720,7 +12727,7 @@ void ObjectDestroy(GeneralObject* n,int mode)
 					};
 					p = (VangerUnit*)(p->NextTypeList);
 				};
-				if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
+				if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
 			};
 		};
 		
@@ -13924,6 +13931,11 @@ void NetworkGetStart(char* name,int& x,int& y)
 	StaticSort(SnsTableSize,(StaticObject**)SensorObjectData,(StaticObject**)SensorSortedData);
 
     // CxInfo: here we can change x and y (and then "return;") to manually change spawn point upon exiting an escave
+	if (NetworkON && my_server_data.GameType == 3) { // HUNTAGE
+		x = getWorld(WORLD_MIRAGE)->x_spawn;
+		y = getWorld(WORLD_MIRAGE)->y_spawn;
+		return;
+	}
 
 	for(i = 0;i < NETWORK_NUM_ESCAVE;i++){
 		if(!strcmp(name,NetworkEscaveName[i])){

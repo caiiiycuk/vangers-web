@@ -460,9 +460,9 @@ void uniVangPrepare(void){
 			break;
 		case PASSEMBLOSS:
 			break;
-		case HUNTAGE:
+		case 3: // HUNTAGE
 			break;
-		case MUSTODONT:
+		case 4: // MUSTODONT
 			uvsUnikumeMechos = 0;
 			break;
 		};
@@ -610,7 +610,7 @@ void uniVangPrepare(void){
             {
                 for (int j = 0; j < MAIN_WORLD_MAX + 1; j++) {
                     if (j == MAIN_WORLD_MAX) {
-                        WorldTable[WORLD_MAX-1]->generate_item(i);
+                        WorldTable[WORLD_SATADI]->generate_item(i);
                     } else {
                         WorldTable[j]->generate_item(i);
                     }
@@ -625,7 +625,7 @@ void uniVangPrepare(void){
 #else
 
 			if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)
-                WorldTable[WORLD_MAX - 1] -> generate_item( i );
+                WorldTable[WORLD_SATADI] -> generate_item( i );
             else {
                 switch(i){
                     case UVS_ITEM_TYPE::COPTE_RIG:
@@ -798,10 +798,10 @@ void uniVangPrepare(void){
 			else
 				CurrentWorld = my_server_data.Passembloss.RandomEscave;
 			break;
-		case HUNTAGE:
+		case 3: // HUNTAGE
 			aciUpdateCurCredits(my_server_data.Huntage.InitialCash);
 			break;
-		case MUSTODONT:
+		case 4: // MUSTODONT
 			aciUpdateCurCredits(my_server_data.Mustodont.InitialCash);
 			uvsUnikumeMechos = my_server_data.Mustodont.UniqueMechosName + MAX_MECHOS_TYPE - MAX_MECHOS_CONSTRACTOR - MAX_MECHOS_CUSTOM;
 			break;
@@ -1255,6 +1255,8 @@ uvsWorld::uvsWorld(PrmFile* pfile,char* atom){
 
 	x_size = 1 << atoi(pfile -> getAtom());
 	y_size = 1 << atoi(pfile -> getAtom());
+	x_spawn = atoi(pfile -> getAtom());
+	y_spawn = atoi(pfile -> getAtom());
 
 	escTmax = sptTmax = pssTmax = 0;
 	escT = NULL;
@@ -1333,6 +1335,8 @@ uvsWorld::uvsWorld(XStream& pfile ){
 	name = get_string(pfile);
 	pfile > x_size; x_size = 1 << x_size;
 	pfile > y_size; y_size = 1 << y_size;
+	pfile > x_spawn;
+	pfile > y_spawn;
 
 	escTmax = sptTmax = pssTmax = 0;
 	escT = NULL;
@@ -1379,6 +1383,8 @@ void uvsWorld::save(XStream& pfile ){
 	put_string(pfile, name);
 	pfile < get_power(x_size);
 	pfile < get_power(y_size);
+	pfile < x_spawn;
+	pfile < y_spawn;
 
 	pfile < gIndex;
 	pfile < GamerVisit;
@@ -2018,7 +2024,6 @@ void uvsShop::updateList(listElem* pl){
 }
 
 void uvsShop::get_list_from_ActInt( uvsActInt*& Mechos, uvsActInt*& Item){
-	std::cout<<"    CxDebug: uvsShop::get_list_from_ActInt"<<std::endl;
 	uvsActInt* pa;
 	uvsItem* pl;
 	int dead_world = (Gamer -> Pworld -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE);
@@ -2026,9 +2031,7 @@ void uvsShop::get_list_from_ActInt( uvsActInt*& Mechos, uvsActInt*& Item){
 
 	int first_constr = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
 	pa = Mechos;
-	std::cout<<"    CxDebug: uvsShop::get_list_from_ActInt: Mechos->type:"<<Mechos->type<<std::endl;
 	while(pa){
-		std::cout<<"    CxDebug: uvsShop::get_list_from_ActInt: while(pa): Mechos->type:"<<Mechos->type<<std::endl;
 		if (Mechos -> type >= first_constr && Mechos -> type < MAX_MECHOS_WITH_PARTS){
 			int _type = Mechos -> type - first_constr;
 			Mechos -> type =  first_constr + (_type>>2);
@@ -2042,7 +2045,6 @@ void uvsShop::get_list_from_ActInt( uvsActInt*& Mechos, uvsActInt*& Item){
 	}
 	Mechos = NULL;
 
-	std::cout<<"    CxDebug: uvsShop::get_list_from_ActInt: after while(pa), where pa was Mechos at the beginning"<<std::endl;
 	pa = Item;
 	while(pa){
 		int tmp_type = ActInt_to_Item( Item -> type);
@@ -2414,7 +2416,6 @@ void uvsTabuTaskType::activate(void){
 }
 
 void uvsVanger::get_list_from_ActInt( uvsActInt*& Item, uvsActInt*& Mechos){
-	std::cout<<"    CxDebug: uvsVanger::get_list_from_ActInt"<<std::endl;
 	uvsActInt* pa;
 	uvsItem* pi;
 	int _tabu_taskID_;
@@ -2452,20 +2453,16 @@ void uvsVanger::get_list_from_ActInt( uvsActInt*& Item, uvsActInt*& Mechos){
 	Item = NULL;
 
 	if ( Mechos ){
-		std::cout<<"    CxDebug: uvsVanger::get_list_from_ActInt: Mechos->type:"<<Mechos->type<<std::endl;
 		int first_constr = MAX_MECHOS_MAIN + MAX_MECHOS_RAFFA;
 		if (Mechos -> type >= first_constr && Mechos -> type < MAX_MECHOS_WITH_PARTS){
-			std::cout<<"    CxDebug: uvsVanger::get_list_from_ActInt: creating unique mechos"<<std::endl;
 			int _type = Mechos -> type - first_constr;
 			Mechos -> type =  first_constr + (_type>>2);
 			_type &= 3;
 			Pmechos = new uvsMechos(Mechos -> type);
 			uvsMechosTable[Mechos -> type] -> constractor = _type;
 		} else if (Mechos -> type < first_constr) {
-			std::cout<<"    CxDebug: uvsVanger::get_list_from_ActInt: creating normal mechos"<<std::endl;
 			Pmechos = new uvsMechos(Mechos -> type);
 		} else if (Mechos -> type >= MAX_MECHOS_WITH_PARTS) {
-			std::cout<<"    CxDebug: uvsVanger::get_list_from_ActInt: creating custom mechos"<<std::endl;
 			Pmechos = new uvsMechos((Mechos -> type) - ((MAX_PART_MACHOS+1) * MAX_MECHOS_CONSTRACTOR));
 		}
 
@@ -2556,7 +2553,6 @@ void uvsVanger::get_list_from_ActInt( uvsActInt*& Item, uvsActInt*& Mechos){
 }
 
 void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int where){
-	std::cout<<"    CxDebug: uvsShop::prepare_list_for_ActInt"<<std::endl;
 	listElem* pe;
 	listElem* pb;
 	listElem* pn;
@@ -2596,10 +2592,7 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 		priceQ = 100;
 	}
 
-	std::cout<<"    CxDebug: uvsShop::prepare_list_for_ActInt: before while(pe); pe is Pmechos"<<std::endl;
 	while( pe ){
-//		std::cout<<"    CxDebug: uvsShop::prepare_list_for_ActInt: Mechos->type:"<<Mechos->type<<std::endl;
-		std::cout<<"    CxDebug: uvsShop::prepare_list_for_ActInt: ((uvsMechos*)pe) -> type:"<<((uvsMechos*)pe) -> type<<std::endl;
 		m_count++;
 		if ( uvsMechosTable[((uvsMechos*)pe) -> type] -> type == UVS_CAR_TYPE::RAFFA )
 			raffa_on = 1;
@@ -2678,7 +2671,6 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 			delete ((uvsMechos*)pl);
 		}
 	}
-	std::cout<<"    CxDebug: uvsShop::prepare_list_for_ActInt: after while(pe); pe is Pmechos"<<std::endl;
 
 	if (!raffa_on && where ){
 		pn = new uvsActInt;
@@ -8119,7 +8111,6 @@ stand < ConTimer.GetTime() < "BOORAWCHICK go home\n";
 			}
 		}
 
-		std::cout<<"    CxDebug: uvsVanger::get_shop(int how): before get_list_from_ActInt: GGamerMechos->type:"<<GGamerMechos->type<<std::endl;
 		 get_list_from_ActInt(GGamer, GGamerMechos);
 
 		count = GamerResult.nymbos - ItemCount(Pitem,UVS_ITEM_TYPE::NYMBOS );
@@ -11960,7 +11951,7 @@ int uvsReturnTreasureStatus(int Type, int TreasureStatus){
 }
 
 int uvsReturnWorldGamerVisit(int where){
-	if(where < 0 || where > 10) ErrH.Abort("uvsReturnWorldGamerVisit : Bad world");
+	if(where < 0 || where > WORLD_MAX-1) ErrH.Abort("uvsReturnWorldGamerVisit : Bad world");
 	return WorldTable[where] -> GamerVisit;
 }
 
@@ -12277,7 +12268,7 @@ int uvsWorldToCross(int fromWID, int toWID){
 	int i = 0;
 	int _i_ = 0;
 
-	if ( fromWID == 7 || toWID == 7)
+	if ( fromWID == WORLD_HMOK || toWID == WORLD_HMOK || fromWID == WORLD_SATADI || toWID == WORLD_SATADI || fromWID == WORLD_MIRAGE || toWID == WORLD_MIRAGE)
 		return -1;
 
 	if (fromW -> gIndex >= MAIN_WORLD_MAX ) {

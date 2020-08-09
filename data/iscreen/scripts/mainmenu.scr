@@ -6667,24 +6667,27 @@ Screen "Select Game"
 
 	#define GAME_Y		2
 	#define GAME_OBJ_NAME	"GameObj2"
-//	  #define GAME_OBJ_NEXT   "GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj0"
+	#define GAME_OBJ_NEXT   "GameObj3"
+//	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj1"
 	#define GAME_OBJ_ID	$iSTR_PASSEMBLOSS
 	#define GAME_SCR	"Game Params 2"
 	#define GAME_STRING_ID	"GameStr2"
 
 	#include "iscreen/scripts/gameobj.inc"
-/*
+
 	#define GAME_Y		3
 	#define GAME_OBJ_NAME	"GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj4"
+//	#define GAME_OBJ_NEXT	"GameObj4"
+	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj2"
 	#define GAME_OBJ_ID	$iSTR_HUNTAGE
 	#define GAME_SCR	"Game Params 3"
 	#define GAME_STRING_ID	"GameStr3"
 
+	#include "iscreen/scripts/gameobj.inc"
 
+/*
 	#define GAME_Y		4
 	#define GAME_OBJ_NAME	"GameObj4"
 	#define GAME_OBJ_NEXT	"GameObj0"
@@ -11829,24 +11832,27 @@ Screen "Select Game2"
 
 	#define GAME_Y		2
 	#define GAME_OBJ_NAME	"GameObj2"
-//	  #define GAME_OBJ_NEXT   "GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj0"
+	#define GAME_OBJ_NEXT   "GameObj3"
+//	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj1"
 	#define GAME_OBJ_ID	$iSTR_PASSEMBLOSS
 	#define GAME_SCR	"HallOfFame screen"
 	#define GAME_STRING_ID	"GameStr2"
 
 	#include "iscreen/scripts/gameobj.inc"
-/*
+
 	#define GAME_Y		3
 	#define GAME_OBJ_NAME	"GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj4"
+//	#define GAME_OBJ_NEXT	"GameObj4"
+	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj2"
 	#define GAME_OBJ_ID	$iSTR_HUNTAGE
 	#define GAME_SCR	"HallOfFame screen"
 	#define GAME_STRING_ID	"GameStr3"
 
+	#include "iscreen/scripts/gameobj.inc"
 
+/*
 	#define GAME_Y		4
 	#define GAME_OBJ_NAME	"GameObj4"
 	#define GAME_OBJ_NEXT	"GameObj0"

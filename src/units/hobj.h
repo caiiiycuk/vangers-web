@@ -374,6 +374,7 @@ const int AI_MESSAGE_CAMERA_HELP = 51;
 
 const int AI_MESSAGE_SATADI = 52;
 const int AI_MESSAGE_ROSTRUM = 53;
+const int AI_MESSAGE_MIRAGE = 54;
 
 void NetworkSetTnt(int id);
 

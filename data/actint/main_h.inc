@@ -13,6 +13,7 @@ map_name	$T_ID		"resource/actint/640x480/bitmap/map_t.bmp"
 map_name	$H_ID		"resource/actint/640x480/bitmap/map_h.bmp"
 map_name	$W_ID		"resource/actint/640x480/bitmap/map_w.bmp"
 map_name	$S_ID		"resource/actint/640x480/bitmap/map_s.bmp"
+map_name	$M_ID		"resource/actint/640x480/bitmap/map_m.bmp"
 
 /* ----------------------------- ITEMS SECTION ------------------------------ */
 
@@ -1061,6 +1062,17 @@ world_map {
 		y	820
 
 		name	"Satadi"
+	}
+	world_data $M_ID $M_LETTER $AS_SQUARE {
+		font	2
+
+		flag	$AS_SPECIAL_WORLD
+		flag	$AS_VISIBLE_WORLD
+
+		x	380
+		y	-820
+
+		name	"Mirage"
 	}
 }
 

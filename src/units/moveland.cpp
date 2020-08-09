@@ -93,6 +93,7 @@ const char* MLTntName[WORLD_MAX][2] = {
 	{"None","None"},
 	{"None","None"},
 	{"None","None"},
+	{"None","None"},
 	{"None","None"}
 };
 
@@ -677,7 +678,7 @@ void MLload(void)
 		buf.init();
 		buf < "resource/mlvot/exptrl" <= i < ".vot";
 		(MLobjExp[i] = new MobileLocation) -> load(buf.GetBuf(),1);
-		}	
+		}
 	for(i = 0;i < 2;i++){
 		buf.init();
 		if(strcmp(MLTntName[CurrentWorld][i],"None")){
@@ -699,7 +700,7 @@ MLTableSize = 0;
 	std::string tmp = path_to_world+"data.vot/";
 	struct dirent **namelist;
 	int n;
-	n = scandir(tmp.c_str(), &namelist, 0, alphasort); 
+	n = scandir(tmp.c_str(), &namelist, 0, alphasort);
 	if (n < 0) 
 		perror("scandir"); 
 	else { 
@@ -720,7 +721,6 @@ MLTableSize = 0;
 	MLTableSize -= NumSkipLocation[CurrentWorld] - RealNumLocation[CurrentWorld];
 #endif
 #endif
-	
 	MLTable = new MobileLocation*[MLTableSize];
 	i = 0;
 #if !(defined(__unix__) || defined(__APPLE__))
@@ -1633,7 +1633,7 @@ void MobileLocation::goPhase(int nPhase)
 	goPh = nPhase;
 };
 
-const int MaxAddDanger[WORLD_MAX] = {0,11,0,0,0 ,0,0,0,0,0,0};
+const int MaxAddDanger[WORLD_MAX] = {0,11,0,0,0, 0,0,0,0,0, 0,0};
 extern int NumAddDanger;
 
 void VLload(void)

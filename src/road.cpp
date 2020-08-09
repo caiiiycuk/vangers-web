@@ -1333,7 +1333,7 @@ void PalettePrepare(void) {
 	int i,j;
 	memset(palbufC,0,768);
 
-	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)){
 		WorldPalCurrent = WorldTable[CurrentWorld]->escT[0]->Pbunch->currentStage;
 		light_modulation  = WorldLightParam[CurrentWorld][WorldPalCurrent];
 		memcpy(palbufC,WorldPalData[WorldPalCurrent],768);
@@ -1385,7 +1385,7 @@ void PalettePrepare(void) {
 		palbufInt[i*3 + 2] = b;
 		}
 #endif
-	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) {
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) {
 		for(k = 0;k < WorldPalNum;k++)	memcpy(WorldPalData[k] + 128*3,palbufOrg + 128*3,128*3);
 	};
 

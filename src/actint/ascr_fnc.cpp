@@ -4485,6 +4485,8 @@ void aciDetectLeaks(void)
 
 void ibsout(int x,int y,void* ptr)
 {
+	if (x < 0 || y < 0)
+		return;
 	int _x,_y,cnt;
 	int* offs_table = XGR_Obj.yOffsTable;
 
@@ -6163,6 +6165,7 @@ void aciCHandler(int key)
 
 			aciOpenWorldLink(7,7);
 			aciOpenWorldLink(10,10);
+			aciOpenWorldLink(11,11);
 			aciPrepareWorldsMenu();
 			aciTreeData -> reset();
 			SOUND_DROP();

@@ -46,6 +46,9 @@
 #define iSTR_WORLD_SATADI_CHAR1	"S"
 #define iSTR_WORLD_SATADI_CHAR2	"‘"
 
+#define iSTR_WORLD_MIRAGE_CHAR1	"M"
+#define iSTR_WORLD_MIRAGE_CHAR2	"Œ"
+
 // Color letters...
 #define iSTR_COLOR_GREEN_CHAR1		"G"
 #define iSTR_COLOR_GREEN_CHAR2		"‡"

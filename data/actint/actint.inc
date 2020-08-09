@@ -600,6 +600,31 @@ mode_key	$VK_F1
 						font		0		\
 						space		1		\
 					}					\
+					fncMenuItem {				\
+						string		$STR_Satadi \
+						function	{ 1000 + $S_ID }  \
+										\
+						font		0		\
+						space		1		\
+										\
+						event $EV_TELEPORT $S_ID	\
+					}					\
+					fncMenuItem {				\
+						string		$STR_Mirage \
+						function	{ 1000 + $M_ID }  \
+										\
+						font		0		\
+						space		1		\
+										\
+						event $EV_TELEPORT $M_ID	\
+					}					\
+					fncMenuItem {				\
+						string		$STR_OFF	\
+						function	$FMENU_OFF	\
+										\
+						font		0		\
+						space		1		\
+					}					\
 				}
 
 #define MENU_BODY	fncMenuItem {					\

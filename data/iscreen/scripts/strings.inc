@@ -555,8 +555,8 @@
 #define iSTR_PASSEMBLOSS1		"PASSEMBLOSS"
 #define iSTR_PASSEMBLOSS2		"€‘‘…Œ‹Ž‘"
 
-#define iSTR_HUNTAGE1			"HUNTAGE"
-#define iSTR_HUNTAGE2			"•€’‰„†"
+#define iSTR_HUNTAGE1			"MIR-RAGE"
+#define iSTR_HUNTAGE2			"Œˆ-€†"
 
 #define iSTR_MUSTODONT1 		"MUSTODONT"
 #define iSTR_MUSTODONT2 		"Œ€‘’Ž„Ž’"

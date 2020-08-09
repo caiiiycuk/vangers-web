@@ -171,7 +171,7 @@ void OpenCyclicPal(void)
 	int i;
 	XStream fin;	
 	
-	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)){
 		WorldPalNum = WorldTable[CurrentWorld]->escT[0]->Pbunch->cycleN;
 		WorldPalData = new uchar*[WorldPalNum];
 		WorldPalCurrent = WorldTable[CurrentWorld]->escT[0]->Pbunch->currentStage;		
@@ -188,7 +188,7 @@ void OpenCyclicPal(void)
 void CloseCyclicPal(void)
 {
 	int i;
-	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)){
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)){
 		for(i = 0;i < WorldPalNum;i++) {
 			delete[] WorldPalData[i];
 		}
@@ -286,7 +286,7 @@ void SaveProtoCrypt(XStream& in)
 	};
 };
 
-const int OLD_CRYPT_MAX[WORLD_MAX] = {26,25,19,5,1,1,4,2,4,5,16};
+const int OLD_CRYPT_MAX[WORLD_MAX] = {26,25,19,5,1,1,4,2,4,5,16,0};
 
 void LoadProtoCrypt(XStream& in,int v)
 {
@@ -1260,7 +1260,7 @@ void GameObjectDispatcher::Quant(void)
 			p = (VangerUnit*)(p->NextTypeList);
 		};
 
-		if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
+		if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
 
 		GlobalTime = GLOBAL_CLOCK();
 		FirstQuant = 0;
@@ -2365,10 +2365,22 @@ int FirstColorPlace[WORLD_MAX][NUM_COLOR_PLACE] = {
 		128,144,160,176,184,192,224,240},
 
 	{83,83,83,83,83,83,83,83,
+		128,144,160,176,184,192,224,240},
+
+	{83,83,83,83,83,83,83,83,
+		128,144,160,176,184,192,224,240},
+
+	{83,83,83,83,83,83,83,83,
 		128,144,160,176,184,192,224,240}
 };
 
 int LastColorPlace[WORLD_MAX][NUM_COLOR_PLACE] = {
+	{83,83,83,83,83,83,83,83,
+		143,159,175,183,191,223,239,254},
+
+	{83,83,83,83,83,83,83,83,
+		143,159,175,183,191,223,239,254},
+
 	{83,83,83,83,83,83,83,83,
 		143,159,175,183,191,223,239,254},
 
@@ -2429,10 +2441,22 @@ const int DecColorPlace[WORLD_MAX][NUM_COLOR_PLACE] = {
 		17,15,20,4,32,32,32,32},
 
 	{4,15,5,5,7,3,7,7,
+		17,15,20,4,32,32,32,32},
+
+	{4,15,5,5,7,3,7,7,
+		17,15,20,4,32,32,32,32},
+
+	{4,15,5,5,7,3,7,7,
 		17,15,20,4,32,32,32,32}
 };
 
 const int GrayColorCycle[WORLD_MAX][NUM_COLOR_PLACE] = {
+	{63,63,63,0,0,0,0,63,
+		0,0,0,0,0,0,0,0},
+
+	{63,63,63,0,0,0,0,63,
+		0,0,0,0,0,0,0,0},
+
 	{63,63,63,0,0,0,0,63,
 		0,0,0,0,0,0,0,0},
 
@@ -2471,7 +2495,7 @@ void CloseBunchPal(void)
 	Vector vColor,vCheck;
 	int MaxVector,dc;
 
-	if(uvsCurrentWorldUnable && ((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1))){
+	if(uvsCurrentWorldUnable && ((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI))){
 		vColor = Vector(63,63,63);
 		MaxVector = vColor.vabs();		
 
@@ -2509,7 +2533,7 @@ void GeneralTableOpen(void)
 			FirstColorPlace[CurrentWorld][i] = BEGCOLOR[i]; 
 		};
 
-		if(uvsCurrentWorldUnable && ((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1))){
+		if(uvsCurrentWorldUnable && ((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI))){
 			vColor = Vector(63,63,63);
 			MaxVector = vColor.vabs();		
 
@@ -2535,7 +2559,7 @@ void GeneralTableOpen(void)
 			}else WaterColorTable[i] = i;
 		};
 
-		if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_MAX - 1)) {
+		if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) {
 			for(k = 0;k < WorldPalNum;k++) {
 			    FirePaletteInit(WorldPalData[k]);
 			    PlasmaPaletteInit(WorldPalData[k]);
@@ -2670,7 +2694,7 @@ void GeneralTableOpen(void)
 	};
 };
 
-int WorldLightParam[WORLD_MAX][3] = {{205,256,160},{205,256,160},{205,256,160},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{205,256,160}};
+int WorldLightParam[WORLD_MAX][3] = {{205,256,160},{205,256,160},{205,256,160},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{160,0,0},{205,256,160},{160,0,0}};
 int CurrentWorldLightParam;
 int DeltaWorldLightParam;
 
@@ -3892,6 +3916,7 @@ void NetworkWorldOpen(void)
 			aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
 			aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
 			aciOpenWorldLink(WORLD_SATADI,WORLD_SATADI);
+			aciOpenWorldLink(WORLD_MIRAGE,WORLD_MIRAGE);
 			aciPrepareWorldsMenu();
 			break;
 		case VAN_WAR:
@@ -3906,7 +3931,22 @@ void NetworkWorldOpen(void)
 				aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
 				aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
   			    aciOpenWorldLink(WORLD_SATADI,WORLD_SATADI);
+				aciOpenWorldLink(WORLD_MIRAGE,WORLD_MIRAGE);
 			};
+			aciPrepareWorldsMenu();
+			break;
+		case 3: // HUNTAGE
+			aciOpenWorldLink(WORLD_FOSTRAL,WORLD_GLORX);
+			aciOpenWorldLink(WORLD_FOSTRAL,WORLD_WEEXOW);
+			aciOpenWorldLink(WORLD_GLORX,WORLD_XPLO);
+			aciOpenWorldLink(WORLD_GLORX,WORLD_NECROSS);
+			aciOpenWorldLink(WORLD_GLORX,WORLD_KHOX);
+			aciOpenWorldLink(WORLD_NECROSS,WORLD_ARKONOY);
+			aciOpenWorldLink(WORLD_NECROSS,WORLD_BOOZEENA);
+			aciOpenWorldLink(WORLD_XPLO,WORLD_THREALL);
+			aciOpenWorldLink(WORLD_HMOK,WORLD_HMOK);
+			aciOpenWorldLink(WORLD_SATADI,WORLD_SATADI);
+			aciOpenWorldLink(WORLD_MIRAGE,WORLD_MIRAGE);
 			aciPrepareWorldsMenu();
 			break;
 	};

@@ -118,6 +118,9 @@
 #define STR_Satadi1 	"Satadi"
 #define STR_Satadi2 	"Сатади"
 
+#define STR_Mirage1 	"Mir-Rage"
+#define STR_Mirage2 	"Мир-Раж"
+
 
 // Mechoses...
 #define MECH00_NAME1	"Oxidize Monk"

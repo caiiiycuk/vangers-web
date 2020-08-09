@@ -9,7 +9,7 @@
 // количество основных миров
 const int MAIN_WORLD_MAX = 4;
 // общее количество миров включая секретные
-const int WORLD_MAX = 11;
+const int WORLD_MAX = 12;
 // количество основных биосов в Цепи
 const int BIOS_MAX = 4;
 // количество приказов в памяти с-вангеров
@@ -698,9 +698,10 @@ struct uvsWorld : listElem {
 	listElem* Pitem;				//указатель на инвентори
 	uvsElement *Panymal;	//указатель на двигающие обьекты
 	int locked;				// внешний статус занятости прохода вангером
+	int x_spawn,y_spawn;	// точки для создания игрока, если мир кастомный
 
 		// pfile - обработчик worlds.prm, atom - первая значимая строка
-	uvsWorld(void):listElem(){ name = NULL; gIndex = x_size = y_size = GamerVisit = escTmax = sptTmax = pssTmax = locked = 0;
+	uvsWorld(void):listElem(){ name = NULL; gIndex = x_size = y_size = GamerVisit = escTmax = sptTmax = pssTmax = locked = x_spawn = y_spawn = 0;
 												escT = NULL; sptT = NULL; pssT = NULL; Pitem = NULL; Panymal = NULL;
 	}
 		~uvsWorld(void);
