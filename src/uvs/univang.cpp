@@ -3219,15 +3219,17 @@ void uvsShop::sellMechos(uvsMechos*& Pm, int type){
 
 	if (!type) type = ~0;
 
-	if (Pm) addMechos( Pm );
+	if (Pm) {
+		addMechos(Pm);
+	}
 
-	Pm = (uvsMechos*)Pmechos;
+	if (last_type) {
+		Pm = (uvsMechos*)Pmechos;
 
 	while( Pm && ((Pm -> type >= first_constr && Pm -> type < MAX_MECHOS_WITH_PARTS) || ((Pm -> status & type) == 0))){
 		Pm = (uvsMechos*)Pm -> next;
 	}
 
-	if (last_type){
 		uvsMechos*_pm_ = Pm;
 		while( Pm ){
 			if ((uvsMechosTable[Pm -> type]->price > uvsMechosTable[_pm_ -> type]->price) && (Pm -> type < first_constr || Pm -> type >= MAX_MECHOS_WITH_PARTS)) {
