@@ -1156,8 +1156,8 @@ world_map {
 		flag	$AS_SPECIAL_WORLD
 		flag	$AS_VISIBLE_WORLD
 
-		x	380
-		y	-820
+		x	100
+		y	820
 
 		name	"Mirage"
 	}
