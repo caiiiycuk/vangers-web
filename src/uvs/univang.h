@@ -699,9 +699,10 @@ struct uvsWorld : listElem {
 	uvsElement *Panymal;	//указатель на двигающие обьекты
 	int locked;				// внешний статус занятости прохода вангером
 	int x_spawn,y_spawn;	// точки для создания игрока, если мир кастомный
+	int flood_level;		// уровень затопления жидкостью, если мир кастомный
 
 		// pfile - обработчик worlds.prm, atom - первая значимая строка
-	uvsWorld(void):listElem(){ name = NULL; gIndex = x_size = y_size = GamerVisit = escTmax = sptTmax = pssTmax = locked = x_spawn = y_spawn = 0;
+	uvsWorld(void):listElem(){ name = NULL; gIndex = x_size = y_size = GamerVisit = escTmax = sptTmax = pssTmax = locked = x_spawn = y_spawn = flood_level = 0;
 												escT = NULL; sptT = NULL; pssT = NULL; Pitem = NULL; Panymal = NULL;
 	}
 		~uvsWorld(void);

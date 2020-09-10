@@ -1257,6 +1257,7 @@ uvsWorld::uvsWorld(PrmFile* pfile,char* atom){
 	y_size = 1 << atoi(pfile -> getAtom());
 	x_spawn = atoi(pfile -> getAtom());
 	y_spawn = atoi(pfile -> getAtom());
+	flood_level = atoi(pfile ->getAtom());
 
 	escTmax = sptTmax = pssTmax = 0;
 	escT = NULL;
@@ -1337,6 +1338,7 @@ uvsWorld::uvsWorld(XStream& pfile ){
 	pfile > y_size; y_size = 1 << y_size;
 	pfile > x_spawn;
 	pfile > y_spawn;
+	pfile > flood_level;
 
 	escTmax = sptTmax = pssTmax = 0;
 	escT = NULL;
@@ -1385,6 +1387,7 @@ void uvsWorld::save(XStream& pfile ){
 	pfile < get_power(y_size);
 	pfile < x_spawn;
 	pfile < y_spawn;
+	pfile < flood_level;
 
 	pfile < gIndex;
 	pfile < GamerVisit;
