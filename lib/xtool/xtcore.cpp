@@ -99,8 +99,8 @@ XStream xtRTO_Log;
 int xtSysQuantDisabled = 0;
 extern bool XGR_FULL_SCREEN;
 
-extern bool connectToServer;
-extern char *connectToServer_Host;
+bool connectToServer;
+char *connectToServer_Host;
 
 int main(int argc, char *argv[])
 {

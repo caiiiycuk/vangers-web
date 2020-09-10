@@ -99,8 +99,8 @@ extern int IsMainMenu;
 
 /* --------------------------- PROTOTYPE SECTION ---------------------------- */
 
-bool connectToServer;
-char *connectToServer_Host;
+extern bool connectToServer;
+extern char *connectToServer_Host;
 
 int iGetEscaveTime(void);
 
