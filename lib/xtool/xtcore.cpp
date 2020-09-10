@@ -99,6 +99,9 @@ XStream xtRTO_Log;
 int xtSysQuantDisabled = 0;
 extern bool XGR_FULL_SCREEN;
 
+extern bool connectToServer;
+extern char *connectToServer_Host;
+
 int main(int argc, char *argv[])
 {
 #ifdef __HAIKU__
@@ -127,7 +130,14 @@ int main(int argc, char *argv[])
 		else if (cmd_key == "-russian")
 			setLang(RUSSIAN);
         else if (cmd_key == "-ai")
-            setAi(BOT);
+			setAi(BOT);
+		else if (cmd_key == "-connect") {
+			if (argc > i) {
+				connectToServer = true;
+				connectToServer_Host = argv[i + 1];
+				i++;
+			}
+		}
 	}
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
