@@ -10565,7 +10565,10 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 					pm -> prev -> next = pm -> next;
 				}
 
-				pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN; // CxDebug: change bot mechos on respawn here?
+				pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN; // CxInfo: change mechous on respawn here
+				if (ai() != PLAYER) {
+					pm -> type = 5; // CxDebug: detect net mod and change mechous accordingly
+				}
 				Gamer -> Pmechos = pm;
 				if (!Gamer -> Pmechos)
 					ErrH.Abort("uvsMakeNewGamer :: dont have any mechos in shop");
