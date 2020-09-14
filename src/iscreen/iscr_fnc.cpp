@@ -99,6 +99,9 @@ extern int IsMainMenu;
 
 /* --------------------------- PROTOTYPE SECTION ---------------------------- */
 
+extern bool connectToServer;
+extern char *connectToServer_Host;
+
 int iGetEscaveTime(void);
 
 void aciVMapPrepare(void);
@@ -549,9 +552,18 @@ void iPreInitFirst() {
 			iPrepareResults();
 			iMultiFlag = 0;
 			iEndGameFlag = 1;
-		}
-		else
-			iScrDisp -> curScr = (iScreen*)iScrDisp -> get_object(iScrDisp -> t_scrID);
+		} else if (connectToServer) {
+			init_hfonts();
+			iScrDisp->curScr = (iScreen *) iScrDisp->get_object("Searching screen");
+			avaible_servers.find_servers_in_the_internet(connectToServer_Host, iServerPort);
+			if (avaible_servers.size() > 0) {
+				iFirstServerPtr = avaible_servers.first();
+				iCurServer = 0;
+				iInitServersList();
+			}
+			iScrDisp->curScr = (iScreen *) iScrDisp->get_object("iSearch server screen");
+		} else
+			iScrDisp->curScr = (iScreen *) iScrDisp->get_object(iScrDisp->t_scrID);
 #endif
 	}
 	iInitControls();
