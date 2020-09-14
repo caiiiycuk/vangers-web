@@ -60,6 +60,7 @@
 #include "../terra/render.h"
 #include "../units/moveland.h"
 #include "../units/sensor.h"
+#include "../actint/actint.h"
 
 const int TABUTASK_BAD = ACI_TABUTASK_FAILED;
 const int TABUTASK_GOOD = ACI_TABUTASK_SUCCESSFUL;
@@ -85,6 +86,7 @@ extern int NetworkON;
 extern NetRndType NetRnd;
 extern int ChangeArmor;
 extern int dgAbortStatus;
+extern actIntDispatcher* aScrDisp;
 
 void LoadingMessage(int flush = 0);
 void ChangeVanger(void);
@@ -1092,6 +1094,9 @@ void uvsContimer::Quant(void){
 	}
 
 	if (ActD.Active && ai() != PLAYER) {
+		int memorizedWorld = CurrentWorld;
+		int worldIsAboutToChange = 0;
+
 		if (CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT) && ActD.Active->ExternalMode == EXTERNAL_MODE_NORMAL) {
 			std::cout<<"CxInfo: Restoring Auto mode"<<std::endl;
 			ActD.Active->Status ^= SOBJ_AUTOMAT;
@@ -1100,12 +1105,27 @@ void uvsContimer::Quant(void){
 			if (CurrentWorld == -1) {
 				// CxDebug: put autoexit and autoequip here
 			} else if (ActD.Active) {
+				if (CurrentWorld != memorizedWorld) {
+					std::cout<<"    CxDebug: bot world has changed"<<std::endl;
+					memorizedWorld = CurrentWorld;
+					worldIsAboutToChange = 0;
+				}
 				if (my_server_data.GameType == PASSEMBLOSS && UsedCheckNum < GloryPlaceNum) {
-					if ((ActD.Active->PassageCount < 2) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01"))) {
+					if (((ActD.Active->MaxPassageCount >= 2 && ActD.Active->PassageCount < 2) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01")))
+					|| ((ActD.Active->MaxPassageCount < 2 && ActD.Active->PassageCount == 0) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01")))) {
+						SensorDataType *spiralStation = FindSensor("KeyUpdate1");
+						if (!spiralStation) spiralStation = FindSensor("KeyUpdate01");
+
 						if (lang() == RUSSIAN) {
 							SelectCompasTarget(rCmpSpiral);
 						} else {
 							SelectCompasTarget(eCmpSpiral);
+						}
+
+						if ((abs(getDistX(ActD.Active->R_curr.x,spiralStation->R_curr.x))) < 100
+							&& (abs(getDistY(ActD.Active->R_curr.y,spiralStation->R_curr.y))) < 100) {
+							std::cout<<"    CxDebug: bot got near Spiral Charging Station"<<std::endl;
+							ActD.Active->PassageCount = ActD.Active->MaxPassageCount;
 						}
 					} else {
 						if (GloryPlaceData[UsedCheckNum].World == CurrentWorld) {
@@ -1153,6 +1173,11 @@ void uvsContimer::Quant(void){
 								if (strcmp(passName,"K2G")==0) SelectCompasTarget(eCmpPassGlorx);
 								if (strcmp(passName,"B2N")==0) SelectCompasTarget(eCmpPassNecross);
 								if (strcmp(passName,"A2N")==0) SelectCompasTarget(eCmpPassNecross);
+							}
+							if ((abs(getDistX(ActD.Active->R_curr.x,pass->pos_x))) < 100
+							&& (abs(getDistY(ActD.Active->R_curr.y,pass->pos_y))) < 100 && worldIsAboutToChange == 0) {
+								worldIsAboutToChange = 1;
+								// aScrDisp->send_event(EV_TELEPORT, pass->Poutput->gIndex); Doesn't work for some reason (if SOBJ_AUTOMAT)
 							}
 						}
 					}
