@@ -1,0 +1,20 @@
+"А что иль кто есть"	"советник?"
+"What is"	"counselor?"
+
+[мехос] [mechos]
+"Тебе ли не знать, чем пользуются бедняги для развлечения Зрителей во время Арены на Сатади?"
+{Сатади} {Зрители} {Арена}
+"You'd better know what you'll use to entertain Spectators during the Arena on Satadi."
+{Satadi} {Spectators} {Arena}
+
+[Сатади] [Satadi]
+"Мир-свалка в своём роде. Можешь попробовать поискать здесь что-то ценное, конечно..."
+"A trash can of sorts. You can try looking for something of value, though."
+
+[Зрители] [Spectators]
+"Странные штучки вроде меня, к примеру."
+"Weird thingies like me, for example."
+
+[Арена] [Arena]
+"Мы тут немного скучаем, поэтому ищем отважных воинов, способных пережить тяготы и невзгоды этого мира. Преимущественно - нас. Хотя мы, конечно, далеко не единственные, кого стоит считать таковыми..."
+"We're kinda bored here, so we look for brave warriors, who manage to survive the dangers of this world. Namely, us. Though we're not the only dangers here..."
