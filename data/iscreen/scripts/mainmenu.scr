@@ -1035,6 +1035,38 @@ Object "Multiplayer Option"
 			$EV_CHANGE_OBJ
 		}
 	}
+
+	Object "Cx name"
+	{
+		x	705
+		y	525
+
+		Element STRING {
+			align_x center
+
+			terrain_num	$TERRAIN2
+
+			font		3
+			null_level	$DEFAULT_NULL
+			string		"Cx"
+		}
+	}
+
+	Object "Cx version"
+	{
+		x	690
+		y	555
+
+		Element STRING {
+			align_x center
+
+			terrain_num	$TERRAIN2
+
+			font		3
+			null_level	$DEFAULT_NULL
+			string		"0.52"
+		}
+	}
 }
 
 
