@@ -146,6 +146,9 @@ int GeneralMapReload = 0;
 extern uchar** WorldPalData;
 extern iScreenOption** iScrOpt;
 
+extern bool customMechousUsage;
+extern int customMechousId;
+
 const int uvsVANGER_ARRIVAL = 0;
 const int uvsVANGER_FAILED = 1;
 const int uvsVANGER_KILLED = 2;
@@ -829,8 +832,7 @@ void uniVangPrepare(void){
 	v -> Pescave -> Pbunch -> currentStage = 0;
 #endif
 
-	//zNfo  DEFAULT MECHOS 
-	// 16 = моток
+	//zNfo  DEFAULT MECHOS
 	int MechosID = 0;
 	char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
 	if (NetworkON) {
@@ -841,11 +843,11 @@ void uniVangPrepare(void){
 			case Z_MODS_TEST_ID:		{ MechosID =  5; break; } // дряхлый душегуб
 			default: MechosID = 5; // дряхлый душегуб
 		}
-		if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
-		if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
-		if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
-		if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
-		if (NetworkON && strcmp(game_name,"test83")==0) MechosID = 24; // CxDebug: for new mechos testing purposes
+		if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
+		if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
+		if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
+		if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
+		if (customMechousUsage) MechosID = customMechousId;
 	}
 
 	v -> Pescave -> Pshop -> sellMechos(v -> Pmechos, MechosID);

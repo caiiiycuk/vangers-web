@@ -102,6 +102,9 @@ extern bool XGR_FULL_SCREEN;
 bool connectToServer;
 char *connectToServer_Host;
 
+bool customMechousUsage;
+int customMechousId;
+
 int main(int argc, char *argv[])
 {
 #ifdef __HAIKU__
@@ -135,6 +138,12 @@ int main(int argc, char *argv[])
 			if (argc > i) {
 				connectToServer = true;
 				connectToServer_Host = argv[i + 1];
+				i++;
+			}
+		} else if (cmd_key == "-mechous") {
+			if (argc > i) {
+				customMechousUsage = true;
+				customMechousId = atoi(argv[i + 1]);
 				i++;
 			}
 		}
