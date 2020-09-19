@@ -1094,9 +1094,6 @@ void uvsContimer::Quant(void){
 	}
 
 	if (ActD.Active && ai() != PLAYER) {
-		int memorizedWorld = CurrentWorld;
-		int worldIsAboutToChange = 0;
-
 		if (CurrentWorld != -1 && !(ActD.Active->Status & SOBJ_AUTOMAT) && ActD.Active->ExternalMode == EXTERNAL_MODE_NORMAL) {
 			std::cout<<"CxInfo: Restoring Auto mode"<<std::endl;
 			ActD.Active->Status ^= SOBJ_AUTOMAT;
@@ -1105,11 +1102,6 @@ void uvsContimer::Quant(void){
 			if (CurrentWorld == -1) {
 				// CxDebug: put autoexit and autoequip here
 			} else if (ActD.Active) {
-				if (CurrentWorld != memorizedWorld) {
-					std::cout<<"    CxDebug: bot world has changed"<<std::endl;
-					memorizedWorld = CurrentWorld;
-					worldIsAboutToChange = 0;
-				}
 				if (my_server_data.GameType == PASSEMBLOSS && UsedCheckNum < GloryPlaceNum) {
 					if (((ActD.Active->MaxPassageCount >= 2 && ActD.Active->PassageCount < 2) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01")))
 					|| ((ActD.Active->MaxPassageCount < 2 && ActD.Active->PassageCount == 0) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01")))) {
@@ -1124,7 +1116,6 @@ void uvsContimer::Quant(void){
 
 						if ((abs(getDistX(ActD.Active->R_curr.x,spiralStation->R_curr.x))) < 100
 							&& (abs(getDistY(ActD.Active->R_curr.y,spiralStation->R_curr.y))) < 100) {
-							std::cout<<"    CxDebug: bot got near Spiral Charging Station"<<std::endl;
 							ActD.Active->PassageCount = ActD.Active->MaxPassageCount;
 						}
 					} else {
@@ -1174,11 +1165,11 @@ void uvsContimer::Quant(void){
 								if (strcmp(passName,"B2N")==0) SelectCompasTarget(eCmpPassNecross);
 								if (strcmp(passName,"A2N")==0) SelectCompasTarget(eCmpPassNecross);
 							}
-							if ((abs(getDistX(ActD.Active->R_curr.x,pass->pos_x))) < 100
-							&& (abs(getDistY(ActD.Active->R_curr.y,pass->pos_y))) < 100 && worldIsAboutToChange == 0) {
-								worldIsAboutToChange = 1;
-								// aScrDisp->send_event(EV_TELEPORT, pass->Poutput->gIndex); Doesn't work for some reason (if SOBJ_AUTOMAT)
-							}
+//							if ((abs(getDistX(ActD.Active->R_curr.x,pass->pos_x))) < 100
+//							&& (abs(getDistY(ActD.Active->R_curr.y,pass->pos_y))) < 100) {
+								//std::cout<<"    CxDebug: bot got near the target Passage"<<std::endl;
+								//aScrDisp->send_event(EV_TELEPORT, pass->Poutput->gIndex); //Doesn't work for some reason (if SOBJ_AUTOMAT)
+//							}
 						}
 					}
 				} else if (my_server_data.GameType == MECHOSOMA) {

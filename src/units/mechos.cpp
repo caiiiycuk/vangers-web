@@ -4015,7 +4015,7 @@ void VangerUnit::Quant(void)
 			};
 		};
 	}else{
-		if(Status & SOBJ_AUTOMAT){
+		if(Status & SOBJ_AUTOMAT){ // CxInfo: can disable bots movement here, it would seem
 			if(Visibility == VISIBLE){
 				TerrainQuant();
 				if(aiMoveMode == AI_MOVE_POINT){
@@ -4046,9 +4046,11 @@ void VangerUnit::Quant(void)
 				else SpeedDir = 0;
 				HideAction();
 			};
-		}else{
+		};
+		if ((!(Status & SOBJ_AUTOMAT)) || ai() != PLAYER) {
 			if(aciWorldIndex != -1){
-				if(!(Status & SOBJ_AUTOMAT)){
+				//if((!(Status & SOBJ_AUTOMAT)) || ai() != PLAYER){
+					std::cout<<"    CxDebug: aciWorldIndex != -1: not Player or not Automat"<<std::endl;
 					uvsPoint -> Pworld = WorldTable[aciWorldIndex];				
 					EffD.CreateRingOfLord(EFF_PARTICLE06,R_curr + Vector(0,0,80),radius*2,200,111,111,radius << 7);
 		//			ExternalMode = EXTERNAL_MODE_SIGN_IN;
@@ -4065,12 +4067,13 @@ void VangerUnit::Quant(void)
 					StopCDTRACK();
 					NetFunction83Time = NetGlobalTime;
 					ShellUpdateFlag = 1;
-				};
+				//};
 				aciWorldIndex = -1;
 			};
 
 			if(aciTeleportEvent != 0){
-				if(!(Status & SOBJ_AUTOMAT)){
+				//if((!(Status & SOBJ_AUTOMAT)) || ai() != PLAYER){
+					std::cout<<"    CxDebug: aciTeleportEvent != 0: not Player or not Automat"<<std::endl;
 					ExternalTime = CHANGE_VANGER_TIME;
 					ExternalLock = 1;
 					ExternalObject = NULL;
@@ -4083,7 +4086,7 @@ void VangerUnit::Quant(void)
 					for(i = 0;i < 5;i++)
 						EffD.CreateParticleGenerator(R_curr,R_curr,Vector(5,0,0)*DBM((int)(RND(PI*2)),Z_AXIS));
 					SOUND_BOOT_START();
-				};
+				//};
 				aciTeleportEvent = 0;
 			};
 
@@ -4292,7 +4295,7 @@ void VangerUnit::ShellUpdate(void)
 	NETWORK_OUT_STREAM < (unsigned int)(NetFunction83Time);
 };
 
-void VangerUnit::TerrainQuant(void)
+void VangerUnit::TerrainQuant(void) // CxInfo: Necross mushrooms explosions
 {
 	int i,y0,y1;
 	Vector vCheck;
@@ -4837,7 +4840,7 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 				}
 				break;
 			case SensorTypeList::IMPULSE:
-				impulse(p->vData,p->Power,0);				
+				impulse(p->vData,p->Power,0);
 				break;
 			case SensorTypeList::SENSOR:
 				if (ai() != PLAYER) {
