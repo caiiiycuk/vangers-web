@@ -1731,6 +1731,9 @@ void iGetMultiGameParameters(void)
             if(strcmp(game_name,"truck-trial")==0) value = 3;
             if(strcmp(game_name,"raffa run")==0) value = 2;
             if(strcmp(game_name,"khox run")==0) value = 2;
+            if(strcmp(game_name,"zeefick")==0) value = 3;
+            if(strcmp(game_name,"roulette")==0) value = 2;
+            if(strcmp(game_name,"aveslom")==0) value = 2;
 			my_server_data.Passembloss.RandomEscave = value - 1;
 //			my_server_data.Passembloss.RandomEscave = tm % 3;
 			break;
@@ -1852,6 +1855,9 @@ void iSetMultiGameParameters(void)
             if(strcmp(game_name,"truck-trial")==0) value = 2;
             if(strcmp(game_name,"raffa run")==0) value = 1;
             if(strcmp(game_name,"khox run")==0) value = 1;
+            if(strcmp(game_name,"zeefick")==0) value = 2;
+            if(strcmp(game_name,"roulette")==0) value = 1;
+            if(strcmp(game_name,"aveslom")==0) value = 1;
 			iSetMultiGameParameter(iMP_PASSEMBLOSS,iMP_ESCAVE,value);
 			break;
 		case iMP_HUNTAGE:

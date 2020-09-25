@@ -3676,8 +3676,8 @@ void GloryPlace::Init(int ind)
 	//zNfo - GloryPlace
 	
 	//Formula-V
-//	if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) {
-	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"formula")==0) {
+	if ((z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) ||
+		(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"formula")==0)) {
 		World = WORLD_GLORX;
 		switch (ind % 4) {
 		case 0:	R_curr.x = 1341;	R_curr.y = 5971;	break;
@@ -3689,8 +3689,8 @@ void GloryPlace::Init(int ind)
 	} 
 	
 	//Trak-Trial
-//	if (z_my_server_data.mod_id == Z_MODS_TRAKTRIAL_ID) {
-	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0) {
+	if ((z_my_server_data.mod_id == Z_MODS_TRAKTRIAL_ID) ||
+		(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0)) {
 		World = WORLD_NECROSS;
 		switch (ind % 2) {
 		case 0:	R_curr.x =  620;	R_curr.y = 14771;	break;
@@ -3700,8 +3700,8 @@ void GloryPlace::Init(int ind)
 	}
 	
 	//khoxrun
-//	if (z_my_server_data.mod_id == Z_MODS_KHOXRUN_ID) {
-	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"khox run")==0) {
+	if ((z_my_server_data.mod_id == Z_MODS_KHOXRUN_ID) ||
+		(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"khox run")==0)) {
 		World = WORLD_KHOX;
 		switch (ind) {
 		case  0:	R_curr.x = 1358;	R_curr.y = 7036;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если чек не на трех мирах.
@@ -3716,6 +3716,71 @@ void GloryPlace::Init(int ind)
 		case  9:	R_curr.x =  910;	R_curr.y = 2014;	break;
 		case 10:	R_curr.x = 1232;	R_curr.y =  717;	break;
 		case 11:	R_curr.x =  307;	R_curr.y =  385;	break;
+		}
+		return;
+	}
+
+	//roulette
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"roulette")==0) {
+		World = WORLD_BOOZEENA;
+		switch (ind) {
+		case  0:	R_curr.x = 1358;	R_curr.y = 7036;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если чек не на трех мирах.
+		default:
+			switch(RND(13)) {
+			case  0:	R_curr.x = 625;	R_curr.y = 1293;	break;
+			case  1:	R_curr.x = 439;	R_curr.y = 1352;	break;
+			case  2:	R_curr.x = 818;	R_curr.y = 1328;	break;
+			case  3:	R_curr.x = 970;	R_curr.y = 1454;	break;
+			case  4:	R_curr.x =1048;	R_curr.y = 1632;	break;
+			case  5:	R_curr.x =1042;	R_curr.y = 1799;	break;
+			case  6:	R_curr.x = 947;	R_curr.y = 1972;	break;
+			case  7:	R_curr.x = 785;	R_curr.y =   30;	break;
+			case  8:	R_curr.x = 591;	R_curr.y =   48;	break;
+			case  9:	R_curr.x = 411;	R_curr.y = 2022;	break;
+			case 10:	R_curr.x = 287;	R_curr.y = 1870;	break;
+			case 11:	R_curr.x = 249;	R_curr.y = 1678;	break;
+			case 12:	R_curr.x = 305;	R_curr.y = 1491;	break;
+			}
+		}
+		return;
+	}
+
+	//zeefick
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"zeefick")==0) {
+		World = WORLD_ARKONOY;
+		switch (ind) {
+		case  0:	R_curr.x = 1321;	R_curr.y = 13542;	World = WORLD_NECROSS;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если первый чек не на трех мирах.
+		default:
+			switch(RND(6)) {
+			case  0:	R_curr.x =  318;	R_curr.y =    4;	break;
+			case  1:	R_curr.x = 1705;	R_curr.y =  390;	break;
+			case  2:	R_curr.x =  411;	R_curr.y =  645;	break;
+			case  3:	R_curr.x =  561;	R_curr.y = 1201;	break;
+			case  4:	R_curr.x = 1230;	R_curr.y =  867;	break;
+			case  5:	R_curr.x = 1525;	R_curr.y = 1494;	break;
+			}
+		}
+		return;
+	}
+
+	//aveslom
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"aveslom")==0) {
+		World = WORLD_THREALL;
+		switch (ind) {
+		case  0:	R_curr.x = 1260;	R_curr.y = 14380;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если первый чек не на трех мирах.
+		default:
+			switch(GloryRnd.aiRnd(10)) {
+			case  0:	R_curr.x = 1534;	R_curr.y =  591;	break;
+			case  1:	R_curr.x =  282;	R_curr.y = 1189;	break;
+			case  2:	R_curr.x = 1860;	R_curr.y =    0;	break;
+			case  3:	R_curr.x =  688;	R_curr.y =  300;	break;
+			case  4:	R_curr.x =  290;	R_curr.y = 1788;	break;
+			case  5:	R_curr.x = 1648;	R_curr.y = 1510;	break;
+			case  6:	R_curr.x =  958;	R_curr.y =  480;	break;
+			case  7:	R_curr.x = 1232;	R_curr.y =  139;	break;
+			case  8:	R_curr.x =  566;	R_curr.y =  692;	break;
+			case  9:	R_curr.x = 1482;	R_curr.y = 1637;	break;
+			}
 		}
 		return;
 	}
