@@ -1309,22 +1309,11 @@ void PlayersList::parsing_total_body_query()
 *******************************************************************************/
 MessageElement::MessageElement(const char* player_name, char* msg,int col)
 {
-    char *name, *actual_msg;
-    int actual_col;
-    if (strncmp(msg, bot_tag, 5)==0) {
-        name = (char*)"$";
-        actual_msg = msg + 5;
-        actual_col = 3;
-    } else {
-        name = (char*)player_name;
-        actual_msg = msg;
-        actual_col = col;
-    }
-	message = new char[strlen(name) + strlen(actual_msg) + 3];
-	strcpy(message,name);
+	message = new char[strlen(player_name) + strlen(msg) + 3];
+	strcpy(message,player_name);
 	strcat(message,": ");
-	strcat(message,actual_msg);
-	color = actual_col;
+	strcat(message,msg);
+	color = col;
 	//zmod
     time = SDL_GetTicks();
 }
