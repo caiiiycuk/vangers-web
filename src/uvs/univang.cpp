@@ -1243,22 +1243,22 @@ void uvsContimer::Quant(void){
 	if (NetworkON && is_start) {
 		countFromStart++;
 		if (countFromStart==300) {
-			message_dispatcher.send("[bot]5", MESSAGE_FOR_ALL, 0);
+			message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
 		}
 		else if (countFromStart==320) {
-			message_dispatcher.send("[bot]4", MESSAGE_FOR_ALL, 0);
+			message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
 		}
 		else if (countFromStart==340) {
-			message_dispatcher.send("[bot]3", MESSAGE_FOR_ALL, 0);
+			message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
 		}
 		else if (countFromStart==360) {
-			message_dispatcher.send("[bot]2", MESSAGE_FOR_ALL, 0);
+			message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
 		}
 		else if (countFromStart==380) {
-			message_dispatcher.send("[bot]1", MESSAGE_FOR_ALL, 0);
+			message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
 		}
 		else if (countFromStart==400) {
-			message_dispatcher.send("[bot]ëíÄêí!!!", MESSAGE_FOR_ALL, 0);
+			message_dispatcher.send("[bot]ëíÄêí!!!", MESSAGE_FOR_PLAYER, 0);
 			countFromStart=0;
 			is_start=false;
 		}
