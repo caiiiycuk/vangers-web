@@ -23,6 +23,10 @@ extern int GlobalExit;
 #define CLIENT_VERSION	1
 #define SERVER_VERSION	1
 
+#include "iscreen/iscreen_options.h"
+#include "iscreen/iscreen.h"
+extern iScreenOption** iScrOpt;
+
 int is_start = 0;
 
 //zmod
@@ -1319,7 +1323,8 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
         actual_col = 3;
     } else if (strcmp(msg, "/start")==0  && is_start==0) {
 		name = (char*)"$";
-		actual_msg = (char*)"Старт через 20 секунд";
+		actual_msg = (char*)"[bot]Старт через 20 секунд";
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "ohota na mamonta")==0) actual_msg = (char*)"[bot]Старт мамонта через 20 секунд, охотников через 40";
 		actual_col = 3;
 		is_start = 1;
 	} else {

@@ -1242,25 +1242,35 @@ void uvsContimer::Quant(void){
 	}
 	if (NetworkON && is_start==1) {
 		countFromStart++;
-		if (countFromStart==300) {
-			message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"ohota na mamonta")==0) {
+			if (countFromCommand==300) message_dispatcher.send("[bot]5(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==320) message_dispatcher.send("[bot]4(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==340) message_dispatcher.send("[bot]3(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==360) message_dispatcher.send("[bot]2(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==380) message_dispatcher.send("[bot]1(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==400) message_dispatcher.send("[bot]20 секунд мамонта", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==700) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==720) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==740) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==760) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==780) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==800) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				countFromCommand=0;
+				is_start=0;
+			}
 		}
-		else if (countFromStart==320) {
-			message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
-		}
-		else if (countFromStart==340) {
-			message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
-		}
-		else if (countFromStart==360) {
-			message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
-		}
-		else if (countFromStart==380) {
-			message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
-		}
-		else if (countFromStart==400) {
-			message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
-			countFromStart=0;
-			is_start=0;
+		else {
+			if (countFromCommand==300) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==320) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==340) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==360) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==380) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromCommand==400) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				countFromCommand=0;
+				is_start=0;
+			}
 		}
 	}
 }
