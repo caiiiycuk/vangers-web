@@ -82,7 +82,7 @@ int uvsTabuTaskFlag = 0;
 //int uvsGamerActive = 1;
 
 /* ----------------------------- EXTERN SECTION ---------------------------- */
-extern bool is_start;
+extern int is_start;
 
 extern int Dead,Quit;
 extern int GameQuantReturnValue;
@@ -1240,7 +1240,7 @@ void uvsContimer::Quant(void){
 			stagesFromDeath = 0;
 		}
 	}
-	if (NetworkON && is_start) {
+	if (NetworkON && is_start==1) {
 		countFromStart++;
 		if (countFromStart==300) {
 			message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
@@ -1260,7 +1260,7 @@ void uvsContimer::Quant(void){
 		else if (countFromStart==400) {
 			message_dispatcher.send("[bot]ëíÄêí!!!", MESSAGE_FOR_PLAYER, 0);
 			countFromStart=0;
-			is_start=false;
+			is_start=0;
 		}
 	}
 }

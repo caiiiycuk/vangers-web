@@ -23,7 +23,7 @@ extern int GlobalExit;
 #define CLIENT_VERSION	1
 #define SERVER_VERSION	1
 
-bool is_start = false;
+int is_start = 0;
 
 //zmod
 int zserver_version = 0;
@@ -1317,11 +1317,11 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
         name = (char*)"$";
         actual_msg = msg + 5;
         actual_col = 3;
-    } else if (strcmp(msg, "/start")==0  && !is_start) {
+    } else if (strcmp(msg, "/start")==0  && is_start==0) {
 		name = (char*)"$";
 		actual_msg = (char*)"Старт через 20 секунд";
 		actual_col = 3;
-		is_start = true;
+		is_start = 1;
 	} else {
         name = (char*)player_name;
         actual_msg = msg;
