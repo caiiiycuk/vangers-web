@@ -29,6 +29,7 @@ struct ParticleProcess;
 
 #include "../iscreen/controls.h"
 
+
 #undef random
 #define random(num) ((int)(((long)_rand()*(num)) >> 15))
 
