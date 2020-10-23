@@ -844,9 +844,11 @@ void uniVangPrepare(void){
 			default: MechosID = 5; // дряхлый душегуб
 		}
 		if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
-		if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
-		if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
-		if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
+		else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"raffasoma")==0) MechosID = 16;
+		else if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
+		else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"skysoma")==0) MechosID = 22;
+		else if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
+		else if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"arena")==0) MechosID = 16;
 		if (customMechousUsage) MechosID = customMechousId;
 	}
 
@@ -10586,7 +10588,13 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 					pm -> prev -> next = pm -> next;
 				}
 
-				pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN; // CxInfo: change mechous on respawn here
+				char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+				if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
+				else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"raffasoma")==0) MechosID = 16;
+				else if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
+				else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"skysoma")==0) MechosID = 22;
+				else if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
+				else pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN;
 				if (ai() != PLAYER) {
 					pm -> type = 5; // CxDebug: detect net mod and change mechous accordingly
 				}
