@@ -1,4 +1,4 @@
-/*
+/* 
 		uniVang-STAND Source File
 		(C)1997 by K-D Lab
 		Author: K-D Lab::KranK, KoTo
