@@ -829,6 +829,7 @@ int connect_to_server(ServerFindChain* p)
 		return GlobalStationID;
 		}
 	NetworkON = 0;
+	is_start = 0;
 	return 0;
 }
 int restore_connection()
@@ -868,6 +869,7 @@ void disconnect_from_server()
 	delay(256);
 	events_out.clear();
 	events_in.reset();
+	is_start = 0;
 }
 void set_time_by_server(int n_measures)
 {
@@ -1324,9 +1326,15 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
     } else if (strcmp(msg, "/start")==0  && is_start==0) {
 		name = (char*)"$";
 		actual_msg = (char*)"[bot]Старт через 20 секунд";
-		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "ohota na mamonta")==0) actual_msg = (char*)"[bot]Старт мамонта через 20 секунд, охотников через 40";
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "ohota na mamonta")==0) 
+			actual_msg = (char*)"[bot]Старт мамонта через 20 секунд, охотников через 40";
 		actual_col = 3;
 		is_start = 1;
+	} else if (strcmp(msg, "/finish")==0  && (is_start==2 || is_start==3)) {
+		name = (char*)"$";
+		actual_msg = (char*)"Финиш";
+		actual_col = 3;
+		is_start = 0;
 	} else {
         name = (char*)player_name;
         actual_msg = msg;

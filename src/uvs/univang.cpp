@@ -1269,8 +1269,46 @@ void uvsContimer::Quant(void){
 			else if (countFromStart==400) {
 				message_dispatcher.send("[bot]‘’€’!!!", MESSAGE_FOR_PLAYER, 0);
 				countFromStart=0;
-				is_start=0;
+				is_start=2;
 			}
+		}
+	}
+	
+	if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"wiring")==0) {
+		if (ActD.Active && (ActD.Active->R_curr.z <= 240 || 
+		ActD.Active->R_curr.y <= 14710 || ActD.Active->R_curr.y >= 16025 ||
+		(ActD.Active->R_curr.y <= 14770 && (ActD.Active->R_curr.x >= 1200 && ActD.Active->R_curr.x <= 1400)) || 
+		(ActD.Active->R_curr.y >= 15800 && (ActD.Active->R_curr.x >= 1400 || ActD.Active->R_curr.x <= 1600)))) {
+			char *out_msg;
+			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+			strcpy(out_msg,"[bot]");
+			strcat(out_msg,aciGetPlayerName());
+			strcat(out_msg," ¢ë¡ë«...");
+			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+			VangerUnit* p;
+			p = (VangerUnit*)(ActD.Tail);
+			while (p) {
+				p->BulletCollision(9999999999999999, NULL);
+				p = (VangerUnit*)(p->NextTypeList);
+			}
+			is_start=3;
+		}
+	}
+	else if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
+		if (ActD.Active && (ActD.Active->R_curr.y <= 8400 || ActD.Active->R_curr.y >= 8770 || ActD.Active->R_curr.x >= 1240 || ActD.Active->R_curr.x <= 900)) {
+			char *out_msg;
+			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+			strcpy(out_msg,"[bot]");
+			strcat(out_msg,aciGetPlayerName());
+			strcat(out_msg," ¢ë¡ë«...");
+			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+			VangerUnit* p;
+			p = (VangerUnit*)(ActD.Tail);
+			while (p) {
+				p->BulletCollision(9999999999999999, NULL);
+				p = (VangerUnit*)(p->NextTypeList);
+			}
+			is_start=3;
 		}
 	}
 }
