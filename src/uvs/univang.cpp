@@ -1,4 +1,4 @@
-/* 
+/*
 		uniVang-STAND Source File
 		(C)1997 by K-D Lab
 		Author: K-D Lab::KranK, KoTo
@@ -610,7 +610,8 @@ void uniVangPrepare(void){
 			if ((i == UVS_ITEM_TYPE::MACHOTINE_GUN_LIGHT ||
 			    i == UVS_ITEM_TYPE::SPEETLE_SYSTEM_LIGHT ||
 			    i == UVS_ITEM_TYPE::GHORB_GEAR_LIGHT ) ||
-                (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0))
+                (NetworkON && my_server_data.GameType == VAN_WAR && (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0 ||
+				strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0)))
 #endif
             {
                 for (int j = 0; j < MAIN_WORLD_MAX + 1; j++) {
@@ -631,6 +632,8 @@ void uniVangPrepare(void){
 
 			if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)
                 WorldTable[WORLD_SATADI] -> generate_item( i );
+			else if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0) {
+                for( int j = 0; j < MAIN_WORLD_MAX; j++) WorldTable[j] -> generate_item(i);
             else {
                 switch(i){
                     case UVS_ITEM_TYPE::COPTE_RIG:
@@ -918,10 +921,18 @@ void uvsRestoreVanger(void){
 			int x, y;
 			NetworkGetStart(v -> Pescave -> name, x, y);
 			addVanger(v,x,y, 1);
+			if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0 && ActD.Active) {
+				aciWorldLinksON();
+				ActD.Active->PassageCount = ActD.Active->MaxPassageCount+1;
+			}
 		}else{
 			int x, y;
 			NetworkGetStart(v -> Pspot -> name, x, y);
 			addVanger(v,x, y, 1);
+			if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0 && ActD.Active) {
+				aciWorldLinksON();
+				ActD.Active->PassageCount = ActD.Active->MaxPassageCount+1;
+			}
 		}
 	}
 	while(p){

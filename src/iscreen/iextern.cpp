@@ -1662,7 +1662,7 @@ void iGetMultiGameParameters(void)
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY);
             if(strcmp(game_name,"arena")==0) value = 4;
-            if(strcmp(game_name,"neptune")==0) value = 2;
+            if(strcmp(game_name,"neptune")==0) value = 1;
 			my_server_data.Van_War.Nascency = value - 1;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS);

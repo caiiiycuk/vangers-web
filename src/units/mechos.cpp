@@ -13940,6 +13940,11 @@ void NetworkGetStart(char* name,int& x,int& y)
 		y = getWorld(WORLD_MIRAGE)->y_spawn;
 		return;
 	}
+	if (NetworkON && strcmp(game_name,"neptune")==0 && my_server_data.GameType == 0) {
+		x = 1400;
+		y = 11440;
+		return;
+	}
 
 	for(i = 0;i < NETWORK_NUM_ESCAVE;i++){
 		if(!strcmp(name,NetworkEscaveName[i])){
