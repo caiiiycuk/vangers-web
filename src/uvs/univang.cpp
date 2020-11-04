@@ -1242,7 +1242,7 @@ void uvsContimer::Quant(void){
 	}
 	if (NetworkON && is_start==1) {
 		countFromStart++;
-		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"ohota na mamonta")==0) {
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"ohota na mamonta")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) {
 			if (countFromStart==300) message_dispatcher.send("[bot]5(мамонт)", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==320) message_dispatcher.send("[bot]4(мамонт)", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==340) message_dispatcher.send("[bot]3(мамонт)", MESSAGE_FOR_PLAYER, 0);
