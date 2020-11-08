@@ -833,6 +833,28 @@ void VangerUnit::DestroyCollision(int l_16,Object* p)
 		Armor = 0;
 
 	if(pa > 0 && Armor <= 0 && p){
+		if (NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
+			if (is_start==1 || is_start==2) {
+				char *out_msg;
+				out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+				strcpy(out_msg,"[bot]");
+				strcat(out_msg,aciGetPlayerName());
+				strcat(out_msg," выбыл...");
+				message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+				is_start=3;
+			}
+		} 
+		else if (NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"wiring")==0) {
+			if (is_start==1 || is_start==2) {
+				char *out_msg;
+				out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+				strcpy(out_msg,"[bot]");
+				strcat(out_msg,aciGetPlayerName());
+				strcat(out_msg," выбыл...");
+				message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+				is_start=3;
+			}
+		}
 		//NetDestroyID = GET_STATION(p->NetID);
 		if(NetworkON && p->ID == ID_VANGER){
 			switch(my_server_data.GameType){
