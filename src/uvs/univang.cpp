@@ -554,7 +554,7 @@ void uniVangPrepare(void){
 		TabuTable[i] = pt;
 		pt = (uvsTabuTaskType*)pt -> next;
 	}
-	// stationary objects linking 
+	// stationary objects linking
 	pw = (uvsWorld*)WorldTail;
 	int __t = 1;
 	int _t = 1;
@@ -690,7 +690,7 @@ void uniVangPrepare(void){
 #ifdef ALL_ITEM_IN_SHOP
 		if (1){
 #else
-			
+
 		if (
 			(uvsMechosTable[k] -> type == UVS_CAR_TYPE::RAFFA) ||
 			(!strcmp(uvsMechosTable[k] -> name, "OxidizeMonk")) ||
@@ -772,7 +772,7 @@ void uniVangPrepare(void){
 	if (NetworkON){
 
 //zNfo инициализация своего РНД
-		
+
 		RNDVAL *= SDL_GetTicks();
 		RNDVAL |= 1;
 
@@ -861,7 +861,7 @@ void uniVangPrepare(void){
 
 	v -> Pescave -> Pshop -> sellMechos(v -> Pmechos, MechosID);
 	v -> Pmechos -> type = MechosID;
-	//zNfo  /DEFAULT MECHOS 
+	//zNfo  /DEFAULT MECHOS
 
 	v -> Pmechos -> sort();
 	uvsCurrentCycle = v -> Pworld -> escT[0] -> Pbunch -> currentStage;
@@ -953,8 +953,8 @@ void uvsRestoreVanger(void){
 						|| v -> status == UVS_VANGER_STATUS::WAIT_GAMER
 						|| v -> status == UVS_VANGER_STATUS::RACE)){
 
-					if ( v -> Pmechos -> color < 3 && 
-					    WorldTable[v -> Pmechos -> color] -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE && 
+					if ( v -> Pmechos -> color < 3 &&
+					    WorldTable[v -> Pmechos -> color] -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE &&
 					    v -> shape != UVS_VANGER_SHAPE::GAMER_SLAVE){
 							v -> Pmechos -> color = 3;
 							if(v -> shape == UVS_VANGER_SHAPE::BUNCH_SLAVE)
@@ -985,8 +985,8 @@ void uvsWorldReload(int newW){
 				|| v -> status == UVS_VANGER_STATUS::WAIT_GAMER
 				|| v -> status == UVS_VANGER_STATUS::RACE)){
 
-				if ( v -> Pmechos -> color < 3 && 
-				    WorldTable[v -> Pmechos -> color] -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE && 
+				if ( v -> Pmechos -> color < 3 &&
+				    WorldTable[v -> Pmechos -> color] -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE &&
 				    v -> shape != UVS_VANGER_SHAPE::GAMER_SLAVE){
 						v -> Pmechos -> color = 3;
 						if(v -> shape == UVS_VANGER_SHAPE::BUNCH_SLAVE)
@@ -1119,7 +1119,7 @@ void uvsContimer::Quant(void){
 		}
 		if (NetworkON) {
 			if (CurrentWorld == -1) {
-				// CxDebug: put autoexit and autoequip here
+				// CxInfo: put autoexit and autoequip here
 			} else if (ActD.Active) {
 				if (my_server_data.GameType == PASSEMBLOSS && UsedCheckNum < GloryPlaceNum) {
 					if (((ActD.Active->MaxPassageCount >= 2 && ActD.Active->PassageCount < 2) && (FindSensor("KeyUpdate1") || FindSensor("KeyUpdate01")))
@@ -1256,19 +1256,19 @@ void uvsContimer::Quant(void){
 	if (NetworkON && is_start==1) {
 		countFromStart++;
 		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"ohota na mamonta")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) {
-			if (countFromStart==300) message_dispatcher.send("[bot]5(������)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==320) message_dispatcher.send("[bot]4(������)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==340) message_dispatcher.send("[bot]3(������)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==360) message_dispatcher.send("[bot]2(������)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==380) message_dispatcher.send("[bot]1(������)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==400) message_dispatcher.send("[bot]20 ᥪ㭤 ������", MESSAGE_FOR_PLAYER, 0);
+			if (countFromStart==300) message_dispatcher.send("[bot]5(������)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==320) message_dispatcher.send("[bot]4(������)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==340) message_dispatcher.send("[bot]3(������)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==360) message_dispatcher.send("[bot]2(������)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==380) message_dispatcher.send("[bot]1(������)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==400) message_dispatcher.send("[bot]20 ᥪ㭤 ������", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==700) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==720) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==740) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==760) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==780) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==800) {
-				message_dispatcher.send("[bot]�����!!!", MESSAGE_FOR_PLAYER, 0);
+				message_dispatcher.send("[bot]�����!!!", MESSAGE_FOR_PLAYER, 0);
 				countFromStart=0;
 				is_start=0;
 			}
@@ -1280,28 +1280,28 @@ void uvsContimer::Quant(void){
 			else if (countFromStart==360) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==380) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==400) {
-				message_dispatcher.send("[bot]�����!!!", MESSAGE_FOR_PLAYER, 0);
+				message_dispatcher.send("[bot]�����!!!", MESSAGE_FOR_PLAYER, 0);
 				countFromStart=0;
 				is_start=2;
 			}
 		}
 	}
-	
+
 	if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"wiring")==0) {
-		if (ActD.Active && (ActD.Active->R_curr.z <= 240 || 
+		if (ActD.Active && (ActD.Active->R_curr.z <= 240 ||
 		ActD.Active->R_curr.y <= 14710 || ActD.Active->R_curr.y >= 16025 ||
-		(ActD.Active->R_curr.y <= 14770 && (ActD.Active->R_curr.x >= 1200 && ActD.Active->R_curr.x <= 1400)) || 
+		(ActD.Active->R_curr.y <= 14770 && (ActD.Active->R_curr.x >= 1200 && ActD.Active->R_curr.x <= 1400)) ||
 		(ActD.Active->R_curr.y >= 15800 && (ActD.Active->R_curr.x >= 1400 || ActD.Active->R_curr.x <= 1600)))) {
 			char *out_msg;
 			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
 			strcpy(out_msg,"[bot]");
 			strcat(out_msg,aciGetPlayerName());
-			strcat(out_msg," ���...");
+			strcat(out_msg," ���...");
 			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
 			VangerUnit* p;
 			p = (VangerUnit*)(ActD.Tail);
 			while (p) {
-				p->BulletCollision(9999999999999999, NULL);
+				p->BulletCollision(ActD.Active->MaxArmor + ActD.Active->MaxEnergy, NULL);
 				p = (VangerUnit*)(p->NextTypeList);
 			}
 			is_start=3;
@@ -1313,12 +1313,12 @@ void uvsContimer::Quant(void){
 			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
 			strcpy(out_msg,"[bot]");
 			strcat(out_msg,aciGetPlayerName());
-			strcat(out_msg," ���...");
+			strcat(out_msg," ���...");
 			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
 			VangerUnit* p;
 			p = (VangerUnit*)(ActD.Tail);
 			while (p) {
-				p->BulletCollision(9999999999999999, NULL);
+				p->BulletCollision(ActD.Active->MaxArmor + ActD.Active->MaxEnergy, NULL);
 				p = (VangerUnit*)(p->NextTypeList);
 			}
 			is_start=3;
@@ -2392,7 +2392,7 @@ int uvsTabuTaskType::checkCycleEvent(int param1, int& param2){
 		case UVS_TARGET::RACE:
 		case UVS_TARGET::VANGERS:
 			param2 |= ((int)(UVS_TABUTASK_STATUS::BAD)<<16);
-			
+
 			ShowTaskMessage(-luck);
 			GamerResult.luck -=  luck;
 			if (GamerResult.luck < 0) GamerResult.luck = 0;
@@ -2650,7 +2650,7 @@ void uvsVanger::get_list_from_ActInt( uvsActInt*& Item, uvsActInt*& Mechos){
 		} else {
 			if ( ((uvsItem*)Pspot -> Pitem) && (((uvsItem*)Pspot -> Pitem) -> param1 == uvsTreasureInShop)){
 				Pworld -> escT[0] -> Pbunch -> status |= (int)UVS_BUNCH_STATUS::KILL_GAMER;
-					
+
 				ShowDominanceMessage(-15);
 				GamerResult.dominance -= 15;
 				if (GamerResult.dominance < 0) GamerResult.dominance = 0;
@@ -2793,7 +2793,7 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 #else
 		((uvsActInt*)pn) -> param1 = CAR_COLOR[((uvsActInt*)pn) -> type];
 #endif
-		
+
 		if (!NetworkON){
 			((uvsActInt*)pn) -> price = (((uvsActInt*)pn) -> price*1.5*cq + ((uvsActInt*)pn) -> price*(mq-cq))/mq;
 			 ((uvsActInt*)pn) -> sell_price = (((uvsActInt*)pn) -> sell_price*cq + ((uvsActInt*)pn) -> sell_price*0.5*(mq-cq))/mq;
@@ -2955,7 +2955,7 @@ void uvsShop::prepare_list_for_ActInt( uvsActInt*& Mechos, uvsActInt*& Item, int
 	if (pd) pd -> link(pb);
 /*	FreeList( Pitem );
 	Pitem = NULL;*/
-	
+
 	Item = (uvsActInt*)pb;
 
 	if (where){
@@ -4078,7 +4078,7 @@ void uvsBunch::begin_harvest( void ){
 	if (uvsGamerWaitGame && !uvsEndHarvest) {
 		uvsEndHarvest = 1;
 	}
-	
+
 	pg -> GoodsBegCount = 0;		//  количество принимаемого товара в городе1
 	pg -> GoodsEndCount = 0;		//  количество принимаемого товара в городе2
 	pg -> result = 0;				//  текущие результат
@@ -4973,7 +4973,7 @@ uvsVanger::uvsVanger(XStream& pfile){
 	pfile > shape;			// принадлежность "души"
 	pfile > i;
 	Pworld	= WorldTable[i];
-		
+
 	pfile > is;
 	if(is) Pmechos = new uvsMechos(pfile); else Pmechos = NULL;
 
@@ -4985,7 +4985,7 @@ uvsVanger::uvsVanger(XStream& pfile){
 		(pi = new uvsItem(pfile)) -> link(Pitem);
 	}
 
-	
+
 
 	s = get_string(pfile);
 	if ( s ) {
@@ -5119,7 +5119,7 @@ uvsVanger::uvsVanger(XStream& pfile){
 
 		if ( !pi ) shape = UVS_VANGER_SHAPE::RANGER;
 	};
-	
+
 }
 
 void uvsVanger::save(XStream& pfile){
@@ -5650,7 +5650,7 @@ void uvsEscave::add_goods_to_shop( void ){ //znfo - добавка товаро�
 
 		if (NetworkON){
 			n = uvsQuantity;
-				
+
 			if (n > 32) n = 32;
 
 			if (!uvsGoodsON)
@@ -5732,7 +5732,7 @@ void uvsEscave::add_goods_to_shop( void ){ //znfo - добавка товаро�
 				break;
 			}
 
-		
+
 #ifdef ALL_ITEM_IN_SHOP
 		if(!PassagerWait){
 #else
@@ -5916,7 +5916,7 @@ int uvsBunch::game_now( char * Pname, uvsCultGame*& Pg){
 
 void uvsVanger::Quant(void){
 	uvsCultGame* pg;
-	
+
 	c_All_Number++;
 	switch(shape){
 		case UVS_VANGER_SHAPE::BUNCH_SLAVE:
@@ -6199,7 +6199,7 @@ void uvsVanger::Quant(void){
 					aci_curLocationName = WorldTable[Pworld -> gIndex] -> escT[0] -> name;
 				else
 					aci_curLocationName = "";
-				
+
 				ChangeWorld(Pworld -> gIndex);				// смена мира
 				addVanger(this,pos_x, pos_y,1); // человек
 				uvsWorldReload(Pworld -> gIndex);
@@ -6442,7 +6442,7 @@ void uvsVanger::thief_from_shop( uvsShop* ps){
 	if ( !pi ) return;
 
 	listElem* tmp = (listElem*)ps -> Pitem;
-	
+
 	//((uvsItem*)pi) -> delink( tmp );
 	pi->delink( tmp );
 	if ( !addItem( pi, 1 ) ) ErrH.Abort("uvsVanger::thief_from_shop");
@@ -6779,8 +6779,8 @@ int uvsVanger::makeJump(void){
 		if(pp -> locked || aim -> locked) return 0;
 		uvsCheckVangerTabuTask(this,uvsVANGER_ARRIVAL);
 
-		if ( Pmechos -> color < 3 && 
-		    WorldTable[Pmechos -> color] -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE && 
+		if ( Pmechos -> color < 3 &&
+		    WorldTable[Pmechos -> color] -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE &&
 		     shape != UVS_VANGER_SHAPE::GAMER_SLAVE){
 				 Pmechos -> color = 3;
 				if( shape == UVS_VANGER_SHAPE::BUNCH_SLAVE)
@@ -8168,7 +8168,7 @@ void uvsVanger::get_shop(int how){
 			pt = Pescave -> Pgood;
 
 			Pescave ->  lastTabuTaskGood = Pescave -> TabuTaskGood;
-	
+
 			if (NetworkON && my_server_data.GameType == MUSTODONT){
 				UnicumON = Pescave -> Pshop ->FindMechos(uvsUnikumeMechos);
 			}
@@ -8335,7 +8335,7 @@ stand < ConTimer.GetTime() < "BOORAWCHICK go home\n";
 
 		if (NetworkON && my_server_data.GameType == MECHOSOMA){
 
-			if (my_player_body.MechosomaStat.ItemCount2 >= my_server_data.Mechosoma.ProductQuantity2 
+			if (my_player_body.MechosomaStat.ItemCount2 >= my_server_data.Mechosoma.ProductQuantity2
 		     && my_player_body.MechosomaStat.ItemCount1 >= my_server_data.Mechosoma.ProductQuantity1){
 				time_t _t_;
 				time(&_t_);
@@ -8576,7 +8576,7 @@ void uvsQuant(void){
 
 		//znfo HERE CALLED DOLLY QUANT in network game
 		p = ETail;
-		while(p){ 
+		while(p){
 			switch (p->type) {
 			case UVS_OBJECT::DOLLY:
 			//case UVS_OBJECT::VANGER:
@@ -9019,7 +9019,7 @@ void uniVangLoad(XStream &pfile){
 	ConTimer.load(pfile);
 	GamerResult.Load(pfile);
 	uvsMechosLoad(pfile);
-	
+
 	/*for( i = 0; i < MAX_ITEM_TYPE; i++) {
 		if (uvsItemTable[i] -> gamer_use) {
 			std::cout<<"gamer use item:"<<uvsItemTable[i]->type<<std::endl;
@@ -9051,8 +9051,8 @@ void uniVangDelete(void){
 
 	uvsElement* ET;
 	listElem *le;
-	
-	
+
+
 	while (ETail){
 		ET = ETail;
 		ETail = ETail -> enext;
@@ -9497,7 +9497,7 @@ int uvsChangeGoodsParam( int type, int& param1, int& param2, int world){
 }
 
 int uvsChangeTabuTask( int& param1, int& param2, int type, int status){
-	
+
 	if ( param2 == type){
 		if (status == UVS_TABUTASK_STATUS::BAD){
 //			ShowTaskMessage(-TabuTable[ param2 & 0x0000FFFF] -> luck);
@@ -9580,7 +9580,7 @@ int uvsPoponkaIDON(listElem* Pitem){
 void WaitGameInTown(int cWorld){
 	int ww;
 	if ( (ww = WorldTable[cWorld] -> escT[0] -> Pbunch -> game_exit()) != -1 ){
-		uvsGamerWaitGame = 1; 
+		uvsGamerWaitGame = 1;
 		if (ww != WorldTable[ cWorld ] -> escT[0] -> Pbunch -> currentStage){
 			while( WorldTable[ cWorld ] -> escT[0] -> Pbunch -> currentStage != ww )
 				uvsQuant();
@@ -9695,7 +9695,7 @@ void FirstShopPrepare(int how){ //znfo
 	}
 }
 
-void FinishFirstShopPrepare(int how){ //znfo 
+void FinishFirstShopPrepare(int how){ //znfo
 	if( !how){
 		lastMechos = -1;
 		Gamer -> get_shop(1);
@@ -10131,7 +10131,7 @@ void uvsCloseQuant(void){
 
 	GeneralMapReload = 1;
 	GeneralSystemOpen();
-	
+
 	if (WorldTable[CurrentWorld]-> escTmax){
 		uvsCurrentCycle = WorldTable[CurrentWorld] -> escT[0] -> Pbunch -> currentStage;
 		if (Gamer -> Pworld -> escT[0] -> Pbunch -> status == UVS_BUNCH_STATUS::UNABLE)
@@ -10675,11 +10675,11 @@ uvsVanger* uvsMakeNewGamerInEscave(uvsEscave* pe, int what ){
 				}
 
 				char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
-				if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) MechosID = 16;
-				else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"raffasoma")==0) MechosID = 16;
-				else if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) MechosID = 7;
-				else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"skysoma")==0) MechosID = 22;
-				else if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) MechosID = 21;
+				if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"raffa run")==0) pm -> type = 16;
+				else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"raffasoma")==0) pm -> type = 16;
+				else if (my_server_data.GameType == PASSEMBLOSS && strcmp(game_name,"truck-trial")==0) pm -> type = 7;
+				else if (my_server_data.GameType == MECHOSOMA && strcmp(game_name,"skysoma")==0) pm -> type = 22;
+				else if (my_server_data.GameType == VAN_WAR && strcmp(game_name,"neptune")==0) pm -> type = 21;
 				else pm -> type = RND(MAX_MECHOS_RAFFA) + MAX_MECHOS_MAIN;
 				if (ai() != PLAYER) {
 					pm -> type = 5; // CxDebug: detect net mod and change mechous accordingly
@@ -11080,8 +11080,8 @@ int uvsTabuTaskType::is_able(void){
 				return 0;
 	}
 
-	if ((work_on_target == UVS_TABUTASK_WORK::DELIVER_OR || 
-	     work_on_target == UVS_TABUTASK_WORK::DELIVER_ONE || 
+	if ((work_on_target == UVS_TABUTASK_WORK::DELIVER_OR ||
+	     work_on_target == UVS_TABUTASK_WORK::DELIVER_ONE ||
 	     work_on_target == UVS_TABUTASK_WORK::DELIVER) ){
 		for( i = 0; i < item_number; i++ )
 			if (!uvsCheckItem(item[i]))
@@ -11658,7 +11658,7 @@ void uvsChangeTabuTask(int type, int status){
 	} else {
 		ShowTaskMessage(TabuTable[ type] -> luck);
 	}
-	
+
 	if (GGamer){
 		while( pa ){
 			int _type_ = ActInt_to_Item( pa -> type);
@@ -12335,7 +12335,7 @@ int uvsKillerNow(void){
 /*
 void uvsCheckItemOne(listElem* pi){
 	while(pi){
-		if (uvsItemTable[ ((uvsItem*)pi) -> type ] -> type == UVS_ITEM_STATUS::MECHOS_PART ||  
+		if (uvsItemTable[ ((uvsItem*)pi) -> type ] -> type == UVS_ITEM_STATUS::MECHOS_PART ||
 		    uvsItemTable[ ((uvsItem*)pi) -> type ] -> type == UVS_ITEM_STATUS::ARTIFACT)
 			ErrH.Abort("ITS VERY BAD THINHG");
 		pi = pi -> next;

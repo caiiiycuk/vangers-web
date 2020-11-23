@@ -99,6 +99,9 @@ XStream xtRTO_Log;
 int xtSysQuantDisabled = 0;
 extern bool XGR_FULL_SCREEN;
 
+bool customMechousUsage;
+int customMechousId;
+
 bool autoconnect = false;
 char *autoconnectHost;
 int  autoconnectPort = 2197;
