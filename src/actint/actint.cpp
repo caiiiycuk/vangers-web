@@ -5361,7 +5361,7 @@ void actIntDispatcher::EventQuant(void)
 				lock();
 				break;
 			case ACI_UNLOCK_INTERFACE:
-				if(flags & AS_FULLSCR){
+				if(flags & AS_FULLSCR){ 
 					flags &= ~AS_FULL_REDRAW;
 					flags &= ~AS_FULLSCR;
 					set_screen(curIbs -> SideX,curIbs -> SideY,0,curIbs -> CenterX,curIbs -> CenterY);
@@ -5371,7 +5371,7 @@ void actIntDispatcher::EventQuant(void)
 						XGR_MouseSetPromptData(infPrompt);
 					XGR_MouseShow();
 				}
-				unlock();
+				unlock(); // logical, functional blocking
 				break;
 			case EV_PROTRACTOR_EVENT:
 				aciProtractorEvent = p -> data;
