@@ -1678,12 +1678,18 @@ void iGetMultiGameParameters(void)
 			break;
 		case iMP_MECHOSOMA:
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_INITIAL_CASH);
+			if(strcmp(game_name,"skysoma")==0) value = 999999;
+			if(strcmp(game_name,"ohota na mamonta")==0 || strcmp(game_name,"mamont")==0) value = 999999;
 			my_server_data.Mechosoma.InitialCash = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_ARTEFACTS_USING);
+			if(strcmp(game_name,"skysoma")==0) value = 0;
+			if(strcmp(game_name,"ohota na mamonta")==0 || strcmp(game_name,"mamont")==0) value = 0;
 			my_server_data.Mechosoma.ArtefactsUsing = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_IN_ESCAVE_TIME);
+			if(strcmp(game_name,"skysoma")==0) value = 1;
+			if(strcmp(game_name,"ohota na mamonta")==0 || strcmp(game_name,"mamont")==0) value = 5;
 			my_server_data.Mechosoma.InEscaveTime = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_TEAM_MODE);
@@ -1693,12 +1699,18 @@ void iGetMultiGameParameters(void)
 			my_server_data.Mechosoma.World = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_QUANTITY1);
+			if(strcmp(game_name,"skysoma")==0) value = 1;
+			if(strcmp(game_name,"ohota na mamonta")==0 || strcmp(game_name,"mamont")==0) value = 1;
 			my_server_data.Mechosoma.ProductQuantity1 = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_QUANTITY2);
+			if(strcmp(game_name,"skysoma")==0) value = 1;
+			if(strcmp(game_name,"ohota na mamonta")==0 || strcmp(game_name,"mamont")==0) value = 1;
 			my_server_data.Mechosoma.ProductQuantity2 = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_ONE_AT_A_TIME);
+			if(strcmp(game_name,"skysoma")==0) value = 1;
+			if(strcmp(game_name,"ohota na mamonta")==0 || strcmp(game_name,"mamont")==0) value = 32;
 			my_server_data.Mechosoma.One_at_a_time = value;
 			break;
 		case iMP_PASSEMBLOSS:
