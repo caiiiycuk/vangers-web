@@ -1,3 +1,4 @@
+
 #ifndef __LANG_H
 #define __LANG_H
 
