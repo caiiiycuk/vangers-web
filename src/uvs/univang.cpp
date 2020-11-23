@@ -65,6 +65,8 @@
 const int TABUTASK_BAD = ACI_TABUTASK_FAILED;
 const int TABUTASK_GOOD = ACI_TABUTASK_SUCCESSFUL;
 
+int countFromStart = 0;
+
 int RACE_WAIT =  300;
 int uvsKronActive = 0;
 int uvsVersion = 14;
@@ -80,6 +82,8 @@ int uvsTabuTaskFlag = 0;
 //int uvsGamerActive = 1;
 
 /* ----------------------------- EXTERN SECTION ---------------------------- */
+extern int is_start;
+
 extern int Dead,Quit;
 extern int GameQuantReturnValue;
 extern int NetworkON;
@@ -1234,6 +1238,77 @@ void uvsContimer::Quant(void){
 		} else {
 			countFromDeath = 0;
 			stagesFromDeath = 0;
+		}
+	}
+	if (NetworkON && is_start==1) {
+		countFromStart++;
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"ohota na mamonta")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) {
+			if (countFromStart==300) message_dispatcher.send("[bot]5(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==320) message_dispatcher.send("[bot]4(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==340) message_dispatcher.send("[bot]3(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==360) message_dispatcher.send("[bot]2(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==380) message_dispatcher.send("[bot]1(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==400) message_dispatcher.send("[bot]20 секунд мамонта", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==700) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==720) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==740) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==760) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==780) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==800) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				countFromStart=0;
+				is_start=0;
+			}
+		}
+		else {
+			if (countFromStart==300) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==320) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==340) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==360) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==380) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==400) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				countFromStart=0;
+				is_start=2;
+			}
+		}
+	}
+	
+	if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"wiring")==0) {
+		if (ActD.Active && (ActD.Active->R_curr.z <= 240 || 
+		ActD.Active->R_curr.y <= 14710 || ActD.Active->R_curr.y >= 16025 ||
+		(ActD.Active->R_curr.y <= 14770 && (ActD.Active->R_curr.x >= 1200 && ActD.Active->R_curr.x <= 1400)) || 
+		(ActD.Active->R_curr.y >= 15800 && (ActD.Active->R_curr.x >= 1400 || ActD.Active->R_curr.x <= 1600)))) {
+			char *out_msg;
+			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+			strcpy(out_msg,"[bot]");
+			strcat(out_msg,aciGetPlayerName());
+			strcat(out_msg," выбыл...");
+			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+			VangerUnit* p;
+			p = (VangerUnit*)(ActD.Tail);
+			while (p) {
+				p->BulletCollision(9999999999999999, NULL);
+				p = (VangerUnit*)(p->NextTypeList);
+			}
+			is_start=3;
+		}
+	}
+	else if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
+		if (ActD.Active && (ActD.Active->R_curr.y <= 8400 || ActD.Active->R_curr.y >= 8770 || ActD.Active->R_curr.x >= 1240 || ActD.Active->R_curr.x <= 900)) {
+			char *out_msg;
+			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+			strcpy(out_msg,"[bot]");
+			strcat(out_msg,aciGetPlayerName());
+			strcat(out_msg," выбыл...");
+			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+			VangerUnit* p;
+			p = (VangerUnit*)(ActD.Tail);
+			while (p) {
+				p->BulletCollision(9999999999999999, NULL);
+				p = (VangerUnit*)(p->NextTypeList);
+			}
+			is_start=3;
 		}
 	}
 }

@@ -23,6 +23,12 @@ extern int GlobalExit;
 #define CLIENT_VERSION	1
 #define SERVER_VERSION	1
 
+#include "iscreen/iscreen_options.h"
+#include "iscreen/iscreen.h"
+extern iScreenOption** iScrOpt;
+
+int is_start = 0;
+
 //zmod
 int zserver_version = 0;
 
@@ -823,6 +829,7 @@ int connect_to_server(ServerFindChain* p)
 		return GlobalStationID;
 		}
 	NetworkON = 0;
+	is_start = 0;
 	return 0;
 }
 int restore_connection()
@@ -862,6 +869,7 @@ void disconnect_from_server()
 	delay(256);
 	events_out.clear();
 	events_in.reset();
+	is_start = 0;
 }
 void set_time_by_server(int n_measures)
 {
@@ -1315,7 +1323,19 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
         name = (char*)"$";
         actual_msg = msg + 5;
         actual_col = 3;
-    } else {
+    } else if ((strcmp(msg, "/start")==0||strcmp(msg, ".ыефке")==0) && is_start==0) {
+		name = (char*)"$";
+		actual_msg = (char*)"[bot]Старт через 20 секунд";
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "ohota na mamonta")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) 
+			actual_msg = (char*)"[bot]Старт мамонта через 20 секунд, охотников через 40";
+		actual_col = 3;
+		is_start = 1;
+	} else if ((strcmp(msg, "/finish")==0||strcmp(msg, ".аштшыр")==0) && (is_start==2 || is_start==3)) {
+		name = (char*)"$";
+		actual_msg = (char*)"Финиш";
+		actual_col = 3;
+		is_start = 0;
+	} else {
         name = (char*)player_name;
         actual_msg = msg;
         actual_col = col;
