@@ -1064,7 +1064,7 @@ Object "Multiplayer Option"
 
 			font		3
 			null_level	$DEFAULT_NULL
-			string		"0.52"
+			string		"0.60"
 		}
 	}
 }
