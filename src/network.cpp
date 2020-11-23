@@ -1329,9 +1329,9 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
         actual_col = 3;
     } else if ((strcmp(msg, "/start")==0||strcmp(msg, ".ыефке")==0) && is_start==0) {
 		name = (char*)"$";
-		actual_msg = (char*)"[bot]Старт через 20 секунд";
+		actual_msg = (char*)"Старт через 20 секунд";
 		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mammoth hunt")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) 
-			actual_msg = (char*)"[bot]Старт мамонта через 20 секунд, охотников через 40";
+			actual_msg = (char*)"Старт мамонта через 20 секунд, охотников через 40";
 		actual_col = 3;
 		is_start = 1;
 	} else if ((strcmp(msg, "/finish")==0||strcmp(msg, ".аштшыр")==0) && (is_start==2 || is_start==3)) {

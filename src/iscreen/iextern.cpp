@@ -1663,6 +1663,9 @@ void iGetMultiGameParameters(void)
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_NASCENCY);
             if(strcmp(game_name,"arena")==0) value = 4;
             if(strcmp(game_name,"neptune")==0) value = 1;
+			if(strcmp(game_name,"wiring")==0) value = 1;
+			if(strcmp(game_name,"mechosumo")==0) value = 2;
+			if((strcmp(game_name,"mammoth hunt")==0 || strcmp(game_name,"mamont")==0) && (value < 1 || value > 3)) value = 1;
 			my_server_data.Van_War.Nascency = value - 1;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS);
