@@ -1255,20 +1255,20 @@ void uvsContimer::Quant(void){
 	}
 	if (NetworkON && is_start==1) {
 		countFromStart++;
-		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"ohota na mamonta")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) {
-			if (countFromStart==300) message_dispatcher.send("[bot]5(ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==320) message_dispatcher.send("[bot]4(ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==340) message_dispatcher.send("[bot]3(ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==360) message_dispatcher.send("[bot]2(ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==380) message_dispatcher.send("[bot]1(ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ)", MESSAGE_FOR_PLAYER, 0);
-			else if (countFromStart==400) message_dispatcher.send("[bot]20 ·•™„≠§ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ", MESSAGE_FOR_PLAYER, 0);
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mammoth hunt")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) {
+			if (countFromStart==300) message_dispatcher.send("[bot]5(¨†¨Æ≠‚)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==320) message_dispatcher.send("[bot]4(¨†¨Æ≠‚)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==340) message_dispatcher.send("[bot]3(¨†¨Æ≠‚)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==360) message_dispatcher.send("[bot]2(¨†¨Æ≠‚)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==380) message_dispatcher.send("[bot]1(¨†¨Æ≠‚)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==400) message_dispatcher.send("[bot]20 ·•™„≠§ ¨†¨Æ≠‚†", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==700) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==720) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==740) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==760) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==780) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==800) {
-				message_dispatcher.send("[bot]ÔøΩÔøΩÔøΩÔøΩÔøΩ!!!", MESSAGE_FOR_PLAYER, 0);
+				message_dispatcher.send("[bot]ëíÄêí!!!", MESSAGE_FOR_PLAYER, 0);
 				countFromStart=0;
 				is_start=0;
 			}
@@ -1280,7 +1280,7 @@ void uvsContimer::Quant(void){
 			else if (countFromStart==360) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==380) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==400) {
-				message_dispatcher.send("[bot]ÔøΩÔøΩÔøΩÔøΩÔøΩ!!!", MESSAGE_FOR_PLAYER, 0);
+				message_dispatcher.send("[bot]ëíÄêí!!!", MESSAGE_FOR_PLAYER, 0);
 				countFromStart=0;
 				is_start=2;
 			}
@@ -1296,7 +1296,7 @@ void uvsContimer::Quant(void){
 			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
 			strcpy(out_msg,"[bot]");
 			strcat(out_msg,aciGetPlayerName());
-			strcat(out_msg," ÔøΩÔøΩÔøΩ...");
+			strcat(out_msg," ¢Î°Î´...");
 			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
 			VangerUnit* p;
 			p = (VangerUnit*)(ActD.Tail);
@@ -1313,7 +1313,7 @@ void uvsContimer::Quant(void){
 			out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
 			strcpy(out_msg,"[bot]");
 			strcat(out_msg,aciGetPlayerName());
-			strcat(out_msg," ÔøΩÔøΩÔøΩ...");
+			strcat(out_msg," ¢Î°Î´...");
 			message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
 			VangerUnit* p;
 			p = (VangerUnit*)(ActD.Tail);
