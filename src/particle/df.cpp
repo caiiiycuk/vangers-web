@@ -15,7 +15,6 @@ extern int UcutLeft,UcutRight,VcutUp,VcutDown;
 
 uchar* WaterColorTable;
 uchar* FireColorTable;
-uchar* PlasmaColorTable;
 extern uchar* TerrainAlphaTable[TERRAIN_MAX];
 
 void smart_putspr(unsigned char* data,int Xcenter,int Ycenter,int XsizeB,int YsizeB,int ScaleXsize,int height,unsigned char* color_table);

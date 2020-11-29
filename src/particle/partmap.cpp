@@ -427,19 +427,6 @@ void FirePaletteInit(unsigned char* pal)
 		}
 */
 }
-void PlasmaPaletteInit(unsigned char* pal)
-{
-    int first_col = PLASMA_COLOR_FIRST;
-    int i;
-    const int NULL_INTENS = 20;
-    for(i = 0;i < BLUE_POINT;i++){
-        pal[3*(i + first_col)] = 0;
-        pal[3*(i + first_col) + 1] = 0;
-        pal[3*(i + first_col) + 2] = NULL_INTENS + (64 - NULL_INTENS)*i/BLUE_POINT;
-    }
-    i = BLUE_POINT - 1;
-    pal[3*(i + first_col)] = pal[3*(i + first_col) + 1] = pal[3*(i + first_col) + 2] = 63;
-}
 void FirePaletteTableInit(unsigned char *pal)
 {
 	/*for(int i = 0;i < 256;i++){

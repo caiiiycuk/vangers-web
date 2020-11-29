@@ -66,7 +66,6 @@ extern iGameMap* curGMap;
 extern int frame;
 extern uchar* palbufOrg;
 extern uchar* FireColorTable;
-extern uchar* PlasmaColorTable;
 extern int multi_analysis;
 extern int multi_draw;
 extern int RAM16;

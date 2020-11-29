@@ -60,7 +60,6 @@ extern uchar* WaterColorTable;
 extern uchar* palbufC;
 extern uchar* palbufA;
 extern uchar* FireColorTable;
-extern uchar* PlasmaColorTable;
 uchar* 	palbufSrc;
 uchar* TerrainAlphaTable[TERRAIN_MAX];
 
@@ -2293,7 +2292,6 @@ void GeneralTableInit(void)
 		ParticlePaletteTableDust = new unsigned char[256 << 8];
 		ParticlePaletteTableSmog = new unsigned char[256 << 8];
 		FireColorTable = new uchar[256 << 8];
-        PlasmaColorTable = new uchar[256 << 8];
 
 		palbufBlack = new uchar[768];
 		for(i = 0;i < 768;i++) palbufBlack[i] = 0;
@@ -2320,7 +2318,6 @@ void GeneralTableFree(void)
 
 		delete[] palbufBlack;
 
-        delete[] PlasmaColorTable;
 		delete[] FireColorTable;
 		delete[] ParticlePaletteTableDust;
 		delete[] ParticlePaletteTableSmog;
@@ -2562,15 +2559,11 @@ void GeneralTableOpen(void)
 		if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) {
 			for(k = 0;k < WorldPalNum;k++) {
 			    FirePaletteInit(WorldPalData[k]);
-			    PlasmaPaletteInit(WorldPalData[k]);
 			}
 		};
 
 		FirePaletteInit(palbufOrg);
 		FirePaletteInit(palbuf);
-
-        PlasmaPaletteInit(palbufOrg);
-        PlasmaPaletteInit(palbuf);
 
 		ParticlePaletteTableInit(palbufOrg);
 		FirePaletteTableInit(palbufOrg);
@@ -2598,21 +2591,6 @@ void GeneralTableOpen(void)
 					};
 				};
 				FireColorTable[i + (k << 8)] = ti;
-
-				ti = PLASMA_COLOR_FIRST;
-                vColor = Vector(palbuf[PLASMA_COLOR_FIRST*3],palbuf[PLASMA_COLOR_FIRST*3 + 1],palbuf[PLASMA_COLOR_FIRST*3 + 2]);
-                dec = abs(vColor.vabs() - d1);
-
-                for(j = PLASMA_COLOR_FIRST + 1;j < PLASMA_COLOR_FIRST + PLASMA_PROCESS_COLOR_MAX;j++){
-                    vColor = Vector(palbuf[j*3],palbuf[j*3 + 1],palbuf[j*3 + 2]);
-                    d2 = vColor.vabs();
-                    dc = abs(d2 - d1);
-                    if(dc < dec){
-                        dec = dc;
-                        ti = j;
-                    };
-                };
-                PlasmaColorTable[i + (k << 8)] = ti;
 			};
 		};
 
