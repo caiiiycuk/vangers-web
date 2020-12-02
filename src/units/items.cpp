@@ -1714,16 +1714,6 @@ void BulletObject::DrawQuant(void)
 			if(BulletScale)
 				EffD.CreateParticle(ExtShowType,R_prev,R_curr,ShowType);
 			break;
-//            vCheck = Vector(getDistX(R_prev.x,R_curr.x),getDistY(R_prev.y,R_curr.y),R_prev.z - R_curr.z);
-//
-//            vCheck.x = 2*vCheck.x / 3;
-//            vCheck.y = 2*vCheck.y / 3;
-//            vCheck.z = 2*vCheck.z / 3;
-//
-//            vCheck += R_curr;
-//            cycleTor(vCheck.x,vCheck.y);
-//            ScreenLineTrace(R_curr,vCheck,PlasmaColorTable,0);
-            break;
 	};
 	R_prev = vTail;
 };
