@@ -1703,12 +1703,12 @@ void iGetMultiGameParameters(void)
 			my_server_data.Mechosoma.World = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_QUANTITY1);
-			if(strcmp(game_name,"skysoma")==0) value = 1;
+			if(strcmp(game_name,"skysoma")==0) value = 2;
 			if(strcmp(game_name,"mammoth hunt")==0 || strcmp(game_name,"mamont")==0) value = 1;
 			my_server_data.Mechosoma.ProductQuantity1 = value;
 
 			value = iGetMultiGameParameter(iMP_MECHOSOMA,iMP_QUANTITY2);
-			if(strcmp(game_name,"skysoma")==0) value = 1;
+			if(strcmp(game_name,"skysoma")==0) value = 2;
 			if(strcmp(game_name,"mammoth hunt")==0 || strcmp(game_name,"mamont")==0) value = 1;
 			my_server_data.Mechosoma.ProductQuantity2 = value;
 
