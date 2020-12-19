@@ -766,6 +766,7 @@ void iPrepareOptions(void)
 	((iTriggerObject *)iScrOpt[iFULLSCREEN]->objPtr)->callback = &iSetFullscreen;
 
 	iScrOpt[iAUTO_ACCELERATION] = new iScreenOption(iTRIGGER,0,"Controls screen","AutoAccelerationTrig");
+	iScrOpt[iLIGHTING_CYCLE] = new iScreenOption(iTRIGGER,0,"Graphics screen","LightingCycleTrig");
 	
 	iPrepareControls();
 }

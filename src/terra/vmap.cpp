@@ -20,6 +20,7 @@
 #include "../zmod_common.h"
 #include "../units/uvsapi.h"
 #include "../uvs/univang.h"
+#include "../iscreen/iscreen_options.h"
 
 #include <iostream>
 
@@ -607,6 +608,7 @@ void vrtMap::analyzeINI(const char* name)
 	const char* secStorage = "Storage";
 	const char* secRender = "Rendering Parameters";
 	const char* secPalette = "Dynamic Palette";
+	const char* secLightingPalette = "Lighting Cycle Dynamic Palette";
 	const char* secCreation = "Creation Parameters";
 
 	
@@ -658,42 +660,47 @@ void vrtMap::analyzeINI(const char* name)
 			buf >= ENDCOLOR[i];
 	}
 
+	std::string palette_name = "Dynamic Palette";
+	if (iGetOptionValue(iLIGHTING_CYCLE)) {
+		palette_name = "Lighting Cycle " + palette_name;
+	}
+
 	pal_iter_init();
-	PAL_MAX = iniparser_getint(dict_name,"Dynamic Palette:Terrain Number", 0);
-	PAL_WAVE_TERRAIN = atoi(iniparser_getstring(dict_name,"Dynamic Palette:Wave Terrain", NULL));
+	PAL_MAX = iniparser_getint(dict_name,(palette_name + ":Terrain Number").c_str(), 0);
+	PAL_WAVE_TERRAIN = atoi(iniparser_getstring(dict_name,(palette_name + ":Wave Terrain").c_str(), NULL));
 	if(PAL_MAX > 0){
 		{
-			char* pp = iniparser_getstring(dict_name,"Dynamic Palette:Terrains", NULL);
+			char* pp = iniparser_getstring(dict_name,(palette_name + ":Terrains").c_str(), NULL);
 			XBuffer b(pp,128);
 			for(i = 0;i < PAL_MAX;i++)
 				b >= PAL_TERRAIN[i];
 		}
 		{
-			char* pp = iniparser_getstring(dict_name,"Dynamic Palette:Speeds", NULL);
+			char* pp = iniparser_getstring(dict_name,(palette_name + ":Speeds").c_str(), NULL);
 			XBuffer b(pp,128);
 			for(i = 0;i < PAL_MAX;i++)
 				b >= PAL_SPEED[i];
 		}
 		{
-			char* pp = iniparser_getstring(dict_name,"Dynamic Palette:Amplitudes", NULL);
+			char* pp = iniparser_getstring(dict_name,(palette_name + ":Amplitudes").c_str(), NULL);
 			XBuffer b(pp,128);
 			for(i = 0;i < PAL_MAX;i++)
 				b >= PAL_AMPL[i];
 		}
 		{
-			char* pp = iniparser_getstring(dict_name,"Dynamic Palette:Red", NULL);
+			char* pp = iniparser_getstring(dict_name,(palette_name + ":Red").c_str(), NULL);
 			XBuffer b(pp,128);
 			for(i = 0;i < PAL_MAX;i++)
 				b >= PAL_RED[i];
 		}
 		{
-			char* pp = iniparser_getstring(dict_name,"Dynamic Palette:Green", NULL);
+			char* pp = iniparser_getstring(dict_name,(palette_name + ":Green").c_str(), NULL);
 			XBuffer b(pp,128);
 			for(i = 0;i < PAL_MAX;i++) 
 				b >= PAL_GREEN[i];
 		}
 		{
-			char* pp = iniparser_getstring(dict_name,"Dynamic Palette:Blue", NULL);
+			char* pp = iniparser_getstring(dict_name,(palette_name + ":Blue").c_str(), NULL);
 			XBuffer b(pp,128);
 			for(i = 0;i < PAL_MAX;i++) 
 				b >= PAL_BLUE[i];

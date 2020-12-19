@@ -104,6 +104,9 @@
 #define iSTR_CLEAN_UP1			"CLEAN UP!"
 #define iSTR_CLEAN_UP2			"‘‚„’!"
 
+#define iSTR_LIGHTING_CYCLE1			"LIGHTING CYCLES:"
+#define iSTR_LIGHTING_CYCLE2			"–‹› ‘‚…™…:"
+
 
 #define iSTR_Sound_Options1		"Sound Options"
 #define iSTR_Sound_Options2		" αβΰ®©ª  §Άγª "

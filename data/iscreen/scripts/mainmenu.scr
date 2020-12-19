@@ -159,8 +159,8 @@
 
 /* ------------------------ Graphics Screen Defines ------------------------- */
 
-#define GRAPHICS_SCR_START_Y	100
-#define GRAPHICS_SCR_DELTA_Y	50
+#define GRAPHICS_SCR_START_Y	80
+#define GRAPHICS_SCR_DELTA_Y	45
 
 #define TUTORIAL_STR_X		220
 #define TUTORIAL_TRG_X		500
@@ -1064,7 +1064,7 @@ Object "Multiplayer Option"
 
 			font		3
 			null_level	$DEFAULT_NULL
-			string		"0.60"
+			string		"0.61"
 		}
 	}
 }
@@ -1972,10 +1972,70 @@ Screen "Graphics screen"
 			}
 		}
 	}
+	Object "LightingCycleObj" {
+		x	$KEEP_STR_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+
+		Element STRING {
+			space		$OPTION_SPACE
+			align_x		center
+
+			terrain_num	$TERRAIN2
+
+			font		$GRAPHICS_FONT
+			null_level	$DEFAULT_NULL
+			string		$iSTR_LIGHTING_CYCLE
+		}
+	}
+	Trigger "LightingCycleTrig" {
+		x	$KEEP_TRG_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+
+		num_state	2
+
+		null_level	$DEFAULT_NULL
+
+		State 1 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_ON
+			null_level	$DEFAULT_NULL
+		}
+		State 0 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_OFF
+			null_level	$DEFAULT_NULL
+		}
+		Event {
+			key $VK_LBUTTON
+			key $VK_RBUTTON
+
+			time { $TRIGGER_TIME + 1 }
+			EvComm {
+				change_trigger	"LightingCycleTrig"
+				time $TRIGGER_TIME
+			}
+			EvComm {
+				ext_event	$iEXT_INIT_KEEP_OPTIONS 0
+				start_time	{ $TRIGGER_TIME / 2 }
+			}
+		}
+	}
 	Object "InUseObj"
 	{
 		x	$Graphics_screen_InUseObj_PosX
-		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 6 }
 
 		Element STRING {
 			id		"InUseStr"
@@ -1993,7 +2053,7 @@ Screen "Graphics screen"
 	Object "CleanUpObj"
 	{
 		x	$Graphics_screen_CleanUpObj_PosX
-		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 6 }
 
 		not_unlock
 
