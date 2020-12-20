@@ -1,5 +1,3 @@
-#include <stdlib>
-
 #include "../global.h"
 #include "../lang.h"
 
@@ -887,7 +885,7 @@ void VangerUnit::DestroyCollision(int l_16,Object* p)
 				char *kvach_msg;
 				VangerUnit* player;
 				player = (VangerUnit*)(ActD.Active);
-				itoa(player->ShellNetID, newKvachID, 10);
+				port_itoa(player->ShellNetID, newKvachID, 10);
 				kvach_msg = new char[6 + strlen(newKvachID)];
 				strcpy(kvach_msg,"/kvach");
 				strcat(kvach_msg,newKvachID);

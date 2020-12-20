@@ -4,8 +4,6 @@
 		Author: K-D Lab::KranK, KoTo
 */
 
-#include <stdlib>
-
 #include "../global.h"
 
 //XStream VOVA("VOVA.LST", XS_OUT);
@@ -1367,7 +1365,7 @@ void uvsContimer::Quant(void){
 			VangerUnit* player;
 			
 			player = (VangerUnit*)(ActD.Active);
-			itoa(player -> ShellNetID, newKvachID, 10);
+			port_itoa(player -> ShellNetID, newKvachID, 10);
 			kvach_msg = new char[6 + strlen(newKvachID)];
 			strcpy(kvach_msg, "/kvach");
 			strcat(kvach_msg, newKvachID);
@@ -1384,7 +1382,7 @@ void uvsContimer::Quant(void){
 			p = (VangerUnit*)(ActD.Tail);
 			while (p) {
 				char newKvachID[20];
-				itoa(p->ShellNetID, newKvachID, 10);
+				port_itoa(p->ShellNetID, newKvachID, 10);
 				if (strncmp(newKvachID, kvachId, strlen(newKvachID))==0) {
 					if (p->uvsPoint->Pmechos->actualColor == 4) {
 						p->uvsPoint->Pmechos->color = 1;
