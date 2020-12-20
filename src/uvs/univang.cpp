@@ -4,7 +4,7 @@
 		Author: K-D Lab::KranK, KoTo
 */
 
-#include <stdlib.h>
+#include <stdlib>
 
 #include "../global.h"
 
