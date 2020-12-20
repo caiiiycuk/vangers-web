@@ -710,7 +710,7 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 		Energy = 0;
 	};
 	
-	if(pa > 0 && Armor <= 0 && p && NetworkON && p->ID == ID_VANGER){
+	if(pa > 0 && Armor <= 0 && p && NetworkON && p->ID == ID_VANGER && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
 		if (NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
 			if (is_start==1 || is_start==2) {
 				char *out_msg;
@@ -808,7 +808,7 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 
 			if(s) uvsCheckKronIventTabuTask(UVS_KRON_EVENT::SHOT,s);
 
-			if(Armor <= 0 && pa > 0){
+			if(Armor <= 0 && pa > 0 && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
 				PlayerDestroyFlag = 1;
 				GamerResult.vanger_kill++;
 				uvsPoint->KillStatic();
@@ -831,7 +831,7 @@ void VangerUnit::DestroyCollision(int l_16,Object* p)
 	if((Armor -= l_16) < 0)
 		Armor = 0;
 
-	if(pa > 0 && Armor <= 0 && p){
+	if(pa > 0 && Armor <= 0 && p && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
 		if (NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
 			if (is_start==1 || is_start==2) {
 				char *out_msg;
@@ -877,6 +877,22 @@ void VangerUnit::DestroyCollision(int l_16,Object* p)
 			uvsPoint->KillStatic();		
 		};
 	};
+	if (p && NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0) {
+		if (ActD.Active && is_start == 2 && kvachTime==-1) {
+			if (((VangerUnit*)(ActD.Active))->uvsPoint->Pmechos->color == ((VangerUnit*)(ActD.Active))->uvsPoint->Pmechos->actualColor &&
+			((VangerUnit*)(p))->uvsPoint->Pmechos->color != ((VangerUnit*)(p))->uvsPoint->Pmechos->actualColor) {
+				char newKvachID[20];
+				char *kvach_msg;
+				VangerUnit* player;
+				player = (VangerUnit*)(ActD.Active);
+				itoa(player->ShellNetID, newKvachID, 10);
+				kvach_msg = new char[6 + strlen(newKvachID)];
+				strcpy(kvach_msg,"/kvach");
+				strcat(kvach_msg,newKvachID);
+				message_dispatcher.send(kvach_msg,MESSAGE_FOR_ALL,0);
+			}
+		}
+	}
 };
 											
 void TrackUnit::GetBranch(void)
@@ -5166,7 +5182,7 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 		case SensorTypeList::SENSOR:
 			if(DoorFlag){
 				if(p->Owner){
-					if(p->Owner->Type == EngineTypeList::DOOR && !(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)){
+					if(p->Owner->Type == EngineTypeList::DOOR && !(NetworkON && ((my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) || (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)))){
 						d = (DoorEngine*)(p->Owner);
 						if(d->Luck > 0){
 							if((int)(RND(d->Luck)) <= aiCutLuck){
@@ -5960,6 +5976,7 @@ void VangerUnit::CreateVangerUnit(void)
 			NetID = CREATE_NET_ID(NID_VANGER);
 			ShellNetID = (NetID & (~(63 << 16))) | NID_SHELL;
 			uvsPoint->Pmechos->color = aciGetPlayerColor();
+			uvsPoint->Pmechos->actualColor = aciGetPlayerColor();
 		}else{
 			NetID = 0;
 			ShellNetID = 0;
@@ -7705,9 +7722,9 @@ void VangerUnit::ItemQuant(void)
 				if(GunSlotData[ItemMatrix->nSlot[i]].pData)
 					GunSlotData[ItemMatrix->nSlot[i]].Quant();
 			};
-			if(Armor <= 0) Destroy();
+			if(Armor <= 0 && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)) Destroy();
 		}else{
-			if(Armor <= 0){
+			if(Armor <= 0 && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
 				if(DeviceData){
 					p = DeviceData;
 					while(p){
@@ -14135,6 +14152,7 @@ void VangerUnit::ChangeVangerProcess(void)
 	if(!NetworkON){
 		uvsPoint->Pmechos->type = MechosChangerType;
 		uvsPoint->Pmechos->color = VangerChangerColor;
+		uvsPoint->Pmechos->actualColor = VangerChangerColor;
 	}else{
 		if(Status & SOBJ_ACTIVE){
 			uvsPoint->Pmechos->type = MechosChangerType;
@@ -14142,7 +14160,8 @@ void VangerUnit::ChangeVangerProcess(void)
 		}else{
 			uvsPoint->Pmechos->type = pNetPlayer->body.CarIndex;
 			uvsPoint->Pmechos->color = pNetPlayer->body.color;
-		};
+		}
+		uvsPoint->Pmechos->actualColor = uvsPoint->Pmechos->color;
 	};
 
 	sc = uvsMechosTable[uvsPoint->Pmechos->type];

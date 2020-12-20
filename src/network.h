@@ -8,6 +8,10 @@
 #define DEFAULT_SERVER_PORT	2197
 
 extern int is_start;
+extern int kvachTime;
+extern int whoIsKvach;
+extern char* kvachName;
+extern char kvachId[20];
 
 extern double zMod_cycle;
 extern double zMod_flood_level_delta;

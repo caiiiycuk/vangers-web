@@ -983,11 +983,12 @@ struct uvsItem : uvsTarget, listElem {
 struct uvsMechos : listElem{
 	int type;					//  тип мехоса - ссылка на таблицу
 	int color;					//  цвет мехоса
+	int actualColor;			//  изначальный мехоса
 	int status;					//
 	int teleport;				//zNfo//количество телепортаций 
 
-		uvsMechos(void) : listElem(){ type = 0; color = 0;status = 0; teleport = 0; sort();}
-		uvsMechos(int MechosType){ type = MechosType; color = 0;status = 0; teleport = 0; sort();};
+		uvsMechos(void) : listElem(){ type = 0; color = 0; actualColor = 0;status = 0; teleport = 0; sort();}
+		uvsMechos(int MechosType){ type = MechosType; color = 0; actualColor = 0;status = 0; teleport = 0; sort();};
 		uvsMechos(XStream& pfile);
 
 	void sort(void);
