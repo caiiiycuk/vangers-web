@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "../global.h"
 #include "../lang.h"
 

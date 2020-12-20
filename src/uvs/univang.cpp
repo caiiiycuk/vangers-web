@@ -4,6 +4,8 @@
 		Author: K-D Lab::KranK, KoTo
 */
 
+#include <cstdlib>
+
 #include "../global.h"
 
 //XStream VOVA("VOVA.LST", XS_OUT);
