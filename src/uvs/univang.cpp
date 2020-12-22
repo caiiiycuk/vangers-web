@@ -81,8 +81,12 @@ int uvsTabuTaskY = 0;
 int uvsTabuTaskFlag = 0;
 //int uvsGamerActive = 1;
 
+int kvachTime = -1;
 /* ----------------------------- EXTERN SECTION ---------------------------- */
 extern int is_start;
+extern int whoIsKvach;
+extern char* kvachName;
+extern char kvachId[20];
 
 extern int Dead,Quit;
 extern int GameQuantReturnValue;
@@ -1253,6 +1257,9 @@ void uvsContimer::Quant(void){
 			stagesFromDeath = 0;
 		}
 	}
+	
+	if (NetworkON && is_start != 1 && countFromStart != 0) countFromStart=0;
+	
 	if (NetworkON && is_start==1) {
 		countFromStart++;
 		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mammoth hunt")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) {
@@ -1273,6 +1280,21 @@ void uvsContimer::Quant(void){
 				is_start=0;
 			}
 		}
+		else if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mechokvach") == 0) {
+			if (countFromStart==300) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==320) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==340) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==360) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==380) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==400) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				message_dispatcher.send("[bot]Кто квач? (я/z)", MESSAGE_FOR_PLAYER, 0);
+				countFromStart=0;
+				is_start=2;
+				whoIsKvach=1;
+				kvachTime=-1;
+			}
+		}
 		else {
 			if (countFromStart==300) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==320) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
@@ -1284,6 +1306,18 @@ void uvsContimer::Quant(void){
 				countFromStart=0;
 				is_start=2;
 			}
+		}
+	}
+	if (NetworkON && is_start==2 && kvachTime >= 0 && kvachTime < 200) {
+		kvachTime++;
+		if (kvachTime==100) message_dispatcher.send("[bot]5(квач)", MESSAGE_FOR_PLAYER, 0);
+		else if (kvachTime==120) message_dispatcher.send("[bot]4(квач)", MESSAGE_FOR_PLAYER, 0);
+		else if (kvachTime==140) message_dispatcher.send("[bot]3(квач)", MESSAGE_FOR_PLAYER, 0);
+		else if (kvachTime==160) message_dispatcher.send("[bot]2(квач)", MESSAGE_FOR_PLAYER, 0);
+		else if (kvachTime==180) message_dispatcher.send("[bot]1(квач)", MESSAGE_FOR_PLAYER, 0);
+		else if (kvachTime==200) {
+			message_dispatcher.send("[bot]Старт квача", MESSAGE_FOR_PLAYER, 0);
+			kvachTime=-1;
 		}
 	}
 
@@ -1322,6 +1356,127 @@ void uvsContimer::Quant(void){
 				p = (VangerUnit*)(p->NextTypeList);
 			}
 			is_start=3;
+		}
+	}
+	else if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0 && whoIsKvach==2) {
+		if (strcmp(kvachName, aciGetPlayerName())==0) {
+			char newKvachID[20];
+			char *kvach_msg;
+			VangerUnit* player;
+			
+			player = (VangerUnit*)(ActD.Active);
+			port_itoa(player -> ShellNetID, newKvachID, 10);
+			kvach_msg = new char[6 + strlen(newKvachID)];
+			strcpy(kvach_msg, "/kvach");
+			strcat(kvach_msg, newKvachID);
+			message_dispatcher.send(kvach_msg, MESSAGE_FOR_ALL, 0);
+		}
+		whoIsKvach = 0;
+	}
+	
+	
+	
+	if (NetworkON && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0 && strcmp(kvachId, "-------------------")!=0) {
+		if (ActD.Active) {
+			VangerUnit* p;
+			p = (VangerUnit*)(ActD.Tail);
+			while (p) {
+				char newKvachID[20];
+				port_itoa(p->ShellNetID, newKvachID, 10);
+				if (strncmp(newKvachID, kvachId, strlen(newKvachID))==0) {
+					if (p->uvsPoint->Pmechos->actualColor == 4) {
+						p->uvsPoint->Pmechos->color = 1;
+						p->set_body_color(COLORS_IDS::BODY_RED);
+					}
+					else {
+						p->uvsPoint->Pmechos->color = 4;
+						p->set_body_color(COLORS_IDS::BODY_CRIMSON);
+					}
+				}
+				else {
+					if (p->uvsPoint->Pmechos->color != p->uvsPoint->Pmechos->actualColor) {
+						p->uvsPoint->Pmechos->color = p->uvsPoint->Pmechos->actualColor;
+						switch(p->uvsPoint->Pmechos->color){
+							case 0:
+								p->set_body_color(COLORS_IDS::BODY_GREEN);
+								break;
+							case 1:
+								p->set_body_color(COLORS_IDS::BODY_RED);			
+								break;
+							case 2:
+								p->set_body_color(COLORS_IDS::BODY_BLUE);
+								break;
+							case 3:
+								p->set_body_color(COLORS_IDS::BODY_YELLOW);
+								break;
+							case 4:
+								p->set_body_color(COLORS_IDS::BODY_CRIMSON);
+								break;
+							case 5:
+								p->set_body_color(COLORS_IDS::BODY_GRAY);
+								break;
+							case 6:
+								p->set_body_color(COLORS_IDS::ROTTEN_ITEM);
+								break;
+							case 7:
+								p->set_body_color(COLORS_IDS::MATERIAL_3);
+								break;
+							case 8:
+								p->set_body_color(COLORS_IDS::MATERIAL_1);
+								break;
+							case 9:
+								p->set_body_color(COLORS_IDS::MATERIAL_0);
+								break;
+						}
+					}
+				}
+				p = (VangerUnit*)(p->NextTypeList);
+			}
+			strcpy(kvachId, "-------------------");
+		}
+	}
+	else if (NetworkON && is_start==0 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0) {
+		if (ActD.Active) {
+			VangerUnit* p;
+			p = (VangerUnit*)(ActD.Tail);
+			while (p) {
+				if (p->uvsPoint->Pmechos->color != p->uvsPoint->Pmechos->actualColor) {
+					p->uvsPoint->Pmechos->color = p->uvsPoint->Pmechos->actualColor;
+					switch(p->uvsPoint->Pmechos->color){
+						case 0:
+							p->set_body_color(COLORS_IDS::BODY_GREEN);
+							break;
+						case 1:
+							p->set_body_color(COLORS_IDS::BODY_RED);			
+							break;
+						case 2:
+							p->set_body_color(COLORS_IDS::BODY_BLUE);
+							break;
+						case 3:
+							p->set_body_color(COLORS_IDS::BODY_YELLOW);
+							break;
+						case 4:
+							p->set_body_color(COLORS_IDS::BODY_CRIMSON);
+							break;
+						case 5:
+							p->set_body_color(COLORS_IDS::BODY_GRAY);
+							break;
+						case 6:
+							p->set_body_color(COLORS_IDS::ROTTEN_ITEM);
+							break;
+						case 7:
+							p->set_body_color(COLORS_IDS::MATERIAL_3);
+							break;
+						case 8:
+							p->set_body_color(COLORS_IDS::MATERIAL_1);
+							break;
+						case 9:
+							p->set_body_color(COLORS_IDS::MATERIAL_0);
+							break;
+					}
+				}
+				p = (VangerUnit*)(p->NextTypeList);
+			}
 		}
 	}
 }
@@ -12022,6 +12177,7 @@ uvsVanger* uvsCreateNetVanger(int CarType, int Color, int PassageIndex,int TownT
 	pv -> status = UVS_VANGER_STATUS::MOVEMENT;
 	pv -> Pmechos -> type = CarType;
 	pv -> Pmechos -> color = Color;
+	pv -> Pmechos -> actualColor = Color;
 	pv -> Pworld = WorldTable[ CurrentWorld ];
 	pv -> owner = NULL;
 

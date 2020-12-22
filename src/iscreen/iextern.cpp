@@ -1649,6 +1649,7 @@ void iGetMultiGameParameters(void)
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_INITIAL_CASH);
             if(strcmp(game_name,"arena")==0) value = 3000;
             if(strcmp(game_name,"neptune")==0) value = 999999;
+			if(strcmp(game_name,"mechokvach")==0) value = 999999;
 			my_server_data.Van_War.InitialCash = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ARTEFACTS_USING);
@@ -1667,10 +1668,12 @@ void iGetMultiGameParameters(void)
 			if(strcmp(game_name,"wiring")==0) value = 1;
 			if(strcmp(game_name,"mechosumo")==0) value = 2;
 			if((strcmp(game_name,"mammoth hunt")==0 || strcmp(game_name,"mamont")==0) && (value < 1 || value > 3)) value = 1;
+			if(strcmp(game_name,"mechokvach")==0 && (value < 1 || value > 3)) value = 2;
 			my_server_data.Van_War.Nascency = value - 1;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_ACCESS);
             if(strcmp(game_name,"neptune")==0) value = 0;
+			if(strcmp(game_name,"mechokvach")==0) value = 1;
 			my_server_data.Van_War.WorldAccess = value;
 
 			value = iGetMultiGameParameter(iMP_VAN_WAR,iMP_MAX_KILLS);
