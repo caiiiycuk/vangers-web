@@ -13,6 +13,9 @@ extern int whoIsKvach;
 extern char* kvachName;
 extern char kvachId[20];
 
+extern int isRollcall;
+extern char* rollcallNicknames;
+
 extern double zMod_cycle;
 extern double zMod_flood_level_delta;
 
