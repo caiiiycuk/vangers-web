@@ -33,6 +33,9 @@ int whoIsKvach = 0;
 int is_start = 0;
 extern int kvachTime;
 
+int isRollcall = -1;
+char* rollcallNicknames = new char[10000]();
+
 //zmod
 int zserver_version = 0;
 
@@ -836,6 +839,7 @@ int connect_to_server(ServerFindChain* p)
 		}
 	NetworkON = 0;
 	is_start=0;
+	isRollcall=-1;
 	strcpy(kvachId, "-------------------");
 	return 0;
 }
@@ -879,6 +883,7 @@ void disconnect_from_server()
 	events_out.clear();
 	events_in.reset();
 	is_start=0;
+	isRollcall=-1;
 	strcpy(kvachId, "-------------------");
 }
 void set_time_by_server(int n_measures)
@@ -1375,6 +1380,59 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
 		actual_msg = (char*)"Старт отменен";
 		actual_col = 3;
 		is_start = 0;
+	}
+	else if ((strcmp(msg, "/rollcall")==0 || strcmp(msg, ".кщддсфдд")==0) && isRollcall==-1) {
+		name = (char*)"$";
+		actual_msg = (char*)"Прекличка";
+		actual_col = 3;
+		isRollcall = 0;
+		rollcallNicknames = new char[10000]();
+		rollcallNicknames[0] = ((char*)(";"))[0];
+	} 
+	else if ((strcmp(msg, "/rcancel")==0 || strcmp(msg, ".ксфтсуд")==0) && isRollcall!=-1) {
+		name = (char*)"$";
+		actual_msg = (char*)"Прекличка отменена";
+		actual_col = 3;
+		isRollcall = -1;
+		rollcallNicknames = new char[10000]();
+	} 
+	else if ((strcmp(msg, "я")==0||strcmp(msg, "z")==0 || strcmp(msg, "Я")==0||strcmp(msg, "Z")==0) && isRollcall>-1) {
+		name = (char*)player_name;
+        actual_msg = msg;
+        actual_col = col;
+		
+		char* nickname = new char[40]();
+		int isNew = -1;
+		
+		for (int i = 0; i < strlen(rollcallNicknames); i++) {
+			if (rollcallNicknames[i] == ((char*)(";"))[0]) {
+				if (strncmp(name, nickname, strlen(name))==0 && strlen(name)==strlen(nickname)) {
+					break;
+				}
+				rollcallNicknames[i] = ((char*)("|"))[0];
+				for (int j = 0; j < strlen(name); j++) {
+					rollcallNicknames[i+j+1] = name[j];
+				}
+				rollcallNicknames[i+strlen(name)+1] = ((char*)(";"))[0];
+				isRollcall += 1;
+				
+				name = (char*)player_name;
+				actual_msg = (char*)"Готов";
+				actual_col = 4;
+				break;
+			}
+			else if (rollcallNicknames[i] == ((char*)("|"))[0]) {
+				if (strncmp(name, nickname, strlen(name))==0 && strlen(name)==strlen(nickname)) {
+					break;
+				}
+				isNew = 0;
+				nickname = new char[40]();
+			}
+			else if (isNew>-1) {
+				nickname[isNew] = rollcallNicknames[i];
+				isNew++;
+			}
+		}
 	}
 	else {
         name = (char*)player_name;

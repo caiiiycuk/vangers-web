@@ -82,11 +82,16 @@ int uvsTabuTaskFlag = 0;
 //int uvsGamerActive = 1;
 
 int kvachTime = -1;
+int rollcallTime = 0;
+int rollcallNum = 0;
 /* ----------------------------- EXTERN SECTION ---------------------------- */
 extern int is_start;
 extern int whoIsKvach;
 extern char* kvachName;
 extern char kvachId[20];
+
+extern int isRollcall;
+extern char* rollcallNicknames;
 
 extern int Dead,Quit;
 extern int GameQuantReturnValue;
@@ -1258,7 +1263,57 @@ void uvsContimer::Quant(void){
 		}
 	}
 	
-	if (NetworkON && is_start != 1 && countFromStart != 0) countFromStart=0;
+	if (isRollcall==-1) {
+		rollcallTime = 0;
+	}
+	if (isRollcall>-1) {
+		rollcallTime++;
+		if (rollcallTime == 1)
+			message_dispatcher.send("[bot]Перекличка", MESSAGE_FOR_PLAYER, 0);
+			PlayerData* pd;
+			pd = players_list.first();
+			rollcallNum=0;
+			while (pd) {
+				if (pd->status == GAMING_STATUS) {
+					rollcallNum++;
+				}
+				pd = (PlayerData*)pd -> next;
+			}
+		if (rollcallTime == 240 || isRollcall >= rollcallNum) {
+			message_dispatcher.send("[bot]-----------------", MESSAGE_FOR_PLAYER, 0);
+			char *rollsize = new char[3]();
+			int plsize = 0;
+			PlayerData* pd;
+			pd = players_list.first();
+			while (pd) {
+				if (pd->status == GAMING_STATUS) {
+					plsize++;
+				}
+				pd = (PlayerData*)pd -> next;
+			}
+			port_itoa(plsize, rollsize, 10);
+			char *prollsize = new char[3]();
+			port_itoa(isRollcall, prollsize, 10);
+		
+			char *roll_msg = new char[strlen(rollsize) + strlen(prollsize) + 6]();
+			strcpy(roll_msg, "[bot]");
+			strcat(roll_msg, prollsize);
+			strcat(roll_msg, "/");
+			strcat(roll_msg, rollsize);
+			message_dispatcher.send(roll_msg, MESSAGE_FOR_PLAYER, 0);
+		}
+		if (isRollcall >= rollcallNum) {
+			is_start = 7;
+			isRollcall=-1;
+		}
+		else if (rollcallTime == 240) {
+			message_dispatcher.send("[bot]Перекличка отменена", MESSAGE_FOR_PLAYER, 0);
+			isRollcall = -1;
+			rollcallNicknames = new char[10000]();
+		}
+	}
+	
+	if (NetworkON && is_start != 1 && is_start != 7 && countFromStart != 0) countFromStart=0;
 	
 	if (NetworkON && is_start==1) {
 		countFromStart++;
@@ -1318,6 +1373,54 @@ void uvsContimer::Quant(void){
 		else if (kvachTime==200) {
 			message_dispatcher.send("[bot]Старт квача", MESSAGE_FOR_PLAYER, 0);
 			kvachTime=-1;
+		}
+	}
+	if (NetworkON && is_start==7) {
+		countFromStart++;
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mamont")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mammoth hunt")==0) {
+			if (countFromStart==1) message_dispatcher.send("[bot]5(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==20) message_dispatcher.send("[bot]4(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==40) message_dispatcher.send("[bot]3(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==60) message_dispatcher.send("[bot]2(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==80) message_dispatcher.send("[bot]1(мамонт)", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==100) message_dispatcher.send("[bot]20 секунд мамонта", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==400) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==420) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==440) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==460) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==480) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==500) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				countFromStart=0;
+				is_start=0;
+			}
+		}
+		else if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0) {
+			if (countFromStart==1) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==20) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==40) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==60) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==80) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==100) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				message_dispatcher.send("[bot]Кто квач? (я/z)", MESSAGE_FOR_PLAYER, 0);
+				countFromStart=0;
+				is_start=2;
+				whoIsKvach=1;
+				kvachTime=-1;
+			}
+		}
+		else {
+			if (countFromStart==1) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==20) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==40) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==60) message_dispatcher.send("[bot]2", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==80) message_dispatcher.send("[bot]1", MESSAGE_FOR_PLAYER, 0);
+			else if (countFromStart==100) {
+				message_dispatcher.send("[bot]СТАРТ!!!", MESSAGE_FOR_PLAYER, 0);
+				countFromStart=0;
+				is_start=2;
+			}
 		}
 	}
 
