@@ -82,6 +82,8 @@ int uvsTabuTaskFlag = 0;
 //int uvsGamerActive = 1;
 
 int kvachTime = -1;
+int rollcallTime = 0;
+int rollcallNum = 0;
 /* ----------------------------- EXTERN SECTION ---------------------------- */
 extern int is_start;
 extern int whoIsKvach;
@@ -1393,7 +1395,7 @@ void uvsContimer::Quant(void){
 				is_start=0;
 			}
 		}
-		else if (strcmp(strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0) {
+		else if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0) {
 			if (countFromStart==1) message_dispatcher.send("[bot]5", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==20) message_dispatcher.send("[bot]4", MESSAGE_FOR_PLAYER, 0);
 			else if (countFromStart==40) message_dispatcher.send("[bot]3", MESSAGE_FOR_PLAYER, 0);
