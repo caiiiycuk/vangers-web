@@ -1279,7 +1279,7 @@ void uvsContimer::Quant(void){
 				}
 				pd = (PlayerData*)pd -> next;
 			}
-		if (rollcallTime == 240 || isRollcall >= rollcallNum) {
+		if (rollcallTime == 1200 || isRollcall >= rollcallNum) {
 			message_dispatcher.send("[bot]-----------------", MESSAGE_FOR_PLAYER, 0);
 			char *rollsize = new char[3]();
 			int plsize = 0;
