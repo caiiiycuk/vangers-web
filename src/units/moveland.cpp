@@ -1132,6 +1132,16 @@ extern int StartMainQuantFlag;
 int MobileLocation::quant(int render,int skipVZ,int skipCheck)
 {
 #ifdef _SURMAP_
+	uchar** check_lt = vMap -> lineT;
+	uchar* check_lt_line;
+	if (table[cFrame+1].y0 < V_SIZE) {
+		for (int i = table[cFrame+1].y0; i <= table[cFrame+1].y0+table[cFrame+1].sy; i++) {
+			check_lt_line = check_lt[i];
+			if (check_lt_line == 0x0) {
+				return 0;
+			}
+		}
+	}
 	// TODO: delete this block
 	// if(!inUse) return 0;
 	// int xsd = curGMap -> xside;
