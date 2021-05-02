@@ -1,3 +1,6 @@
+#ifndef __UNITS__SENSOR_H
+#define __UNITS__SENSOR_H
+
 #define NEW_TNT
 
 const int EXPLOSION_BARELL_RADIUS = 40;
@@ -134,6 +137,7 @@ struct LocationEngine
 
 	int TabuUse;
 
+	virtual ~LocationEngine() = default;
 	virtual void Open(Parser& in);
 	virtual void Close(void);
 
@@ -568,3 +572,5 @@ extern int TimeSecretData1[2][MAX_TIME_SECRET];
 extern int TimeSecretType[2][MAX_TIME_SECRET];
 
 extern int ThreallMessageProcess;
+
+#endif

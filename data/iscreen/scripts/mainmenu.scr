@@ -7802,7 +7802,7 @@ Screen "Identification screen"
 				start_time	0
 			}
 			EvComm {
-				move2screen	"Search server screen"
+				move2screen	"iSearch server screen"
 				start_time	$PRESS_OBJ_TIME
 				time		$MOVE2SCREEN_TIME
 			}
@@ -7822,7 +7822,7 @@ Screen "Identification screen"
 				time		$HIDE_OBJ_TIME
 			}
 			EvComm {
-				move2screen	"Search server screen"
+				move2screen	"iSearch server screen"
 				start_time	{ $SMOOTH_OBJ_TIME + $HIDE_OBJ_TIME }
 				time		$MOVE2SCREEN_TIME
 			}
