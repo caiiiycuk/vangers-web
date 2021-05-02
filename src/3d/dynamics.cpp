@@ -2486,7 +2486,9 @@ void Object::controls(int mode,int param)
 				}
 			break;
 		case CONTROLS::JUMP_USING_ACCUMULATED_POWER:
+			#ifndef _SURMAP_
 			if (NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0) break;
+			#endif
 			if(jump_power){
 				jump();
 				if(active)
