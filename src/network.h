@@ -2,6 +2,8 @@
 #define __NETWORK_H__
 #include "zmod_client.h"
 
+#include <vector>
+
 #include "xsocket.h"
 #include "multiplayer.h"
 
@@ -11,10 +13,10 @@ extern int is_start;
 extern int kvachTime;
 extern int whoIsKvach;
 extern char* kvachName;
-extern char kvachId[20];
+extern std::string kvachId;
 
 extern int isRollcall;
-extern char* rollcallNicknames;
+extern std::vector<std::string> rollcallNicknames;
 
 extern double zMod_cycle;
 extern double zMod_flood_level_delta;

@@ -669,9 +669,11 @@ void vrtMap::analyzeINI(const char* name)
 	}
 
 	std::string palette_name = "Dynamic Palette";
+	#ifndef _SURMAP_
 	if (iGetOptionValue(iLIGHTING_CYCLE)) {
 		palette_name = "Lighting Cycle " + palette_name;
 	}
+	#endif
 
 	pal_iter_init();
 	PAL_MAX = iniparser_getint(dict_name,(palette_name + ":Terrain Number").c_str(), 0);

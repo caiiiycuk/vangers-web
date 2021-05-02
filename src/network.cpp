@@ -1,3 +1,5 @@
+#include <vector>
+
 //zmod
 #include "zmod_client.h"
 
@@ -27,14 +29,14 @@ extern int GlobalExit;
 #include "iscreen/iscreen.h"
 extern iScreenOption** iScrOpt;
 
-char* kvachName = "";
-char kvachId[20];
+std::string kvachId;
+char* kvachName = (char*) "";
 int whoIsKvach = 0;
 int is_start = 0;
 extern int kvachTime;
 
 int isRollcall = -1;
-char* rollcallNicknames = new char[10000]();
+std::vector<std::string> rollcallNicknames;
 
 //zmod
 int zserver_version = 0;
@@ -841,7 +843,7 @@ int connect_to_server(ServerFindChain* p)
 	NetworkON = 0;
 	is_start=0;
 	isRollcall=-1;
-	strcpy(kvachId, "-------------------");
+	kvachId.clear();
 	return 0;
 }
 int restore_connection()
@@ -885,7 +887,7 @@ void disconnect_from_server()
 	events_in.reset();
 	is_start=0;
 	isRollcall=-1;
-	strcpy(kvachId, "-------------------");
+	kvachId.clear();
 }
 void set_time_by_server(int n_measures)
 {
@@ -1365,9 +1367,7 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
 		actual_col = 3;
 		
 		kvachTime = 0;
-		strcpy(kvachId, "-------------------");
-		for	(int i = 6; i < strlen(msg); i++) 
-			kvachId[i-6] = msg[i];
+		kvachId = std::string(msg).substr(6);
 	}
 	else if ((strcmp(msg, "/rekvach")==0||strcmp(msg, ".кулмфср")==0) && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mechokvach")==0) {
 		name = (char*)"$";
@@ -1387,52 +1387,30 @@ MessageElement::MessageElement(const char* player_name, char* msg,int col)
 		actual_msg = (char*)"Прекличка";
 		actual_col = 3;
 		isRollcall = 0;
-		rollcallNicknames = new char[10000]();
-		rollcallNicknames[0] = ((char*)(";"))[0];
+		rollcallNicknames.clear();
 	} 
 	else if ((strcmp(msg, "/rcancel")==0 || strcmp(msg, ".ксфтсуд")==0) && isRollcall!=-1) {
 		name = (char*)"$";
 		actual_msg = (char*)"Прекличка отменена";
 		actual_col = 3;
 		isRollcall = -1;
-		rollcallNicknames = new char[10000]();
+		rollcallNicknames.clear();
 	} 
 	else if ((strcmp(msg, "я")==0||strcmp(msg, "z")==0 || strcmp(msg, "Я")==0||strcmp(msg, "Z")==0) && isRollcall>-1) {
 		name = (char*)player_name;
         actual_msg = msg;
         actual_col = col;
-		
-		char* nickname = new char[40]();
-		int isNew = -1;
-		
-		for (int i = 0; i < strlen(rollcallNicknames); i++) {
-			if (rollcallNicknames[i] == ((char*)(";"))[0]) {
-				if (strncmp(name, nickname, strlen(name))==0 && strlen(name)==strlen(nickname)) {
-					break;
-				}
-				rollcallNicknames[i] = ((char*)("|"))[0];
-				for (int j = 0; j < strlen(name); j++) {
-					rollcallNicknames[i+j+1] = name[j];
-				}
-				rollcallNicknames[i+strlen(name)+1] = ((char*)(";"))[0];
-				isRollcall += 1;
-				
-				name = (char*)player_name;
-				actual_msg = (char*)"Готов";
-				actual_col = 4;
-				break;
-			}
-			else if (rollcallNicknames[i] == ((char*)("|"))[0]) {
-				if (strncmp(name, nickname, strlen(name))==0 && strlen(name)==strlen(nickname)) {
-					break;
-				}
-				isNew = 0;
-				nickname = new char[40]();
-			}
-			else if (isNew>-1) {
-				nickname[isNew] = rollcallNicknames[i];
-				isNew++;
-			}
+
+		std::string nickname = std::string(player_name); int inNicknames = 0;
+
+		for (int i = 0; i < rollcallNicknames.size(); i++) {
+			if (rollcallNicknames[i] == nickname) { inNicknames = 1; break; }
+		}
+		if (!inNicknames) {
+			rollcallNicknames.push_back(nickname);
+			isRollcall += 1;
+			actual_msg = (char*) "?????";
+			actual_col = 4;
 		}
 	}
 	else {

@@ -2631,7 +2631,11 @@ void Object::direct_keyboard_control()
 	if(XKey.Pressed(VK_INSERT) | XKey.Pressed('A'))
 		controls(CONTROLS::JUMP_POWER_ACCUMULATION_ON);
 	else
-		if(jump_power && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0))
+		if(jump_power
+		#ifndef _SURMAP_
+		&& !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0)
+		#endif
+		)
 			controls(CONTROLS::JUMP_USING_ACCUMULATED_POWER);
 
 	if(XKey.Pressed('Z'))
@@ -2729,7 +2733,11 @@ void Object::direct_keyboard_control()
 	if(iKeyPressed(iKEY_ACTIVATE_KID))
 		controls(CONTROLS::JUMP_POWER_ACCUMULATION_ON);
 	else
-		if(jump_power && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0))
+		if(jump_power
+		#ifndef _SURMAP_
+		&& !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0)
+		#endif
+		)
 			controls(CONTROLS::JUMP_USING_ACCUMULATED_POWER);
 
 	//if(iKeyPressed(iKEY_VERTICAL_THRUST))
@@ -2944,10 +2952,18 @@ void Object::mechous_analysis(double dt)
 	int i;
 	dt *= speed_correction_factor;
 	if(Status & SOBJ_AUTOMAT){
-		if(jump_power && ++jump_power > max_jump_power && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0))
+		if(jump_power && ++jump_power > max_jump_power
+		#ifndef _SURMAP_
+		&& !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0)
+		#endif
+		)
 			jump();
 	} else {
-		if(jump_power && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0) && CheckStartJump(this)){
+		if(jump_power
+		#ifndef _SURMAP_
+		&& !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0)
+		#endif
+		&& CheckStartJump(this)){
 			jump();
 			if(active)
 				SOUND_KIDPUSH();
