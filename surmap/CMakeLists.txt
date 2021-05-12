@@ -1,3 +1,23 @@
+if (${EMSCRIPTEN})
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Oz -ffast-math -fno-exceptions -w -Werror=return-type -Werror=switch")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Oz -ffast-math -fno-exceptions -w -Werror=return-type -Werror=switch")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
+        -Oz \
+        --emit-symbol-map \
+        -s ASSERTIONS=0 \
+        -s SAFE_HEAP=0 \
+        -s TOTAL_MEMORY=134217728 \
+        -s ALLOW_MEMORY_GROWTH=1 \
+        -s TOTAL_STACK=1MB \
+        -s INVOKE_RUN=1 \
+        -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['addRunDependency', 'removeRunDependency', 'FS_createPath', 'FS_createPreloadedFile', \
+          'FS_createDataFile', 'lengthBytesUTF8', 'stringToUTF8', 'UTF16ToString', 'callMain']\" \
+        -s NO_EXIT_RUNTIME=1 \
+        -s FORCE_FILESYSTEM=1 \
+        -s ERROR_ON_UNDEFINED_SYMBOLS=1 \
+		--preload-file \"${CMAKE_CURRENT_LIST_DIR}/../surmap_data@\"")
+endif()
+
 INCLUDE_DIRECTORIES(AFTER
 	"${PROJECT_SOURCE_DIR}/lib/xtool"
 	"${PROJECT_SOURCE_DIR}/lib/xgraph"
@@ -57,3 +77,4 @@ TARGET_LINK_LIBRARIES(surmap
 	xtool
 	xgraph
 )
+

@@ -1,7 +1,9 @@
 #ifndef __HSOUND_H
 #define __HSOUND_H
 
+#ifndef _SURMAP_
 #include "../../lib/xsound/_xsound.h"
+#endif
 
 #ifdef _DEBUG
 //#define _NO_CDAUDIO_

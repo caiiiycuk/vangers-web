@@ -111,12 +111,13 @@ char* win32_findnext() {
 }
 
 // we should still rely on gcc 5
-std::string replace_all(std::string& str, const std::string& from, const std::string& to) {
+std::string replace_all(std::string str, const std::string& from, const std::string& to) {
     size_t start_pos = 0;
     while((start_pos = str.find(from, start_pos)) != std::string::npos) {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length();
     }
+	return str;
 }
 
 //http://www.delorie.com/djgpp/doc/libc/libc_166.html
@@ -126,8 +127,7 @@ char* win32_findfirst(const char* cMask) {
 		lastSearch = nullptr;
 	}
 
-	std::string maskAndPath = cMask;
-	replace_all(maskAndPath, "\\", "/");
+	std::string maskAndPath = replace_all(cMask, "\\", "/");
 	auto lastSepIndex = maskAndPath.rfind('/');
 
 	if (lastSepIndex == std::string::npos) {

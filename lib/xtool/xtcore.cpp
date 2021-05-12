@@ -1,4 +1,7 @@
 /* ---------------------------- INCLUDE SECTION ----------------------------- */
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#endif
 
 #include "../../src/lang.h"
 #include "xglobal.h"
@@ -96,15 +99,88 @@ XStream xtRTO_Log;
 #endif
 
 int xtSysQuantDisabled = 0;
-extern bool XGR_FULL_SCREEN;
+extern const bool XGR_FULL_SCREEN;
+
 
 bool autoconnect = false;
 char *autoconnectHost;
-unsigned short  autoconnectPort = 2197;
+int  autoconnectPort = 2197;
 bool autoconnectJoinGame = false;
 int  autoconnectGameID;
 
+int id, clockDelta, clockCnt, clockNow, clockCntGlobal, clockNowGlobal = 0;
+int resumeAt = 0;
+XRuntimeObject* XObj;
+
+extern void gpx_tick();
+
+bool normal_loop() {
+    if (!XObj) {
+        return false;
+    }
+
+    if (resumeAt > 0) {
+        if (resumeAt > clocki()) {
+            return true;
+        } else {
+            resumeAt = 0;
+            clockCnt = clocki();
+            if (!xtSysQuantDisabled)
+                XRec.Quant(); // впускает внешние события, записывает их или воспроизводит
+            XGR_Flip();
+            return true;
+        }
+    }
+
+    if (!id) {
+        if (XObj->Timer) {
+            id = XObj->Quant();
+            clockNow = clockNowGlobal = clocki();
+            clockDelta = clockNow - clockCnt;
+            XTCORE_FRAME_DELTA = (clockNowGlobal - clockCntGlobal) / 1000.0;
+            XTCORE_FRAME_NORMAL = XTCORE_FRAME_DELTA / 0.050; //20FPS
+            clockCntGlobal = clockNowGlobal;
+//				std::cout<<"XTCORE_FRAME_DELTA:"<<XTCORE_FRAME_DELTA
+//						 <<" XTCORE_FRAME_NORMAL:"<<XTCORE_FRAME_NORMAL
+//						 <<" clockDelta:"<<clockDelta<<std::endl;
+
+            if (clockDelta < XObj->Timer) {
+                resumeAt = clocki() + XObj->Timer - clockDelta;
+                return true;
+            } else {
+//                std::cout << "Strange deltas clockDelta:" << clockDelta << " Timer:" << XObj->Timer << std::endl;
+            }
+            clockCnt = clocki();
+        } else {
+            id = XObj->Quant();
+        }
+
+        if (!xtSysQuantDisabled)
+            XRec.Quant(); // впускает внешние события, записывает их или воспроизводит
+        XGR_Flip();
+        return true;
+    }
+
+    XObj->Finit();
+
+    XObj = xtGetRuntimeObject(id);
+    XObj->Init(id);
+    id = 0;
+
+    clockCnt = clocki();
+    clockCntGlobal = clockCnt;
+    return true;
+}
+
+void em_normal_loop() {
+    normal_loop();
+}
+
+#ifdef win_arg
+int PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR szCmdLine, int sw)
+#else
 int main(int argc, char *argv[])
+#endif
 {
 #ifdef __HAIKU__
 	const char *data_dir = getenv("VANGERS_DATA");
@@ -112,8 +188,6 @@ int main(int argc, char *argv[])
 		chdir(data_dir);
 	}
 #endif
-	int id, prevID, clockDelta, clockCnt, clockNow, clockCntGlobal, clockNowGlobal;
-	XRuntimeObject* XObj;
 	__internal_argc = argc;
 	__internal_argv = argv;
 
@@ -125,46 +199,14 @@ int main(int argc, char *argv[])
 		putenv("SDL_AUDIODRIVER=DirectSound");
 	#endif
 
-    for (int i = 1; i < argc; i++) {
-        std::string cmd_key = argv[i];
-        if (cmd_key == "-fullscreen") {
-            XGR_FULL_SCREEN = true;
-        } else if (cmd_key == "-russian") {
-            setLang(RUSSIAN);
-        } else if (cmd_key == "-server") {
-            if (argc > i) {
-                i++;
-                autoconnect = true;
-                autoconnectHost = argv[i];
-            } else {
-                std::cout << "Invalid parameter usage: '-server hostname' expected" << std::endl;
-            }
-        } else if (cmd_key == "-port") {
-            if (argc > i) {
-                i++;
-                autoconnectPort = (unsigned short)strtol(argv[i], NULL, 0);
-            } else {
-                std::cout << "Invalid parameter usage: '-port value' expected" << std::endl;
-            }
-        } else if (cmd_key == "-game") {
-            if (argc > i) {
-                i++;
-                std::string value = argv[i];
-                autoconnectJoinGame = true;
-                if (value == "new") {
-                    autoconnectGameID = 0;
-                } else if (value == "any") {
-                    autoconnectGameID = -1;
-                } else {
-                    autoconnectGameID = (int)strtol(argv[i], NULL, 0);
-                }
-            } else {
-                std::cout << "Invalid parameter usage: '-game [id|new|any]' expected" << std::endl;
-            }
-        } else {
-            std::cout << "Unknown parameter: '" << cmd_key << "'" << std::endl;
-        }
-    }
+	for (int i = 0; i < argc; i++) {
+		std::string cmd_key = argv[i];
+//		if (cmd_key == "-fullscreen")
+//			XGR_FULL_SCREEN = true;
+//		else
+		if (cmd_key == "-russian")
+			setLang(RUSSIAN);
+	}
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 	std::cout<<"Set locale. ";
@@ -178,7 +220,6 @@ int main(int argc, char *argv[])
 	XMsgBuf = new XMessageBuffer;
 
 	initclock();
-	prevID = 0;
 	id = xtInitApplication();
 	XObj = xtGetRuntimeObject(id);
 #ifdef _RTO_LOG_
@@ -188,51 +229,19 @@ int main(int argc, char *argv[])
 		xtRTO_Log.open("xt_rto_w.log",XS_OUT);
 #endif
 
+	XObj->Init(0);
+	id = 0;
+    clockCnt = clocki();
+    clockCntGlobal = clockCnt;
 
-	while(XObj){
-		XObj -> Init(prevID);
-		prevID = id;
-		id = 0;
-
-		clockCnt = clocki();
-		clockCntGlobal = clockCnt;
-		while(!id) {
-			if(XObj->Timer) {
-				id = XObj -> Quant();
-				clockNow = clockNowGlobal = clocki();
-				clockDelta = clockNow - clockCnt;
-				XTCORE_FRAME_DELTA = (clockNowGlobal - clockCntGlobal) / 1000.0;
-				XTCORE_FRAME_NORMAL = XTCORE_FRAME_DELTA / 0.050; //20FPS
-				clockCntGlobal = clockNowGlobal;
-//				std::cout<<"XTCORE_FRAME_DELTA:"<<XTCORE_FRAME_DELTA
-//						 <<" XTCORE_FRAME_NORMAL:"<<XTCORE_FRAME_NORMAL
-//						 <<" clockDelta:"<<clockDelta<<std::endl;
-
-				if (clockDelta < XObj->Timer) {
-					SDL_Delay(XObj->Timer - clockDelta);
-				} else {
-					std::cout<<"Strange deltas clockDelta:"<<clockDelta<<" Timer:"<<XObj->Timer<<std::endl;
-					if (clockDelta > 300) {
-						// something wrong and for preventing abnormal physics set something neutral
-						XTCORE_FRAME_NORMAL = 1.0;
-					}
-				}
-				clockCnt = clocki();
-			} else {
-				id = XObj -> Quant();
-			}
-
-			if(!xtSysQuantDisabled)
-				XRec.Quant(); // впускает внешние события, записывает их или воспроизводит
-			XGR_Flip();
-		}
-
-		XObj -> Finit();
-#ifdef _RTO_LOG_
-		xtRTO_Log < "\r\nChange RTO: " <= XObj -> ID < " -> " <= id < " frame -> " <= XRec.frameCount;
-#endif
-		XObj = xtGetRuntimeObject(id);
+#ifdef EMSCRIPTEN
+    emscripten_set_main_loop(em_normal_loop, 0, true);
+#else
+	while(normal_loop()) {
+	    // nothing
 	}
+#endif
+
 	xtDoneApplication();
 	xtSysFinit();
 
