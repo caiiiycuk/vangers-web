@@ -688,13 +688,3 @@
 #define iSTR_CreditsPathIB1		"resource/iscreen/text/eng/credits92.txt"
 #define iSTR_CreditsPathIB2		"resource/iscreen/text/rus/credits92.txt"
 
-#define iSTR_Addons1 "ADDONS"
-#define iSTR_Addons2 "ДОПОЛНЕНИЯ"
-#define iSTR_WebMultiplayer1 "Multiplayer (Web)"
-#define iSTR_WebMultiplayer2 "Сетевая игра (Web)"
-#define iSTR_CxMod1 "Community eXperiments (Cx)"
-#define iSTR_CxMod2 "Community eXperiments (Cx)"
-#define iSTR_JtMod1 "Highres models (John Tomson)"
-#define iSTR_JtMod2 "Highres models (John Tomson)"
-#define iSTR_SurmapLoadWorld1 "Load world created with surmap"
-#define iSTR_SurmapLoadWorld2 "Загрузить мир созданный в surmap"

@@ -270,3 +270,8 @@
 #define iSTR_CreditsPathIA		$iSTR_CreditsPathIA2
 #define iSTR_CreditsPathIB		$iSTR_CreditsPathIB2
 
+#define iSTR_Addons $iSTR_Addons2
+#define iSTR_WebMultiplayer $iSTR_WebMultiplayer2
+#define iSTR_CxMod $iSTR_CxMod2
+#define iSTR_JtMod $iSTR_JtMod2
+#define iSTR_SurmapLoadWorld $iSTR_SurmapLoadWorld2

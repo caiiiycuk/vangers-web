@@ -649,6 +649,7 @@
 #define iSTR_CurIP1			"Your IP:"
 #define iSTR_CurIP2			"‚ è IP:"
 
+<<<<<<< HEAD
 #define iSTR_CreditsPathA1		"resource/iscreen/text/eng/credits1.txt"
 #define iSTR_CreditsPathA2		"resource/iscreen/text/rus/credits1.txt"
 
@@ -688,6 +689,7 @@
 #define iSTR_CreditsPathIB1		"resource/iscreen/text/eng/credits92.txt"
 #define iSTR_CreditsPathIB2		"resource/iscreen/text/rus/credits92.txt"
 
+=======
 #define iSTR_Addons1 "ADDONS"
 #define iSTR_Addons2 "„ŽŽ‹…ˆŸ"
 #define iSTR_WebMultiplayer1 "Multiplayer (Web)"
@@ -698,3 +700,4 @@
 #define iSTR_JtMod2 "Highres models (John Tomson)"
 #define iSTR_SurmapLoadWorld1 "Load world created with surmap"
 #define iSTR_SurmapLoadWorld2 "‡ £àã§¨âì ¬¨à á®§¤ ­­ë© ¢ surmap"
+>>>>>>> cc20fbe (add addons menu)
