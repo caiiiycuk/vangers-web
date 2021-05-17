@@ -76,6 +76,10 @@ enum iScreenOptionID
 
 	iAUTO_ACCELERATION,			// 46
 
+	iWEB_MULTIPLAYER, // 47
+	iCX_MOD, // 48
+	iJT_MOD, // 49
+
 	iMAX_OPTION_ID
 };
 

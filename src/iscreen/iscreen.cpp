@@ -4309,6 +4309,9 @@ void iScreenDispatcher::load_data(XStream* fh)
 		if(iScrOpt[i])
 			iScrOpt[i] -> load(fh);
 	}
+
+    iScrOpt[iCX_MOD]->SetValueINT(html::isCxModEnabled());
+    iScrOpt[iJT_MOD]->SetValueINT(html::isJtModEnabled());
 }
 
 void iScreenDispatcher::end_event(void)

@@ -1455,10 +1455,40 @@ Screen "Options screen II"
 		}
 	}
 
+	Object "Addons Option"
+	{
+	    align_x center
+	    y 360
+
+	    Element STRING {
+	        terrain_num $TERRAIN2
+	        font 0
+	        null_level $DEFAULT_NULL
+	        string $iSTR_Addons
+	    }
+
+		Event {
+			key $VK_LBUTTON
+
+			time { $PRESS_OBJ_TIME * 2 + 1 }
+			EvComm {
+				low_obj 	"Addons Option"
+				time		$PRESS_OBJ_TIME
+				start_time	0
+			}
+			EvComm {
+				move2screen	"Addons Screen"
+				start_time	$PRESS_OBJ_TIME
+				time		$MOVE2SCREEN_TIME
+			}
+		}
+
+	}
+
 	Object "Main Menu Option"
 	{
 		align_x center
-		y	400
+		y	430
 
 		Element STRING {
 			align_x center
@@ -1582,7 +1612,7 @@ Screen "Graphics screen"
 			key $VK_LBUTTON
 			key $VK_RBUTTON
 
-			time $TRIGGER_TIME + 1 }
+			time { $TRIGGER_TIME + 1 }
 			EvComm {
 				change_trigger	"DetailTrig"
 				time $TRIGGER_TIME
@@ -1754,7 +1784,7 @@ Screen "Graphics screen"
 			key $VK_LBUTTON
 			key $VK_RBUTTON
 
-			time $TRIGGER_TIME + 1 }
+			time { $TRIGGER_TIME + 1 }
 			EvComm {
 				change_trigger	"ResTrig"
 				time $TRIGGER_TIME
@@ -1811,7 +1841,7 @@ Screen "Graphics screen"
 			key $VK_LBUTTON
 			key $VK_RBUTTON
 
-			time $TRIGGER_TIME + 1 }
+			time { $TRIGGER_TIME + 1 }
 			EvComm {
 				change_trigger	"DestrTrig"
 				time $TRIGGER_TIME
@@ -11164,7 +11194,7 @@ Screen "Joystick screen"
 			key $VK_LBUTTON
 			key $VK_RBUTTON
 
-			time $TRIGGER_TIME + 1 }
+			time { $TRIGGER_TIME + 1 }
 			EvComm {
 				change_trigger	"JoyTypeID"
 				time $TRIGGER_TIME
@@ -12701,6 +12731,285 @@ Screen "Identification screen2"
 				event_line	3
 			}
 		}
+	}
+}
+
+Screen "Addons Screen" {
+    screen_offs 0
+    default_obj "Back Option"
+
+	Object "TitleStr"
+	{
+		align_x center
+		y	$TITLE_STR_Y
+
+		Element STRING {
+			align_x center
+
+			terrain_num	$TERRAIN4
+
+			font		0
+			null_level	$DEFAULT_NULL
+			string		$iSTR_Addons
+		}
+	}
+
+	Object "Back Option"
+	{
+		align_x center
+		y	{ $CFG_START_Y + $CFG_DELTA_Y * 7 }
+
+		Element STRING {
+			align_x center
+
+			terrain_num	$TERRAIN2
+
+			font		3
+			space		2
+			null_level	$DEFAULT_NULL
+			string		$iSTR_BACK
+		}
+		Event {
+			key $VK_LBUTTON
+			key $VK_ESCAPE
+
+			time { $PRESS_OBJ_TIME + $MOVE2SCREEN_TIME + 1 }
+			EvComm {
+				low_obj 	"Back Option"
+				time		$PRESS_OBJ_TIME
+				start_time	0
+			}
+			EvComm {
+				move2screen	"Options screen II"
+				start_time	$PRESS_OBJ_TIME
+				time		$MOVE2SCREEN_TIME
+			}
+		}
+	}
+
+	Object "WebMultiplayer"
+	{
+		x	$RESOLUTION_STR_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 1 }
+
+		Element STRING {
+			align_x 	center
+
+			terrain_num	$TERRAIN2
+			space		$OPTION_SPACE
+
+			font		$GRAPHICS_FONT
+			null_level	$DEFAULT_NULL
+			string	    $iSTR_WebMultiplayer
+		}
+	}
+
+	Trigger "WebMultiplayerTrig" {
+		x	$RESOLUTION_TRG_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 1 }
+
+		num_state	2
+
+		null_level	$DEFAULT_NULL
+
+		State 0 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_DISABLED
+			null_level	$DEFAULT_NULL
+		}
+
+		State 1 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string      $iSTR_ENABLED
+			null_level	$DEFAULT_NULL
+		}
+
+		Event {
+			key $VK_LBUTTON
+			key $VK_RBUTTON
+
+			time { $TRIGGER_TIME + 1 }
+			EvComm {
+				change_trigger	"WebMultiplayerTrig"
+				time $TRIGGER_TIME
+			}
+			EvComm {
+				ext_event	$iEXT_INIT_KEEP_OPTIONS 0
+				start_time	{ $TRIGGER_TIME / 2 }
+			}
+		}
+	}
+
+	Object "CxMod"
+	{
+		x	$RESOLUTION_STR_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 2 }
+
+		Element STRING {
+			align_x 	center
+
+			terrain_num	$TERRAIN2
+			space		$OPTION_SPACE
+
+			font		$GRAPHICS_FONT
+			null_level	$DEFAULT_NULL
+			string	    $iSTR_CxMod
+		}
+	}
+
+	Trigger "CxModTrig" {
+		x	$RESOLUTION_TRG_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 2 }
+
+		num_state	2
+
+		null_level	$DEFAULT_NULL
+
+		State 0 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_DISABLED
+			null_level	$DEFAULT_NULL
+		}
+
+		State 1 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string      $iSTR_ENABLED
+			null_level	$DEFAULT_NULL
+		}
+
+		Event {
+			key $VK_LBUTTON
+			key $VK_RBUTTON
+
+			time { $TRIGGER_TIME + 1 }
+			EvComm {
+				change_trigger	"CxModTrig"
+				time $TRIGGER_TIME
+			}
+			EvComm {
+				ext_event	$iEXT_INIT_KEEP_OPTIONS 0
+				start_time	{ $TRIGGER_TIME / 2 }
+			}
+		}
+	}
+
+	Object "JtMod"
+	{
+		x	$RESOLUTION_STR_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 3 }
+
+		Element STRING {
+			align_x 	center
+
+			terrain_num	$TERRAIN2
+			space		$OPTION_SPACE
+
+			font		$GRAPHICS_FONT
+			null_level	$DEFAULT_NULL
+			string	    $iSTR_JtMod
+		}
+	}
+
+	Trigger "JtModTrig" {
+		x	$RESOLUTION_TRG_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 3 }
+
+		num_state	2
+
+		null_level	$DEFAULT_NULL
+
+		State 0 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_DISABLED
+			null_level	$DEFAULT_NULL
+		}
+
+		State 1 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string      $iSTR_ENABLED
+			null_level	$DEFAULT_NULL
+		}
+
+		Event {
+			key $VK_LBUTTON
+			key $VK_RBUTTON
+
+			time { $TRIGGER_TIME + 1 }
+			EvComm {
+				change_trigger	"JtModTrig"
+				time $TRIGGER_TIME
+			}
+			EvComm {
+				ext_event	$iEXT_INIT_KEEP_OPTIONS 0
+				start_time	{ $TRIGGER_TIME / 2 }
+			}
+		}
+	}
+
+	Object "Surmap Option"
+	{
+		x	$RESOLUTION_STR_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 4 }
+
+	    Element STRING {
+	        terrain_num $TERRAIN2
+	        font $GRAPHICS_FONT
+	        null_level $DEFAULT_NULL
+	        string $iSTR_SurmapLoadWorld
+	    }
+
+		Event {
+			key $VK_LBUTTON
+
+			time { $PRESS_OBJ_TIME * 2 + 1 }
+			EvComm {
+				low_obj 	"Surmap Option"
+				time		$PRESS_OBJ_TIME
+				start_time	0
+			}
+			EvComm {
+				move2screen	"Addons Screen"
+				start_time	$PRESS_OBJ_TIME
+				time		$MOVE2SCREEN_TIME
+			}
+		}
+
 	}
 }
 

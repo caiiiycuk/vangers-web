@@ -251,3 +251,8 @@
 
 #define iSTR_GameInfo			$iSTR_GameInfo1
 
+#define iSTR_Addons $iSTR_Addons1
+#define iSTR_WebMultiplayer $iSTR_WebMultiplayer1
+#define iSTR_CxMod $iSTR_CxMod1
+#define iSTR_JtMod $iSTR_JtMod1
+#define iSTR_SurmapLoadWorld $iSTR_SurmapLoadWorld1

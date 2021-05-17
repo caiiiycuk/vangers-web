@@ -784,7 +784,21 @@ void iPrepareOptions(void)
 
 
 	iScrOpt[iAUTO_ACCELERATION] = new iScreenOption(iTRIGGER,0,"Controls screen","AutoAccelerationTrig");
-	
+
+    iScrOpt[iWEB_MULTIPLAYER] = new iScreenOption(iTRIGGER,0,"Addons Screen","WebMultiplayerTrig");
+    iScrOpt[iCX_MOD] = new iScreenOption(iTRIGGER,0,"Addons Screen","CxModTrig");
+    iScrOpt[iJT_MOD] = new iScreenOption(iTRIGGER,0,"Addons Screen","JtModTrig");
+
+    ((iTriggerObject *)iScrOpt[iJT_MOD]->objPtr)->callback = [](int enabled){
+        html::setJtModEnabled(enabled == 1);
+        iScrOpt[iCX_MOD]->SetValueINT(0);
+    };
+
+    ((iTriggerObject *)iScrOpt[iCX_MOD]->objPtr)->callback = [](int enabled){
+        html::setCxModEnabled(enabled == 1);
+        iScrOpt[iJT_MOD]->SetValueINT(0);
+    };
+
 	iPrepareControls();
 }
 
