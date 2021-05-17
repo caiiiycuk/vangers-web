@@ -159,8 +159,8 @@
 
 /* ------------------------ Graphics Screen Defines ------------------------- */
 
-#define GRAPHICS_SCR_START_Y	100
-#define GRAPHICS_SCR_DELTA_Y	50
+#define GRAPHICS_SCR_START_Y	80
+#define GRAPHICS_SCR_DELTA_Y	45
 
 #define TUTORIAL_STR_X		220
 #define TUTORIAL_TRG_X		500
@@ -1033,6 +1033,38 @@ Object "Multiplayer Option"
 			key $VK_UP
 
 			$EV_CHANGE_OBJ
+		}
+	}
+
+	Object "Cx name"
+	{
+		x	705
+		y	525
+
+		Element STRING {
+			align_x center
+
+			terrain_num	$TERRAIN2
+
+			font		3
+			null_level	$DEFAULT_NULL
+			string		"Cx"
+		}
+	}
+
+	Object "Cx version"
+	{
+		x	690
+		y	555
+
+		Element STRING {
+			align_x center
+
+			terrain_num	$TERRAIN2
+
+			font		3
+			null_level	$DEFAULT_NULL
+			string		"0.61"
 		}
 	}
 }
@@ -1970,10 +2002,70 @@ Screen "Graphics screen"
 			}
 		}
 	}
+	Object "LightingCycleObj" {
+		x	$KEEP_STR_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+
+		Element STRING {
+			space		$OPTION_SPACE
+			align_x		center
+
+			terrain_num	$TERRAIN2
+
+			font		$GRAPHICS_FONT
+			null_level	$DEFAULT_NULL
+			string		$iSTR_LIGHTING_CYCLE
+		}
+	}
+	Trigger "LightingCycleTrig" {
+		x	$KEEP_TRG_X
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+
+		num_state	2
+
+		null_level	$DEFAULT_NULL
+
+		State 1 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_ON
+			null_level	$DEFAULT_NULL
+		}
+		State 0 "STRING"{
+			align_x center
+			align_y center
+
+			font		$GRAPHICS_FONT
+			space		$OPTION_SPACE
+			terrain_num	$TERRAIN4
+
+			string		$iSTR_OFF
+			null_level	$DEFAULT_NULL
+		}
+		Event {
+			key $VK_LBUTTON
+			key $VK_RBUTTON
+
+			time { $TRIGGER_TIME + 1 }
+			EvComm {
+				change_trigger	"LightingCycleTrig"
+				time $TRIGGER_TIME
+			}
+			EvComm {
+				ext_event	$iEXT_INIT_KEEP_OPTIONS 0
+				start_time	{ $TRIGGER_TIME / 2 }
+			}
+		}
+	}
 	Object "InUseObj"
 	{
 		x	$Graphics_screen_InUseObj_PosX
-		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 6 }
 
 		Element STRING {
 			id		"InUseStr"
@@ -1991,7 +2083,7 @@ Screen "Graphics screen"
 	Object "CleanUpObj"
 	{
 		x	$Graphics_screen_CleanUpObj_PosX
-		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 5 }
+		y	{ $GRAPHICS_SCR_START_Y + $GRAPHICS_SCR_DELTA_Y * 6 }
 
 		not_unlock
 
@@ -6697,24 +6789,27 @@ Screen "Select Game"
 
 	#define GAME_Y		2
 	#define GAME_OBJ_NAME	"GameObj2"
-//	  #define GAME_OBJ_NEXT   "GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj0"
+	#define GAME_OBJ_NEXT   "GameObj3"
+//	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj1"
 	#define GAME_OBJ_ID	$iSTR_PASSEMBLOSS
 	#define GAME_SCR	"Game Params 2"
 	#define GAME_STRING_ID	"GameStr2"
 
 	#include "iscreen/scripts/gameobj.inc"
-/*
+
 	#define GAME_Y		3
 	#define GAME_OBJ_NAME	"GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj4"
+//	#define GAME_OBJ_NEXT	"GameObj4"
+	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj2"
 	#define GAME_OBJ_ID	$iSTR_HUNTAGE
 	#define GAME_SCR	"Game Params 3"
 	#define GAME_STRING_ID	"GameStr3"
 
+	#include "iscreen/scripts/gameobj.inc"
 
+/*
 	#define GAME_Y		4
 	#define GAME_OBJ_NAME	"GameObj4"
 	#define GAME_OBJ_NEXT	"GameObj0"
@@ -6752,7 +6847,7 @@ Screen "Game Params 0"  // VAN-WAR
 
 		not_unlock
 
-		num_state	4
+		num_state	5
 
 		State 0 "STRING"{
 			align_x center
@@ -6802,6 +6897,18 @@ Screen "Game Params 0"  // VAN-WAR
 
 			string		$iSTR_Necross
 		}
+        State 4 "STRING"{
+            align_x center
+            align_y center
+
+            terrain_num	$TERRAIN4
+
+            space		$PARAMS_SPACE
+            font		$PARAM_FNT
+            null_level	$DEFAULT_NULL
+
+            string		$iSTR_Satadi
+        }
 		Event {
 			key $VK_LBUTTON
 			key $VK_RBUTTON
@@ -6984,7 +7091,7 @@ Screen "Game Params 0"  // VAN-WAR
 			space		$PARAMS_SPACE
 			font		$PARAM_FNT
 			null_level	$DEFAULT_NULL
-			string		"100"
+			string		"30"
 		}
 		Event {
 			key $VK_LBUTTON
@@ -7725,7 +7832,7 @@ Screen "Identification screen"
 				start_time	0
 			}
 			EvComm {
-				move2screen	"Search server screen"
+				move2screen	"iSearch server screen"
 				start_time	$PRESS_OBJ_TIME
 				time		$MOVE2SCREEN_TIME
 			}
@@ -7745,7 +7852,7 @@ Screen "Identification screen"
 				time		$HIDE_OBJ_TIME
 			}
 			EvComm {
-				move2screen	"Search server screen"
+				move2screen	"iSearch server screen"
 				start_time	{ $SMOOTH_OBJ_TIME + $HIDE_OBJ_TIME }
 				time		$MOVE2SCREEN_TIME
 			}
@@ -11847,24 +11954,27 @@ Screen "Select Game2"
 
 	#define GAME_Y		2
 	#define GAME_OBJ_NAME	"GameObj2"
-//	  #define GAME_OBJ_NEXT   "GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj0"
+	#define GAME_OBJ_NEXT   "GameObj3"
+//	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj1"
 	#define GAME_OBJ_ID	$iSTR_PASSEMBLOSS
 	#define GAME_SCR	"HallOfFame screen"
 	#define GAME_STRING_ID	"GameStr2"
 
 	#include "iscreen/scripts/gameobj.inc"
-/*
+
 	#define GAME_Y		3
 	#define GAME_OBJ_NAME	"GameObj3"
-	#define GAME_OBJ_NEXT	"GameObj4"
+//	#define GAME_OBJ_NEXT	"GameObj4"
+	#define GAME_OBJ_NEXT	"GameObj0"
 	#define GAME_OBJ_PREV	"GameObj2"
 	#define GAME_OBJ_ID	$iSTR_HUNTAGE
 	#define GAME_SCR	"HallOfFame screen"
 	#define GAME_STRING_ID	"GameStr3"
 
+	#include "iscreen/scripts/gameobj.inc"
 
+/*
 	#define GAME_Y		4
 	#define GAME_OBJ_NAME	"GameObj4"
 	#define GAME_OBJ_NEXT	"GameObj0"

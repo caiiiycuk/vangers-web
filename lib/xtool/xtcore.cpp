@@ -1,6 +1,7 @@
 /* ---------------------------- INCLUDE SECTION ----------------------------- */
 
 #include "../../src/lang.h"
+#include "../../src/ai.h"
 #include "xglobal.h"
 #include "xt_list.h"
 #include "../xgraph/xgraph.h"
@@ -98,9 +99,12 @@ XStream xtRTO_Log;
 int xtSysQuantDisabled = 0;
 extern bool XGR_FULL_SCREEN;
 
+bool customMechousUsage;
+int customMechousId;
+
 bool autoconnect = false;
 char *autoconnectHost;
-int  autoconnectPort = 2197;
+unsigned short  autoconnectPort = 2197;
 bool autoconnectJoinGame = false;
 int  autoconnectGameID;
 
@@ -131,6 +135,14 @@ int main(int argc, char *argv[])
             XGR_FULL_SCREEN = true;
         } else if (cmd_key == "-russian") {
             setLang(RUSSIAN);
+		} else if (cmd_key == "-ai") {
+			setAi(BOT);
+		} else if (cmd_key == "-mechous") {
+			if (argc > i) {
+				customMechousUsage = true;
+				customMechousId = atoi(argv[i + 1]);
+				i++;
+			}
         } else if (cmd_key == "-server") {
             if (argc > i) {
                 i++;
@@ -142,7 +154,7 @@ int main(int argc, char *argv[])
         } else if (cmd_key == "-port") {
             if (argc > i) {
                 i++;
-                autoconnectPort = strtol(argv[i], &argv[i], 0);
+                autoconnectPort = (unsigned short)strtol(argv[i], NULL, 0);
             } else {
                 std::cout << "Invalid parameter usage: '-port value' expected" << std::endl;
             }
@@ -156,7 +168,7 @@ int main(int argc, char *argv[])
                 } else if (value == "any") {
                     autoconnectGameID = -1;
                 } else {
-                    autoconnectGameID = strtol(argv[i], &argv[i], 0);
+                    autoconnectGameID = (int)strtol(argv[i], NULL, 0);
                 }
             } else {
                 std::cout << "Invalid parameter usage: '-game [id|new|any]' expected" << std::endl;

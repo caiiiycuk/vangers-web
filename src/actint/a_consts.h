@@ -201,8 +201,10 @@
 #define F_ID			10
 #define W_ID			11
 #define A_ID			12
+#define S_ID			13
+#define M_ID			14
 
-#define AS_MAX_WORLD		13
+#define AS_MAX_WORLD		15
 
 #define GLORX_LETTER		71
 #define FOSTRAL_LETTER		70
@@ -217,6 +219,8 @@
 #define F_LETTER		70
 #define W_LETTER		87
 #define A_LETTER		65
+#define S_LETTER		83
+#define M_LETTER		77
 
 // aciWorldInfo flags...
 #define AS_VISIBLE_WORLD	1
@@ -394,6 +398,15 @@
 #define ACI_L6_CLAP_SOUND	41
 #define ACI_L6_GETOUT_SOUND	42
 
+// Rostrum...
+#define ACI_L8_STEP_SOUND	43
+#define ACI_L8_OUTIN_SOUND	44
+
+#define ACI_L8_BUTTON0_SOUND	45
+#define ACI_L8_BUTTON1_SOUND	46
+
+#define ACI_L8_GETOUT_SOUND	47
+
 /* ------------------------------- PARAMETERS ------------------------------- */
 
 // Mechos...
@@ -466,6 +479,8 @@
 
 #define ACI_CHANGE_CYCLE	41
 #define ACI_REPAIR		42
+
+#define ACI_TELEPORT_S		43
 
 // Save header flags...
 #define ACI_SAVE_COMPRESSED	1

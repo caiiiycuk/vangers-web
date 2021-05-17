@@ -132,6 +132,12 @@ mode_key	$VK_F1
 #define ACI_ROTTEN_PIPETKA		77
 #define ACI_ROTTEN_WEEZYK		78
 
+#define ACI_NETTLE_ACG 	79
+#define ACI_VERVEMITTER 	80
+#define ACI_DIFFORD_REACTOR 	81
+#define ACI_TRAIL_TRACER 	82
+#define ACI_BADREEVE 	83
+
 /* ---------------------------- Item IDs & Names ---------------------------- */
 
 #define ITM01_ID	$ACI_MACHOTINE_GUN_LIGHT
@@ -216,6 +222,12 @@ mode_key	$VK_F1
 #define ITM76_ID	$ACI_EMPTY_DEGRADATOR
 #define ITM77_ID	$ACI_ROTTEN_PIPETKA
 #define ITM78_ID	$ACI_EMPTY_MECHOSCOPE
+
+#define ITM79_ID	$ACI_NETTLE_ACG
+#define ITM80_ID	$ACI_VERVEMITTER
+#define ITM81_ID	$ACI_DIFFORD_REACTOR
+#define ITM82_ID	$ACI_TRAIL_TRACER
+#define ITM83_ID	$ACI_BADREEVE
 
 /* -------------------------------------------------------------------------- */
 
@@ -573,6 +585,40 @@ mode_key	$VK_F1
 						event $EV_TELEPORT $A_ID	\
 					}					\
 					fncMenuItem {				\
+						string		$STR_Satadi \
+						function	{ 1000 + $S_ID }  \
+										\
+						font		0		\
+						space		1		\
+										\
+						event $EV_TELEPORT $S_ID	\
+					}					\
+					fncMenuItem {				\
+						string		$STR_OFF	\
+						function	$FMENU_OFF	\
+										\
+						font		0		\
+						space		1		\
+					}					\
+					fncMenuItem {				\
+						string		$STR_Satadi \
+						function	{ 1000 + $S_ID }  \
+										\
+						font		0		\
+						space		1		\
+										\
+						event $EV_TELEPORT $S_ID	\
+					}					\
+					fncMenuItem {				\
+						string		$STR_Mirage \
+						function	{ 1000 + $M_ID }  \
+										\
+						font		0		\
+						space		1		\
+										\
+						event $EV_TELEPORT $M_ID	\
+					}					\
+					fncMenuItem {				\
 						string		$STR_OFF	\
 						function	$FMENU_OFF	\
 										\
@@ -726,6 +772,7 @@ mode_key	$VK_F1
 #define MECH36_ID	35	$CONSTR5
 #define MECH37_ID	35	{ $CONSTR5 + 1 }
 #define MECH38_ID	35	{ $CONSTR5 + 2 }
+#define MECH39_ID	39	39
 
 #define MATRIX_LOWRES	x	360	\
 			y	60
@@ -2121,6 +2168,66 @@ mode_key	$VK_F1
 				avi_id		$ACI_TEXT_AVI_ENG  "text/mech35.avi"       \
 				avi_id		$ACI_TEXT_AVI_RUS  "text/mech35r.avi"
 
+#define MATRIX39_BODY		msize_x 8			\
+				msize_y 14			\
+				matrix {			\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 1 1 1 0 0 1 1 	\
+					 0 1 1 0 1 0 1 0	\
+					0 1 1 1 0 0 0 0 	\
+					 0 1 1 0 1 1 1 0	\
+					1 0 0 0 1 0 1 1 	\
+					 1 1 1 1 1 0 1 0	\
+					0 1 1 1 1 1 1 0 	\
+					 1 0 0 1 0 0 1 0	\
+					1 1 0 1 1 0 1 1 	\
+					 1 0 0 1 0 0 1 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+				}		\
+						\
+				slot_types {		\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 1 1 1 0 0 3 3 	\
+					 0 1 1 0 2 0 3 0	\
+					0 1 1 1 0 0 0 0 	\
+					 0 1 1 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+				}		\
+				slot_nums {			\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 1 1 1 0 0 4 4 	\
+					 0 1 1 0 5 0 4 0	\
+					0 1 1 1 0 0 0 0 	\
+					 0 1 1 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+					0 0 0 0 0 0 0 0 	\
+					 0 0 0 0 0 0 0 0	\
+				}		\
+				id	$MECH39_NAME		\
+				num_avi_ids	$ACI_NUM_AVI_ID \
+				avi_id		$ACI_PICTURE_AVI_ENG  "mech39.avi"         \
+				avi_id		$ACI_PICTURE_AVI_ENG2 "mech392.avi"        \
+				avi_id		$ACI_PICTURE_AVI_ENG3 "mech393.avi"        \
+				avi_id		$ACI_TEXT_AVI_ENG  "text/mech39.avi"       \
+				avi_id		$ACI_TEXT_AVI_RUS  "text/mech39r.avi"
+
+
 /* ----------------------------- ITEMS SECTION ------------------------------ */
 
 // Item shapes...
@@ -2318,6 +2425,31 @@ mode_key	$VK_F1
 			}
 
 #define SHAPE_PP	$WPN_SHAPE7
+
+#define WPN_SHAPE5	shape_len	5	\
+			shape { 		\
+				0  0		\
+				-1 0		\
+				-1  1		\
+				-1 2		\
+				0  2		\
+			}			\
+			num_index	2
+
+#define WPN_SHAPE10R	num_index	7	\
+			shape_len	10	\
+			shape { 		\
+				 0 0		\
+				-1 0		\
+				 1 0		\
+				 -1 1		\
+				 0 1		\
+				-1 2		\
+				 0 2		\
+				 1 2		\
+				 -1 3		\
+				 0 3		\
+			}
 
 // MacHOTine Gun (light)
 #define ITM01		id		$ITM01_ID				\
@@ -2840,6 +2972,51 @@ mode_key	$VK_F1
 			slot_type	$SLOT_TWPN				\
 			no_activate						\
 			$SHAPE0
+
+// NettleACG
+#define ITM79		id		$ITM79_ID				\
+			$ITM79_PARAMS						\
+			class		WEAPON					\
+			slot_type	$SLOT_WPN				\
+			$ITM79_INFO						\
+			show_shots						\
+			$WPN_SHAPE5
+
+// Vervemitter
+#define ITM80		id		$ITM80_ID				\
+			$ITM80_PARAMS						\
+			class		WEAPON					\
+			slot_type	$SLOT_WPN				\
+			$ITM80_INFO						\
+			show_shots						\
+			$WPN_SHAPE5
+
+// Difford
+#define ITM81		id		$ITM81_ID				\
+			$ITM81_PARAMS						\
+			class		WEAPON					\
+			slot_type	$SLOT_WPN				\
+			$ITM81_INFO						\
+			show_shots						\
+			$WPN_SHAPE7
+
+// TrailTracer
+#define ITM82		id		$ITM82_ID				\
+			$ITM82_PARAMS						\
+			class		WEAPON					\
+			slot_type	$SLOT_WPN				\
+			$ITM82_INFO						\
+			show_shots						\
+			$WPN_SHAPE10R
+
+// Badreeve
+#define ITM83		id		$ITM83_ID				\
+			$ITM83_PARAMS						\
+			class		WEAPON					\
+			slot_type	$SLOT_WPN				\
+			$ITM83_INFO						\
+			show_shots						\
+			$WPN_SHAPE10R
 
 /* -------------------------------------------------------------------------- */
 

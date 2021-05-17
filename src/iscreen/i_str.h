@@ -43,6 +43,12 @@
 #define iSTR_WORLD_ARK_A_ZNOY_CHAR1	"A"
 #define iSTR_WORLD_ARK_A_ZNOY_CHAR2	"€"
 
+#define iSTR_WORLD_SATADI_CHAR1	"S"
+#define iSTR_WORLD_SATADI_CHAR2	"‘"
+
+#define iSTR_WORLD_MIRAGE_CHAR1	"M"
+#define iSTR_WORLD_MIRAGE_CHAR2	"Œ"
+
 // Color letters...
 #define iSTR_COLOR_GREEN_CHAR1		"G"
 #define iSTR_COLOR_GREEN_CHAR2		"‡"

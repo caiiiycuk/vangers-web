@@ -44,6 +44,8 @@
 #define STR_hMok		$STR_hMok2
 #define STR_Threall		$STR_Threall2
 #define STR_Ark_a_Znoy		$STR_Ark_a_Znoy2
+#define STR_Satadi		$STR_Satadi2
+#define STR_Mirage		$STR_Mirage2
 
 // Mechoses...
 #define MECH00_NAME		$MECH00_NAME2
@@ -85,6 +87,7 @@
 #define MECH36_NAME		$MECH36_NAME2
 #define MECH37_NAME		$MECH37_NAME2
 #define MECH38_NAME		$MECH38_NAME2
+#define MECH39_NAME		$MECH39_NAME2
 
 /* --------------------------------- ITEMS ---------------------------------- */
 /* ----------------------------- NAMES SECTION ------------------------------ */
@@ -323,6 +326,21 @@
 // Mechoscope (empty)
 #define ITM78_NAME		$ITM78_NAME2
 
+// NettleACG
+#define ITM79_NAME		$ITM79_NAME2
+
+// Vervemitter
+#define ITM80_NAME		$ITM80_NAME2
+
+// Difford
+#define ITM81_NAME		$ITM81_NAME2
+
+// TrailTracer
+#define ITM82_NAME		$ITM82_NAME2
+
+// Badreeve
+#define ITM83_NAME		$ITM83_NAME2
+
 /* ---------------------------- COMMENTS SECTION ---------------------------- */
 
 // MacHOTine Gun (light)
@@ -558,6 +576,21 @@
 
 // Mechoscope (empty)
 #define ITM78_COMMENTS		$ITM78_COMMENTS2
+
+// NettleACG
+#define ITM79_COMMENTS		$ITM79_COMMENTS2
+
+// Vervemitter
+#define ITM80_COMMENTS		$ITM80_COMMENTS2
+
+// Difford
+#define ITM81_COMMENTS		$ITM81_COMMENTS2
+
+// TrailTracer
+#define ITM82_COMMENTS		$ITM82_COMMENTS2
+
+// Badreeve
+#define ITM83_COMMENTS		$ITM83_COMMENTS2
 
 /* ------------------------- SHOP COMMENTS SECTION -------------------------- */
 
@@ -795,6 +828,21 @@
 // Mechoscope (empty)
 #define iITM78_COMMENTS 	$iITM78_COMMENTS2
 
+// NettleACG
+#define iITM79_COMMENTS 	$iITM79_COMMENTS2
+
+// Vervemitter
+#define iITM80_COMMENTS 	$iITM80_COMMENTS2
+
+// Difford
+#define iITM81_COMMENTS 	$iITM81_COMMENTS2
+
+// TrailTracer
+#define iITM82_COMMENTS 	$iITM82_COMMENTS2
+
+// Badreeve
+#define iITM83_COMMENTS 	$iITM83_COMMENTS2
+
 /* --------------------------- ITEMS INFO SECTION --------------------------- */
 
 // MacHOTine Gun (light)
@@ -895,6 +943,21 @@
 
 // Zeex
 #define ITM64_INFO		$ITM64_INFO2
+
+// NettleACG
+#define ITM79_INFO		$ITM79_INFO2
+
+// Vervemitter
+#define ITM80_INFO		$ITM80_INFO2
+
+// Difford
+#define ITM81_INFO		$ITM81_INFO2
+
+// TrailTracer
+#define ITM82_INFO		$ITM82_INFO2
+
+// Badreeve
+#define ITM83_INFO		$ITM83_INFO2
 
 /* --------------------------- PARAMETERS SECTION --------------------------- */
 
@@ -1132,6 +1195,21 @@
 // Mechoscope (empty)
 #define ITM78_PARAMS		$ITM78_PARAMS2
 
+// NettleACG
+#define ITM79_PARAMS		$ITM79_PARAMS2
+
+// Vervemitter
+#define ITM80_PARAMS		$ITM80_PARAMS2
+
+// Difford
+#define ITM81_PARAMS		$ITM81_PARAMS2
+
+// TrailTracer
+#define ITM82_PARAMS		$ITM82_PARAMS2
+
+// Badreeve
+#define ITM83_PARAMS		$ITM83_PARAMS2
+
 // Tips...
 #define MODE_BUTTON_TEXT		$MODE_BUTTON_TEXT2
 #define PICKUP_ITEMS_BUTTON_TEXT	$PICKUP_ITEMS_BUTTON_TEXT2
@@ -1151,4 +1229,5 @@
 #define ESCAVE_NAME5		$ESCAVE_NAME52
 #define ESCAVE_NAME6		$ESCAVE_NAME62
 #define ESCAVE_NAME7		$ESCAVE_NAME72
+#define ESCAVE_NAME8		$ESCAVE_NAME82
 

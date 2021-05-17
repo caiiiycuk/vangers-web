@@ -9,9 +9,9 @@
 // количество основных миров
 const int MAIN_WORLD_MAX = 4;
 // общее количество миров включая секретные
-const int WORLD_MAX = 10;
+const int WORLD_MAX = 12;
 // количество основных биосов в Цепи
-const int BIOS_MAX = 3;
+const int BIOS_MAX = 4;
 // количество приказов в памяти с-вангеров
 const int ORDER_V_MAX = 8;
 
@@ -186,7 +186,8 @@ struct UVS_CAR_TYPE {
 		MICROBUS,
 		ATW,
 		TRACK,
-		SPECIAL
+		SPECIAL,
+		CUSTOM
 	};
 };
 
@@ -397,7 +398,13 @@ struct UVS_ITEM_TYPE {
 		TANKACID,
 		DEAD_KERNOBOO,
 		DEAD_PIPETKA,
-		DEAD_WEEZYK
+		DEAD_WEEZYK,
+
+		NETTLE_ACG,
+		VERVEMITTER,
+		DIFFORD_REACTOR,
+		TRAIL_TRACER,
+		BADREEVE
 		};
 	};
 
@@ -552,7 +559,9 @@ struct uvsContimer {
 	void save( XStream&);
 	void Quant(void);		// прошла единица времени (условная секунда)
 	char* GetTime(void);		// получить строку для вывода на экран в формате: "N day, nn:nn:nn"
-	};
+	int countFromDeath;         // счётчик времени с последней смерти
+	int stagesFromDeath;         // счётчик этапов с последней смерти
+};
 
 // некий объект/место на общей карте мира, куда можно задаться целью попасть или догнать
 // самостоятельно не используется
@@ -629,7 +638,7 @@ struct uvsCultStage {
 // организация банчей - социумов Цепи
 struct uvsBunch : listElem {
 	uvsEscave* Pescave;			// указатель на эскэйв, в котором находится банч
-	int biosNindex; 				// номер биоса, к которому относится банч: E-B-Z
+	int biosNindex; 				// номер биоса, к которому относится банч: E-B-Z-S
 	int cycleN;					// число периодов в цикле банча
 	uvsCultStage* cycleTable;		//  таблица периодов банча размером cycleN
 	int currentStage;				 // номер текущего периода
@@ -691,9 +700,11 @@ struct uvsWorld : listElem {
 	listElem* Pitem;				//указатель на инвентори
 	uvsElement *Panymal;	//указатель на двигающие обьекты
 	int locked;				// внешний статус занятости прохода вангером
+	int x_spawn,y_spawn;	// точки для создания игрока, если мир кастомный
+	int flood_level;		// уровень затопления жидкостью, если мир кастомный
 
 		// pfile - обработчик worlds.prm, atom - первая значимая строка
-	uvsWorld(void):listElem(){ name = NULL; gIndex = x_size = y_size = GamerVisit = escTmax = sptTmax = pssTmax = locked = 0;
+	uvsWorld(void):listElem(){ name = NULL; gIndex = x_size = y_size = GamerVisit = escTmax = sptTmax = pssTmax = locked = x_spawn = y_spawn = flood_level = 0;
 												escT = NULL; sptT = NULL; pssT = NULL; Pitem = NULL; Panymal = NULL;
 	}
 		~uvsWorld(void);
@@ -974,11 +985,12 @@ struct uvsItem : uvsTarget, listElem {
 struct uvsMechos : listElem{
 	int type;					//  тип мехоса - ссылка на таблицу
 	int color;					//  цвет мехоса
+	int actualColor;			//  изначальный мехоса
 	int status;					//
 	int teleport;				//zNfo//количество телепортаций 
 
-		uvsMechos(void) : listElem(){ type = 0; color = 0;status = 0; teleport = 0; sort();}
-		uvsMechos(int MechosType){ type = MechosType; color = 0;status = 0; teleport = 0; sort();};
+		uvsMechos(void) : listElem(){ type = 0; color = 0; actualColor = 0;status = 0; teleport = 0; sort();}
+		uvsMechos(int MechosType){ type = MechosType; color = 0; actualColor = 0;status = 0; teleport = 0; sort();};
 		uvsMechos(XStream& pfile);
 
 	void sort(void);
@@ -1308,6 +1320,12 @@ struct uvsGamerResult{
 	int toxick_bonus;
 	int BoorawchickGoHimself;
 	int unik_poponka;
+	int nymbos_buy;
+	int phlegma_buy;
+	int heroin_buy;
+	int shrub_buy;
+	int poponka_buy;
+	int toxick_buy;
 
 	void Init( void );
 	void LocalInit( void );

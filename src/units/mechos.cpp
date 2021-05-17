@@ -49,6 +49,8 @@
 #include "magnum.h"
 
 #include "../actint/credits.h"
+#include "../iscreen/iscreen.h"
+#include "../ai.h"
 
 #define INSECTOIDS
 
@@ -183,6 +185,9 @@ int aiHotBugAdd00;
 int aiHotBugAdd01;
 int aiHotBugAdd02;
 int aiHotBugAdd03;
+
+extern iScreenOption** iScrOpt;
+extern int is_start;
 
 void aOutText32clip(int x,int y,int color,void* text,int font,int hspace,int vspace);
 
@@ -705,7 +710,28 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 		Energy = 0;
 	};
 	
-	if(pa > 0 && Armor <= 0 && p && NetworkON && p->ID == ID_VANGER){
+	if(pa > 0 && Armor <= 0 && p && NetworkON && p->ID == ID_VANGER && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
+		if (NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
+			if (is_start==1 || is_start==2) {
+				char *out_msg;
+				out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+				strcpy(out_msg,"[bot]");
+				strcat(out_msg,aciGetPlayerName());
+				strcat(out_msg," выбыл...");
+				message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+				is_start=3;
+			}
+		} else if (NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"wiring")==0) {
+			if (is_start==1 || is_start==2) {
+				char *out_msg;
+				out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+				strcpy(out_msg,"[bot]");
+				strcat(out_msg,aciGetPlayerName());
+				strcat(out_msg," выбыл...");
+				message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+				is_start=3;
+			}
+		}
 		switch(my_server_data.GameType){
 			case VAN_WAR:
 				if(!(my_server_data.Van_War.TeamMode) || ((VangerUnit*)(p))->uvsPoint->Pmechos->color != uvsPoint->Pmechos->color)
@@ -746,7 +772,7 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 				if(PowerFlag & VANGER_POWER_RUFFA_GUN)
 					s |= UVS_KRON_FLAG::RAFFA;
 
-				if(uvsPoint->Pmechos->color != uvsPoint->Pmechos->color)
+				if(((VangerUnit*)(p))->uvsPoint->Pmechos->color != uvsPoint->Pmechos->color)
 					s |= UVS_KRON_FLAG::ALIEN;
 
 				switch(uvsPoint->Pmechos->color){
@@ -782,7 +808,7 @@ void VangerUnit::BulletCollision(int pow,GeneralObject* p)
 
 			if(s) uvsCheckKronIventTabuTask(UVS_KRON_EVENT::SHOT,s);
 
-			if(Armor <= 0 && pa > 0){
+			if(Armor <= 0 && pa > 0 && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
 				PlayerDestroyFlag = 1;
 				GamerResult.vanger_kill++;
 				uvsPoint->KillStatic();
@@ -805,7 +831,29 @@ void VangerUnit::DestroyCollision(int l_16,Object* p)
 	if((Armor -= l_16) < 0)
 		Armor = 0;
 
-	if(pa > 0 && Armor <= 0 && p){
+	if(pa > 0 && Armor <= 0 && p && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
+		if (NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechosumo")==0) {
+			if (is_start==1 || is_start==2) {
+				char *out_msg;
+				out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+				strcpy(out_msg,"[bot]");
+				strcat(out_msg,aciGetPlayerName());
+				strcat(out_msg," выбыл...");
+				message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+				is_start=3;
+			}
+		} 
+		else if (NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"wiring")==0) {
+			if (is_start==1 || is_start==2) {
+				char *out_msg;
+				out_msg = new char[strlen("[bot]") + strlen(aciGetPlayerName()) + 9];
+				strcpy(out_msg,"[bot]");
+				strcat(out_msg,aciGetPlayerName());
+				strcat(out_msg," выбыл...");
+				message_dispatcher.send(out_msg,MESSAGE_FOR_ALL,0);
+				is_start=3;
+			}
+		}
 		//NetDestroyID = GET_STATION(p->NetID);
 		if(NetworkON && p->ID == ID_VANGER){
 			switch(my_server_data.GameType){
@@ -829,6 +877,22 @@ void VangerUnit::DestroyCollision(int l_16,Object* p)
 			uvsPoint->KillStatic();		
 		};
 	};
+	if (p && NetworkON && p->ID == ID_VANGER && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0) {
+		if (ActD.Active && is_start == 2 && kvachTime==-1) {
+			if (((VangerUnit*)(ActD.Active))->uvsPoint->Pmechos->color == ((VangerUnit*)(ActD.Active))->uvsPoint->Pmechos->actualColor &&
+			((VangerUnit*)(p))->uvsPoint->Pmechos->color != ((VangerUnit*)(p))->uvsPoint->Pmechos->actualColor) {
+				char newKvachID[20];
+				char *kvach_msg;
+				VangerUnit* player;
+				player = (VangerUnit*)(ActD.Active);
+				port_itoa(player->ShellNetID, newKvachID, 10);
+				kvach_msg = new char[6 + strlen(newKvachID)];
+				strcpy(kvach_msg,"/kvach");
+				strcat(kvach_msg,newKvachID);
+				message_dispatcher.send(kvach_msg,MESSAGE_FOR_ALL,0);
+			}
+		}
+	}
 };
 											
 void TrackUnit::GetBranch(void)
@@ -987,19 +1051,27 @@ void VangerUnit::Destroy(void)
 						ChangeWorldConstraction = CurrentWorld;
 						break;
 					case VAN_WAR:
-						if(my_server_data.Van_War.Nascency == -1) ChangeWorldConstraction = RND(3);
-						else ChangeWorldConstraction = my_server_data.Van_War.Nascency;
+						if (my_server_data.Van_War.Nascency == -1) {
+                            ChangeWorldConstraction = RND(3);
+						} else if (my_server_data.Van_War.Nascency == 3) {
+                            ChangeWorldConstraction = WORLD_SATADI;
+						} else {
+                            ChangeWorldConstraction = my_server_data.Van_War.Nascency;
+						}
 						break;
 					case PASSEMBLOSS:
 						if(UsedCheckNum == 0) ChangeWorldConstraction = GloryPlaceData[0].World;
 						else{
 							for(i = UsedCheckNum - 1;i >= 0;i--){
-								if(GloryPlaceData[i].World  < MAIN_WORLD_MAX - 1){
+								if(GloryPlaceData[i].World < MAIN_WORLD_MAX - 1){
 									ChangeWorldConstraction = GloryPlaceData[i].World;
 									break;
 								};
 							};
 						};
+						break;
+					case 3: // HUNTAGE
+						ChangeWorldConstraction = WORLD_FOSTRAL;
 						break;
 				};
 
@@ -2627,6 +2699,10 @@ void ActionDispatcher::Quant(void)
 							RaceTxtBuff <= n_position < "|" <= n_total;
 						};
 						break;
+					case 3: // HUNTAGE
+						strcpy(aciCurRaceType,"   ");
+						RaceTxtBuff < "   ";
+						break;
 				};			
 				strcpy(aciCurRaceInfo,RaceTxtBuff.GetBuf());				
 			}else{
@@ -3575,13 +3651,21 @@ void VangerUnit::DrawQuant(void)
 			};
 
 			if(dynamic_state & TOUCH_OF_WATER){
+                if (CurrentWorld == WORLD_SATADI) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
 				if(CurrentWorld == WORLD_THREALL){
-					if(NetworkON) BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
+					if (NetworkON) {
+						if (ai() != PLAYER) {
+							BulletCollision((MaxEnergy + MaxArmor) / 300,NULL);
+						} else {
+							BulletCollision((MaxEnergy + MaxArmor) / 150,NULL);
+						}
+					}
 					else BulletCollision((MaxEnergy + MaxArmor) / 20,NULL);
 				}else{
 					if(!(dynamic_state & TOUCH_OF_AIR)){
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_LIGHT,1);
 						ChargeWeapon(this,ACI_MACHOTINE_GUN_HEAVY,1);
+                        ChargeWeapon(this,ACI_NETTLE_ACG,1);
 						UseOxigenResource();
 						if(Speed){
 							p = (WaterParticleObject*)(EffD.GetObject(EFF_PARTICLE03));
@@ -3595,9 +3679,9 @@ void VangerUnit::DrawQuant(void)
 			};
 		}else{
 			if(dynamic_state & TOUCH_OF_WATER){
-				if(CurrentWorld == WORLD_THREALL)
-					BulletCollision(Energy / 20,NULL);
-				else{
+				if (CurrentWorld == WORLD_THREALL) BulletCollision(Energy / 20,NULL);
+				else if (CurrentWorld == WORLD_SATADI) BulletCollision(Energy / 150,NULL);
+				else {
 					if(Speed){
 						p = (WaterParticleObject*)(EffD.GetObject(EFF_PARTICLE03));
 						if(p){
@@ -3991,7 +4075,7 @@ void VangerUnit::Quant(void)
 			};
 		};
 	}else{
-		if(Status & SOBJ_AUTOMAT){
+		if(Status & SOBJ_AUTOMAT){ // CxInfo: can disable bots movement here, it would seem
 			if(Visibility == VISIBLE){
 				TerrainQuant();
 				if(aiMoveMode == AI_MOVE_POINT){
@@ -4022,9 +4106,11 @@ void VangerUnit::Quant(void)
 				else SpeedDir = 0;
 				HideAction();
 			};
-		}else{
+		};
+		if ((!(Status & SOBJ_AUTOMAT)) || ai() != PLAYER) {
 			if(aciWorldIndex != -1){
-				if(!(Status & SOBJ_AUTOMAT)){
+				//if((!(Status & SOBJ_AUTOMAT)) || ai() != PLAYER){
+					std::cout<<"    CxDebug: aciWorldIndex != -1: not Player or not Automat"<<std::endl;
 					uvsPoint -> Pworld = WorldTable[aciWorldIndex];				
 					EffD.CreateRingOfLord(EFF_PARTICLE06,R_curr + Vector(0,0,80),radius*2,200,111,111,radius << 7);
 		//			ExternalMode = EXTERNAL_MODE_SIGN_IN;
@@ -4041,12 +4127,13 @@ void VangerUnit::Quant(void)
 					StopCDTRACK();
 					NetFunction83Time = NetGlobalTime;
 					ShellUpdateFlag = 1;
-				};
+				//};
 				aciWorldIndex = -1;
 			};
 
 			if(aciTeleportEvent != 0){
-				if(!(Status & SOBJ_AUTOMAT)){
+				//if((!(Status & SOBJ_AUTOMAT)) || ai() != PLAYER){
+					std::cout<<"    CxDebug: aciTeleportEvent != 0: not Player or not Automat"<<std::endl;
 					ExternalTime = CHANGE_VANGER_TIME;
 					ExternalLock = 1;
 					ExternalObject = NULL;
@@ -4059,7 +4146,7 @@ void VangerUnit::Quant(void)
 					for(i = 0;i < 5;i++)
 						EffD.CreateParticleGenerator(R_curr,R_curr,Vector(5,0,0)*DBM((int)(RND(PI*2)),Z_AXIS));
 					SOUND_BOOT_START();
-				};
+				//};
 				aciTeleportEvent = 0;
 			};
 
@@ -4268,7 +4355,7 @@ void VangerUnit::ShellUpdate(void)
 	NETWORK_OUT_STREAM < (unsigned int)(NetFunction83Time);
 };
 
-void VangerUnit::TerrainQuant(void)
+void VangerUnit::TerrainQuant(void) // CxInfo: Necross mushrooms explosions
 {
 	int i,y0,y1;
 	Vector vCheck;
@@ -4587,6 +4674,7 @@ void VangerUnit::InitEnvironment(void)
 							}while(i < SnsTableSize && SensorSortedData[i]->R_curr.y < y1);
 						};
 
+						// CxInfo: how to manipulate camera
 						if(ActD.SpobsEntrance){
 							if(!ActD.CameraModifier){
 								camera_direct(1650,820,1 << 8,0,0,20);
@@ -4781,9 +4869,11 @@ void VangerUnit::InitEnvironment(void)
 	};*/
 };
 
+// CxInfo: interactions for bots
 void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 {
-	int etype;
+	int etype,i;
+	TiristorEngine* t;
 	DoorEngine* d;
 
 	if(p->Enable){
@@ -4794,17 +4884,77 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 			case SensorTypeList::PASSAGE:
 			case SensorTypeList::TRAIN:
 			case SensorTypeList::TRAP:
-				if(!(Status & SOBJ_ACTIVE)){
-					if(ExternalSensor){
-						if(ExternalSensor == ExternalObject && ExternalObject != p) ExternalSensor = p;
-					}else ExternalSensor = p;
-				};
+				if (ai() != PLAYER) {
+					if(ActD.PassageTouchEnable) ActD.PassageTouchEnable = MAX_PASSAGE_DELAY;
+					if(!BeebonationFlag){
+						if(ExternalSensor){
+							if(ExternalSensor == ExternalObject && ExternalObject != p) ExternalSensor = p;
+						}else ExternalSensor = p;
+					};
+				} else {
+					if(!(Status & SOBJ_ACTIVE)){
+						if(ExternalSensor){
+							if(ExternalSensor == ExternalObject && ExternalObject != p) ExternalSensor = p;
+						}else ExternalSensor = p;
+					};
+				}
 				break;
 			case SensorTypeList::IMPULSE:
-				impulse(p->vData,p->Power,0);				
+				impulse(p->vData,p->Power,0);
 				break;
 			case SensorTypeList::SENSOR:
-				if(!(Status & SOBJ_ACTIVE)){
+				if (ai() != PLAYER) {
+					if(DoorFlag){
+						if(p->Owner){
+							if(p->Owner->Type == EngineTypeList::DOOR && !(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)){
+								d = (DoorEngine*)(p->Owner);
+								if(d->Luck > 0){
+									if((int)(RND(d->Luck)) <= aiCutLuck){
+										DoorFlag = 0;
+										if(d->Mode == EngineModeList::OPEN)
+											d->CloseDoor();
+										else
+											d->OpenDoor();
+									}else{
+										if(d->Luck > 0){
+											for(i = 0;i < d->NumSensor;i++)
+												d->SensorLink[i]->Enable = 0;
+										};
+									};
+								}else{
+									if(d->Luck >= -aiCutLuck){
+										DoorFlag = 0;
+										if(d->Mode == EngineModeList::OPEN)
+											d->CloseDoor();
+										else
+											d->OpenDoor();
+									};
+								};
+							}else{
+								if(p->Owner->Type == EngineTypeList::TIRISTOR){
+									DoorFlag = 0;
+									t = (TiristorEngine*)(p->Owner);
+									if(t->Luck > 0){
+										if((int)(RND(t->Luck)) <= aiCutLuck){
+											t->OpenDoor();
+										}else{
+											if(t->Luck > 0){
+												for(i = 0;i < t->NumSensor;i++)
+													t->SensorLink[i]->Enable = 0;
+											};
+										};
+									}else{
+										if(t->Luck >= -aiCutLuck){
+											if(t->Mode != EngineModeList::OPEN){
+												t->OpenDoor();
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				} else if(!(Status & SOBJ_ACTIVE)){
 					if(p->Owner){
 						if(p->Owner->Type == EngineTypeList::DOOR){
 							d = (DoorEngine*)(p->Owner);
@@ -4833,7 +4983,16 @@ void VangerUnit::AutomaticTouchSensor(SensorDataType* p) //znfo !!!
 				break;
 			case SensorTypeList::FIRE_UPDATE:				
 				ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
-				ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);			
+				ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
+				ChargeWeapon(this,ACI_VERVEMITTER,1);
+				break;
+			case SensorTypeList::KEY_UPDATE:
+				if(ai() != PLAYER) {
+					if(PassageCount < MaxPassageCount){
+						aciWorldLinksON();
+						PassageCount = MaxPassageCount;
+					};
+				}
 				break;
 		};
 	}else{
@@ -4934,11 +5093,13 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 						case 0:
 							s = ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
 							s += ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
+                            s += ChargeWeapon(this,ACI_VERVEMITTER,1);
 							if(s) r_log = 1;
 							break;
 						case 1:
 							s = ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,0);
 							s += ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,0);
+                            s += ChargeWeapon(this,ACI_VERVEMITTER,0);
 							if(s) r_log = 1;
 							break;
 						case 2:						
@@ -5007,6 +5168,7 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 			aiMessageQueue.Send(AI_MESSAGE_GHORB,Speed,1);//aiMessageData[AI_MESSAGE_GHORB].Send(Speed,1);
 			ChargeWeapon(this,ACI_GHORB_GEAR_LIGHT,1);
 			ChargeWeapon(this,ACI_GHORB_GEAR_HEAVY,1);
+            ChargeWeapon(this,ACI_VERVEMITTER,1);
 //			ActD.AddFireResource();
 			break;
 		case SensorTypeList::KEY_UPDATE:
@@ -5021,7 +5183,7 @@ void VangerUnit::TouchSensor(SensorDataType* p)
 		case SensorTypeList::SENSOR:
 			if(DoorFlag){
 				if(p->Owner){
-					if(p->Owner->Type == EngineTypeList::DOOR){
+					if(p->Owner->Type == EngineTypeList::DOOR && !(NetworkON && ((my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) || (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)))){
 						d = (DoorEngine*)(p->Owner);
 						if(d->Luck > 0){
 							if((int)(RND(d->Luck)) <= aiCutLuck){
@@ -5140,8 +5302,8 @@ void VangerUnit::SensorQuant(void)
 					break;
 				case SensorTypeList::PASSAGE:
 					if(Status & SOBJ_AUTOMAT){
-						if(aiLocalTarget && aiLocalTarget->Type == UNIT_ORDER_PASSAGE && ((aiLocalTarget->Obj).PassageT)->ActionLink == ExternalSensor){
-
+						if((aiLocalTarget && aiLocalTarget->Type == UNIT_ORDER_PASSAGE && ((aiLocalTarget->Obj).PassageT)->ActionLink == ExternalSensor) || (ai() != PLAYER)){
+							if ((ai() != PLAYER) && (PassageCount > 0)) PassageCount--;
 //							if(MainOrderID != UVS_TARGET::PASSAGE)
 //								ErrH.Abort("Bad Target Sesion");
 //							SensorDebugFlag |= 4;
@@ -5815,6 +5977,7 @@ void VangerUnit::CreateVangerUnit(void)
 			NetID = CREATE_NET_ID(NID_VANGER);
 			ShellNetID = (NetID & (~(63 << 16))) | NID_SHELL;
 			uvsPoint->Pmechos->color = aciGetPlayerColor();
+			uvsPoint->Pmechos->actualColor = aciGetPlayerColor();
 		}else{
 			NetID = 0;
 			ShellNetID = 0;
@@ -6690,7 +6853,7 @@ void VangerUnit::NewKeyHandler(void)
 	if(iKeyPressed(iKEY_CHANGE_TARGET))
 		ActD.ChangeLocator();
 
-	if((Status & SOBJ_ACTIVE) && (Status & SOBJ_AUTOMAT) && 
+	if((ai() == PLAYER) && (Status & SOBJ_ACTIVE) && (Status & SOBJ_AUTOMAT) &&
 	   (iKeyPressed(iKEY_TURN_WHEELS_LEFT) || iKeyPressed(iKEY_TURN_WHEELS_RIGHT) || iKeyPressed(iKEY_MOVE_FORWARD) || iKeyPressed(iKEY_MOVE_BACKWARD) || iKeyPressed(iKEY_TURN_OVER_LEFT)
 	   || iKeyPressed(iKEY_TURN_OVER_RIGHT) || iKeyPressed(iKEY_DEVICE_ON) || iKeyPressed(iKEY_DEVICE_OFF) || iKeyPressed(iKEY_ACTIVATE_KID) || iKeyPressed(iKEY_ACCELERATION) || iKeyPressed(iKEY_OPEN))){
 		Status &=~SOBJ_AUTOMAT;
@@ -7036,6 +7199,9 @@ void uvsUnitType::CreateUnitType(uvsVanger* p)
 			break;
 		case 23://Worm
 			ItemMatrix = &UnitMatrixData[28];
+			break;
+		case 24://Rustpuppy
+			ItemMatrix = &UnitMatrixData[31];
 			break;
 	};	
 };
@@ -7460,6 +7626,7 @@ void VangerUnit::CheckOutDevice(StuffObject* p)
 	StuffObject* n;
 	switch(p->ActIntBuffer.type){
 		case ACI_PHLEGMA:
+            // CxInfo: If # of phlegma >= SAFE_STUFF_MAX (3), WeeZyk won't die upon cycle change
 			i = -1;
 			n = DeviceData;
 			while(n){
@@ -7493,6 +7660,7 @@ void VangerUnit::CheckOutDevice(StuffObject* p)
 			};
 			break;
 		case ACI_TOXICK:
+            // CxInfo: If # of toxick >= SAFE_STUFF_MAX (3), eLeech won't die upon cycle change
 			i = -1;
 			n = DeviceData;
 			while(n){
@@ -7555,9 +7723,9 @@ void VangerUnit::ItemQuant(void)
 				if(GunSlotData[ItemMatrix->nSlot[i]].pData)
 					GunSlotData[ItemMatrix->nSlot[i]].Quant();
 			};
-			if(Armor <= 0) Destroy();
+			if(Armor <= 0 && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)) Destroy();
 		}else{
-			if(Armor <= 0){
+			if(Armor <= 0 && !(NetworkON && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mechokvach")==0)){
 				if(DeviceData){
 					p = DeviceData;
 					while(p){
@@ -7663,7 +7831,7 @@ void BunchEvent(int type)
 	GeneralObject* p;
 	switch(type){
 		case BUNCH_CHANGE_CYCLE:
-			if(CurrentWorld >= MAIN_WORLD_MAX - 1) return;
+			if((CurrentWorld >= MAIN_WORLD_MAX - 1) && (CurrentWorld != WORLD_SATADI)) return;
 			WorldPalCurrent = uvsCurrentCycle;
 			if(WorldPalCurrent >= WorldPalNum) WorldPalCurrent = 0;
 //			StartSetColor(100,WorldPalData[WorldPalCurrent]);
@@ -8232,13 +8400,15 @@ void ActionDispatcher::DrawResource(void)
 
 void uvsUnitType::UseOxigenResource(void)
 {
-	if(OxigenResource > 0){
-		OxigenResource--;
-		if(ActD.Active && ActD.Active->Status & SOBJ_ACTIVE) ActD.DrawResourceValue = OxigenResource;
-	}else{
-		Armor = 0;
-		Energy = 0;
-	};
+	if (ai() == PLAYER) {
+		if(OxigenResource > 0){
+			OxigenResource--;
+			if(ActD.Active && ActD.Active->Status & SOBJ_ACTIVE) ActD.DrawResourceValue = OxigenResource;
+		}else{
+			Armor = 0;
+			Energy = 0;
+		};
+	}
 };
 
 int CheckStartJump(Object* p)
@@ -9676,11 +9846,13 @@ int ChargeWeapon(VangerUnit* p,int ind,int sign)
 				switch(ind){
 					case ACI_MACHOTINE_GUN_LIGHT:
 					case ACI_MACHOTINE_GUN_HEAVY:
+                    case ACI_NETTLE_ACG:
 						aiMessageQueue.Send(AI_MESSAGE_MACHOTINE,p->Speed,1,0);//aiMessageData[AI_MESSAGE_MACHOTINE].Send(p->Speed,1,0);
 						SOUND_CHARGE_MACHOTIN();
 						break;
 					case ACI_GHORB_GEAR_LIGHT:
 					case ACI_GHORB_GEAR_HEAVY:
+                    case ACI_VERVEMITTER:
 						aiMessageQueue.Send(AI_MESSAGE_GHORB,p->Speed,2,0);//aiMessageData[AI_MESSAGE_GHORB].Send(p->Speed,2,0);
 						SOUND_CHARGE_GHORB();
 						break;
@@ -9691,6 +9863,7 @@ int ChargeWeapon(VangerUnit* p,int ind,int sign)
 				switch(ind){
 					case ACI_GHORB_GEAR_LIGHT:
 					case ACI_GHORB_GEAR_HEAVY:
+                    case ACI_VERVEMITTER:
 						aiMessageQueue.Send(AI_MESSAGE_DGHORB,p->Speed,1,0);//aiMessageData[AI_MESSAGE_DGHORB].Send(p->Speed,1,0);
 						SOUND_DISCHARGE();
 						break;
@@ -10203,6 +10376,60 @@ void GunSlot::Fire(void)
 			GunStatus = GUN_FIRE;
 			if(NetworkON) NetUpdate();
 			break;
+		case ACI_NETTLE_ACG:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_SHOTGUN(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			};
+			break;
+    case ACI_VERVEMITTER:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_FLAME(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			};
+      break;
+		case ACI_DIFFORD_REACTOR:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_MINELAYER(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			}else{
+				l = GetStuffObject(Owner,ACI_CRUSTEST_CANNON_AMMO);
+				if(l){
+					ObjectDestroy(l);
+					ItemData->ActIntBuffer.data1 = l->ActIntBuffer.data1;
+					if(Owner->ID == ID_VANGER && (Owner->Status & SOBJ_ACTIVE)) aciSendEvent2actint(ACI_DROP_ITEM,&(l->ActIntBuffer));
+					l->Storage->Deactive(l);
+					Owner->DelDevice(l);
+				};
+			};
+			break;
+    case ACI_TRAIL_TRACER:
+        if(ItemData->ActIntBuffer.data1 > 0){
+            GunStatus = GUN_FIRE;
+            ItemData->ActIntBuffer.data1--;
+            if(NetworkON) NetUpdate();
+            if(ActD.Active)
+                SOUND_SEISMIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+        };
+            break;
+    case ACI_BADREEVE:
+			if(ItemData->ActIntBuffer.data1 > 0){
+				GunStatus = GUN_FIRE;
+				ItemData->ActIntBuffer.data1--;
+				if(NetworkON) NetUpdate();
+				if(ActD.Active)
+					SOUND_ELECTRIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+			};
+      break;
 	};
 };
 
@@ -10238,6 +10465,21 @@ void GunSlot::RemoteFire(void)
 			case ACI_TERMINATOR2:
 			case ACI_TERMINATOR:
 				SOUND_TERMINATOR_SHOT(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_NETTLE_ACG:
+				SOUND_SHOTGUN(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_VERVEMITTER:
+				SOUND_FLAME(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_DIFFORD_REACTOR:
+				SOUND_MINELAYER(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_TRAIL_TRACER:
+				SOUND_SEISMIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
+				break;
+			case ACI_BADREEVE:
+				SOUND_ELECTRIC(getDistX(ActD.Active->R_curr.x,Owner->R_curr.x));
 				break;
 		};
 	};
@@ -10365,6 +10607,29 @@ void GunSlot::Quant(void)
 					break;
 			};
 			break;
+        case BULLET_TYPE_ID::SHOTGUN:
+            switch(GunStatus){
+                case GUN_FIRE:
+                    Time = 0;
+                    if(Owner->Speed > 0) RealSpeed = Owner->Speed;
+                    else RealSpeed = 0;
+                    mFire = Owner->RotMat;
+                    vFire = Owner->R_curr;
+                    if((1 << ItemData->ActIntBuffer.slot) & Owner->slots_existence) vFire += Owner->A_l2g*(Owner->R_slots[ItemData->ActIntBuffer.slot]*Owner->scale_real);
+                    cycleTor(vFire.x,vFire.y);
+                    GunStatus = GUN_WAIT;
+                    for(i = 0;i < pData->TapeSize;i++){
+                        b = BulletD.CreateBullet();
+                        b->Owner = Owner;
+                        b->CreateBullet(this,pData);
+                    };
+                    break;
+                case GUN_WAIT:
+                    Time++;
+                    if(Time > pData->WaitTime) GunStatus = GUN_READY;
+                    break;
+            };
+            break;
 	};
 };
 
@@ -12529,7 +12794,7 @@ void ObjectDestroy(GeneralObject* n,int mode)
 					};
 					p = (VangerUnit*)(p->NextTypeList);
 				};
-				if(CurrentWorld  < MAIN_WORLD_MAX - 1 && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
+				if(((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) && (i - TELEPORT_ESCAVE_ID - 1) <= 5) aciAddTeleportMenuItem(-1,TELEPORT_ESCAVE_ID);
 			};
 		};
 		
@@ -13506,6 +13771,8 @@ void VangerUnit::DischargeItem(StuffObject* p)
 		case ACI_SPEETLE_SYSTEM_HEAVY:
 		case ACI_GHORB_GEAR_LIGHT:
 		case ACI_GHORB_GEAR_HEAVY:
+		case ACI_NETTLE_ACG:
+		case ACI_VERVEMITTER:
 			if(NetworkON) p->ActIntBuffer.data1 = RND(p->ActIntBuffer.data1);
 			else p->ActIntBuffer.data1 = RND(aiCutLuck) * p->ActIntBuffer.data1 / 100;
 			CheckOutDevice(p);
@@ -13721,14 +13988,26 @@ void XpeditionOFF(int type)
 	};
 };
 
-const int NETWORK_NUM_ESCAVE = 7;
-const char* NetworkEscaveName[NETWORK_NUM_ESCAVE] ={"Podish","Incubator","VigBoo","Lampasso","Ogorod","ZeePa","B-Zone"};
+const int NETWORK_NUM_ESCAVE = 8;
+const char* NetworkEscaveName[NETWORK_NUM_ESCAVE] ={"Podish","Incubator","VigBoo","Lampasso","Ogorod","ZeePa","B-Zone","Rostrum"};
 
 void NetworkGetStart(char* name,int& x,int& y)
 {
 	int i,j,t;
 	SensorSortedData = new SensorDataType*[SnsTableSize];
 	StaticSort(SnsTableSize,(StaticObject**)SensorObjectData,(StaticObject**)SensorSortedData);
+
+    // CxInfo: here we can change x and y (and then "return;") to manually change spawn point upon exiting an escave
+	if (NetworkON && my_server_data.GameType == 3) { // HUNTAGE
+		x = getWorld(WORLD_MIRAGE)->x_spawn;
+		y = getWorld(WORLD_MIRAGE)->y_spawn;
+		return;
+	}
+	if (NetworkON && my_server_data.GameType == 0 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0) {
+		x = 1400;
+		y = 11440;
+		return;
+	}
 
 	for(i = 0;i < NETWORK_NUM_ESCAVE;i++){
 		if(!strcmp(name,NetworkEscaveName[i])){
@@ -13873,6 +14152,7 @@ void VangerUnit::ChangeVangerProcess(void)
 	if(!NetworkON){
 		uvsPoint->Pmechos->type = MechosChangerType;
 		uvsPoint->Pmechos->color = VangerChangerColor;
+		uvsPoint->Pmechos->actualColor = VangerChangerColor;
 	}else{
 		if(Status & SOBJ_ACTIVE){
 			uvsPoint->Pmechos->type = MechosChangerType;
@@ -13880,7 +14160,8 @@ void VangerUnit::ChangeVangerProcess(void)
 		}else{
 			uvsPoint->Pmechos->type = pNetPlayer->body.CarIndex;
 			uvsPoint->Pmechos->color = pNetPlayer->body.color;
-		};
+		}
+		uvsPoint->Pmechos->actualColor = uvsPoint->Pmechos->color;
 	};
 
 	sc = uvsMechosTable[uvsPoint->Pmechos->type];
@@ -13945,6 +14226,9 @@ void VangerUnit::ChangeVangerProcess(void)
 			break;
 		case 23://Worm
 			ItemMatrix = &UnitMatrixData[28];
+			break;
+		case 24://Rustpuppy
+			ItemMatrix = &UnitMatrixData[31];
 			break;
 	};
 

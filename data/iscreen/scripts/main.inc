@@ -679,4 +679,7 @@ Screen "LOADING2"
 // Spobs
 #include "iscreen/scripts/l7.inc"
 
+// Rostrum
+#include "iscreen/scripts/l8.inc"
+
 /* -------------------------------------------------------------------------- */

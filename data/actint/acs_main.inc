@@ -157,5 +157,29 @@ screen {
 	#include "actint/save_scr.inc"
 }
 
+screen {
+    id		$ACS_SAVE_SCREEN3
+    background	$ACS_SAVE_BACK
+
+    resource $ACS_BMP {
+            id	$ACS_SAVE_BACK
+            name	"resource/actint/iscreen/save/scr03/back.bmp"
+    }
+    resource $ACS_BMO {
+            id	$ACS_SAVE_OK
+            name	"resource/actint/iscreen/save/scr03/ok.bmo"
+    }
+    resource $ACS_BMO {
+            id	$ACS_SAVE_CANCEL
+            name	"resource/actint/iscreen/save/scr03/cancel.bmo"
+    }
+    #define SAVE_STRING_POS_X	220
+    #define SAVE_STRING_POS_Y	40
+
+    #define SAVE_SLOT_OFFS_X	200
+    #define SAVE_SLOT_START_Y	145
+    #include "actint/save_scr.inc"
+}
+
 
 

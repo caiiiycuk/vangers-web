@@ -12,6 +12,8 @@ map_name	$K_ID		"resource/actint/640x480/bitmap/map_k.bmp"
 map_name	$T_ID		"resource/actint/640x480/bitmap/map_t.bmp"
 map_name	$H_ID		"resource/actint/640x480/bitmap/map_h.bmp"
 map_name	$W_ID		"resource/actint/640x480/bitmap/map_w.bmp"
+map_name	$S_ID		"resource/actint/640x480/bitmap/map_s.bmp"
+map_name	$M_ID		"resource/actint/640x480/bitmap/map_m.bmp"
 
 /* ----------------------------- ITEMS SECTION ------------------------------ */
 
@@ -404,6 +406,31 @@ invItem $ITM78_NAME
 	$ITM78
 	$ITM78_COMMENTS
 	bmp_file	"resource/actint/640x480/items/itm78.bmp"
+}
+invItem $ITM79_NAME
+	$ITM79
+	$ITM79_COMMENTS
+	bmp_file	"resource/actint/640x480/items/itm79.bmp"
+}
+invItem $ITM80_NAME
+	$ITM80
+	$ITM80_COMMENTS
+	bmp_file	"resource/actint/640x480/items/itm80.bmp"
+}
+invItem $ITM81_NAME
+	$ITM81
+	$ITM81_COMMENTS
+	bmp_file	"resource/actint/640x480/items/itm81.bmp"
+}
+invItem $ITM82_NAME
+	$ITM82
+	$ITM82_COMMENTS
+	bmp_file	"resource/actint/640x480/items/itm82.bmp"
+}
+invItem $ITM83_NAME
+	$ITM83
+	$ITM83_COMMENTS
+	bmp_file	"resource/actint/640x480/items/itm83.bmp"
 }
 
 /* -------------------------------------------------------------------------- */
@@ -860,6 +887,12 @@ invMatrix $MECH35_ID {
 	back_bml	"resource/actint/640x480/matrix/matrix35.bmo"
 }
 
+invMatrix $MECH39_ID {
+	$MATRIX_LOWRES
+	$MATRIX39_BODY
+	back_bml	"resource/actint/640x480/matrix/matrix39.bmo"
+}
+
 /*
 invMatrix 83 {
 	x	360
@@ -1054,8 +1087,8 @@ world_map {
 		flag	$AS_SPECIAL_WORLD
 		flag	$AS_VISIBLE_WORLD
 
-		x	650
-		y	280
+		x	800
+		y	300
 	}
 
 	world_data $E_ID $E_LETTER $AS_SQUARE {
@@ -1105,6 +1138,28 @@ world_map {
 		y	300
 
 		name	"Ark-a-Znoy"
+	}
+	world_data $S_ID $S_LETTER $AS_SQUARE {
+		font	2
+
+		flag	$AS_SPECIAL_WORLD
+		flag	$AS_VISIBLE_WORLD
+
+		x	230
+		y	820
+
+		name	"Satadi"
+	}
+	world_data $M_ID $M_LETTER $AS_SQUARE {
+		font	2
+
+		flag	$AS_SPECIAL_WORLD
+		flag	$AS_VISIBLE_WORLD
+
+		x	100
+		y	820
+
+		name	"Mirage"
 	}
 }
 

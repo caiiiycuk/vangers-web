@@ -61,6 +61,36 @@ item_prm	$ITM10_ID	$ACI_WEAPON_LOAD	"3"
 item_prm	$ITM10_ID	$ACI_WEAPON_SHOTS_SEC	"1"
 item_prm	$ITM10_ID	$ACI_WEAPON_RANGE	"5"
 
+// Nettle-ACG
+item_prm	$ITM79_ID	$ACI_WEAPON_DAMAGE	"5-60"
+item_prm	$ITM79_ID	$ACI_WEAPON_LOAD	"100"
+item_prm	$ITM79_ID	$ACI_WEAPON_SHOTS_SEC	"0.6"
+item_prm	$ITM79_ID	$ACI_WEAPON_RANGE	"30"
+
+// Vervemitter
+item_prm	$ITM80_ID	$ACI_WEAPON_DAMAGE	"6"
+item_prm	$ITM80_ID	$ACI_WEAPON_LOAD	"400"
+item_prm	$ITM80_ID	$ACI_WEAPON_SHOTS_SEC	"N/A"
+item_prm	$ITM80_ID	$ACI_WEAPON_RANGE	"5"
+
+// Difford Reactor
+item_prm	$ITM81_ID	$ACI_WEAPON_DAMAGE	"100"
+item_prm	$ITM81_ID	$ACI_WEAPON_LOAD	"5"
+item_prm	$ITM81_ID	$ACI_WEAPON_SHOTS_SEC	"0.25"
+item_prm	$ITM81_ID	$ACI_WEAPON_RANGE	"N/A"
+
+// Trail Tracer
+item_prm	$ITM82_ID	$ACI_WEAPON_DAMAGE	"N/A"
+item_prm	$ITM82_ID	$ACI_WEAPON_LOAD	"100"
+item_prm	$ITM82_ID	$ACI_WEAPON_SHOTS_SEC	"N/A"
+item_prm	$ITM82_ID	$ACI_WEAPON_RANGE	"10"
+
+// Badreeve
+item_prm	$ITM83_ID	$ACI_WEAPON_DAMAGE	"34"
+item_prm	$ITM83_ID	$ACI_WEAPON_LOAD	"N/A"
+item_prm	$ITM83_ID	$ACI_WEAPON_SHOTS_SEC	"4"
+item_prm	$ITM83_ID	$ACI_WEAPON_RANGE	"30"
+
 /* ---------------------------------- AMMO ---------------------------------- */
 
 // Pupok pile

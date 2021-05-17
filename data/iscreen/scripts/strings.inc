@@ -104,6 +104,9 @@
 #define iSTR_CLEAN_UP1			"CLEAN UP!"
 #define iSTR_CLEAN_UP2			"ОСВОБОДИТЬ!"
 
+#define iSTR_LIGHTING_CYCLE1			"LIGHTING CYCLES:"
+#define iSTR_LIGHTING_CYCLE2			"ЦИКЛЫ ОСВЕЩЕНИЯ:"
+
 
 #define iSTR_Sound_Options1		"Sound Options"
 #define iSTR_Sound_Options2		"Настройка звука"
@@ -282,6 +285,9 @@
 
 #define iSTR_Necross1			"Necross"
 #define iSTR_Necross2			"Некросс"
+
+#define iSTR_Satadi1			"Satadi"
+#define iSTR_Satadi2			"Сатади"
 
 #define iSTR_Team_Mode1 		"Team Mode:"
 #define iSTR_Team_Mode2 		"Командная Игра:"
@@ -552,8 +558,8 @@
 #define iSTR_PASSEMBLOSS1		"PASSEMBLOSS"
 #define iSTR_PASSEMBLOSS2		"ПАССЕМБЛОС"
 
-#define iSTR_HUNTAGE1			"HUNTAGE"
-#define iSTR_HUNTAGE2			"ХАНТЭЙДЖ"
+#define iSTR_HUNTAGE1			"MIR-RAGE"
+#define iSTR_HUNTAGE2			"МИР-РАЖ"
 
 #define iSTR_MUSTODONT1 		"MUSTODONT"
 #define iSTR_MUSTODONT2 		"МАСТОДОНТ"

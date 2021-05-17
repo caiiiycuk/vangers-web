@@ -171,7 +171,13 @@ static SndParameters SndData[EFF_MAX] = {
 	{8,1,255,0,LOCAL_SOUND,"spobs",NULL},
 	{9,1,0,0,0,"beep",NULL},
 	{1,4,255,0,0,"damage",NULL},
-	{2,1,20,0,0,"shot",NULL}
+	{2,1,20,0,0,"shot",NULL},
+
+	{3,1,20,0,0,"shotgun",NULL},
+	{4,1,20,0,0,"flame",NULL},
+	{5,1,20,0,0,"minelayer",NULL},
+	{14,1,20,0,0,"seismic",NULL},
+	{6,1,20,0,0,"electric",NULL}
 };
 
 static int SpeechForce[2*SPEECH_MAX] = {
@@ -195,9 +201,9 @@ static time_t lastTimeCD = 0;
 void InstallSOUND(void)
 {
     if (lang() == RUSSIAN) {
-        TrackCDTime = new int[11] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 200 };
+        TrackCDTime = new int[12] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 200, 104 };
     } else {
-        TrackCDTime = new int[11] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 60 };
+        TrackCDTime = new int[12] { 0, 1, 174, 108, 128, 238, 130, 181, 120, 151, 60, 104 };
     }
 
 	if(!SoundInit(EFFECT_KHZ, 16)){
@@ -593,16 +599,22 @@ void StartWTRACK(void)
 	if (CurrentWorld == -1)
 		w_id = getWID();
 
-	if(w_id >= 0 && w_id <= 3){
-//		xsPlayOneTrackCD(ST_FOSTRAL + w_id);
-		xsPlayOneTrackMusic(ST_FOSTRAL + w_id);
-		TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
-	} else {
-		if(w_id > 3){
-//			xsPlayOneTrackCD(ST_SECRETS);
-			xsPlayOneTrackMusic(ST_SECRETS);
-			TimeCD = TrackCDTime[ST_SECRETS];
-		}
+	switch (w_id) {
+	    case 0:
+	    case 1:
+	    case 2:
+	    case 3:
+	        xsPlayOneTrackMusic(ST_FOSTRAL + w_id);
+	        TimeCD = TrackCDTime[ST_FOSTRAL + w_id];
+	        break;
+	    case 10:
+            xsPlayOneTrackMusic(ST_SATADI);
+            TimeCD = TrackCDTime[ST_SATADI];
+            break;
+	    default:
+            xsPlayOneTrackMusic(ST_SECRETS);
+            TimeCD = TrackCDTime[ST_SECRETS];
+            break;
 	}
 	time(&lastTimeCD);
 	activeWTRACK = 1;

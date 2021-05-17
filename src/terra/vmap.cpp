@@ -24,6 +24,9 @@
 
 #include "../zmod_common.h"
 
+#include "../units/uvsapi.h"
+#include "../uvs/univang.h"
+
 #include <iostream>
 
 
@@ -83,17 +86,6 @@ void ClipboardInit(void);
 #define pscale _pscale
 #endif
 
-struct PrmFile {
-	char* buf;
-	int len;
-	int index;
-
-	void init(const char* name);
-	char* getAtom(void);
-	void finit(void) {
-		delete[] buf;
-	}
-};
 /* --------------------------- DEFINITION SECTION -------------------------- */
 uint MAP_POWER_Y;
 uint map_size_y;
@@ -1741,7 +1733,12 @@ void LoadVPR(int ind)
 	if (NetworkON) {
 		// network cycled life of univang.
 		// 1172609523 eq 2007-02-27 23:52 - starting point.
-		double t = ((double)zGameBirthTime-1172609523.) / (60.*60.*24.);
+		double t;
+		if (zGameBirthTime) {
+			t = ((double)zGameBirthTime-1172609523.) / (60.*60.*24.);
+		} else { // CxInfo 0.3: temporary implementation while there's no Mechanicals server
+			t = ((double)time(nullptr)-1172609523.) / (60.*60.*24.);
+		}
 
 		double period = 0.;
 		double high_period = sin(M_PI/4);
@@ -1810,6 +1807,10 @@ void LoadVPR(int ind)
 				if (new_level<0) new_level=0.;
 				FloodLvl[0] = (int)round(new_level);
 			}
+		}
+		if (getWorld(CurrentWorld)->flood_level > 0) {
+			FloodLvl[0] = getWorld(CurrentWorld)->flood_level;
+			std::cout<<"    CxDebug: custom flood_level detected: "<<FloodLvl[0]<<" on world: "<<getWorld(CurrentWorld)->name<<std::endl;
 		}
 	}
 

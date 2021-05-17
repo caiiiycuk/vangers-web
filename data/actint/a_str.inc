@@ -115,6 +115,12 @@
 #define STR_Ark_a_Znoy1 	"Ark-a-Znoy"
 #define STR_Ark_a_Znoy2 	"Арк-а-Зной"
 
+#define STR_Satadi1 	"Satadi"
+#define STR_Satadi2 	"Сатади"
+
+#define STR_Mirage1 	"Mir-Rage"
+#define STR_Mirage2 	"Мир-Раж"
+
 
 // Mechoses...
 #define MECH00_NAME1	"Oxidize Monk"
@@ -234,6 +240,9 @@
 #define MECH38_NAME1	"Wormaster"
 #define MECH38_NAME2	"Червонец"
 
+#define MECH39_NAME1	"Rustpuppy"
+#define MECH39_NAME2	"Ржавый Пёс"
+
 // Escaves...
 #define ESCAVE_NAME01	"Podish"
 #define ESCAVE_NAME02	"Подиш"
@@ -258,4 +267,7 @@
 
 #define ESCAVE_NAME71	"Spobs"
 #define ESCAVE_NAME72	"Спобс"
+
+#define ESCAVE_NAME81	"Rostrum"
+#define ESCAVE_NAME82	"Ростра"
 

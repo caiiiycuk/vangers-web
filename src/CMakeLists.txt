@@ -69,6 +69,7 @@ SET(vangers_SRCS
 	xsocket.cpp
 	zmod_client.cpp
 	lang.cpp
+	ai.cpp
 	${WINDOWS_RES}
         actint/layout.h)
 

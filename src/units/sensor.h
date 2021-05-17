@@ -71,6 +71,8 @@ struct SensorDataType : StaticObject
 	void Touch(GeneralObject* obj);	
 
 	void SaveSensor(XStream& out);
+
+	void CreateMovableSensor(int ind = 0);
 };
 
 struct EngineModeList
@@ -409,6 +411,12 @@ const int WD_BULLET_HSPEETLE = 18;
 const int WD_BULLET_BEEBBANOZA = 19;
 const int WD_BULLET_CRUSTEST = 20;
 const int WD_BULLET_HYPNOTISER = 21;
+
+const int WD_BULLET_NETTLE_ACG = 22;
+const int WD_BULLET_VERVEMITTER = 23;
+const int WD_BULLET_DIFFORD_REACTOR = 24;
+const int WD_BULLET_TRAIL_TRACER = 25;
+const int WD_BULLET_BADREEVE = 26;
 
 //extern WorldBulletTemplate* WorldBulletData;
 

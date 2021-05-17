@@ -43,6 +43,8 @@ SET(vangers_surmap_SRCS
 	"${PROJECT_SOURCE_DIR}/src/dast/poly3d.cpp"
 
 	"${PROJECT_SOURCE_DIR}/src/rle.cpp"
+
+	"${PROJECT_SOURCE_DIR}/src/ai.cpp"
 )
 
 ADD_EXECUTABLE(surmap ${surmap_SRCS} ${vangers_surmap_SRCS})

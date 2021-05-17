@@ -66,6 +66,7 @@
 #include "iscreen/hfont.h"
 #include "iscreen/iscreen.h"
 #include "iscreen/controls.h"
+#include "iscreen/i_chat.h"
 #include "actint/actint.h"
 #endif
 
@@ -326,8 +327,12 @@ const char* AVInotFoundMSS = "Please ensure that the VANGERS CD-ROM is in the dr
 
 const char* nVER = "Patch 4.20";
 
+extern iScreenOption** iScrOpt;
+
 
 #include "video/winvideo.h"
+#include "ai.h"
+
 sWinVideo winVideo;
 
 void showModal(char* fname, float reelW, float reelH, float screenW, float screenH) {
@@ -905,7 +910,10 @@ void FirstEscaveOutRTO::Init(int id)
 	XGR_Obj.set_is_scaled_renderer(true);
 #ifdef ISCREEN
 #ifndef _ACI_SKIP_SHOP_
-	iOutEscaveInit();
+	// CxInfo: skip shop for the first spawn on Arena
+	if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+		iOutEscaveInit();
+	}
 #endif
 #endif
 _MEM_STATISTIC_("AFTER FIRST ESCZVE INIT -> ");
@@ -916,7 +924,12 @@ int FirstEscaveOutRTO::Quant(void)
 #ifdef ISCREEN
 	int val;
 #ifndef _ACI_SKIP_SHOP_
-	val = iOutEscaveQuant();
+	// CxInfo: skip shop for the first spawn on Arena
+	if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+		val = iOutEscaveQuant();
+	} else {
+		val = 1;
+	}
 #else
 	val = 1;
 #endif
@@ -940,8 +953,11 @@ void FirstEscaveOutRTO::Finit(void)
 	XGR_Obj.set_is_scaled_renderer(false);
 #ifdef ISCREEN
 #ifndef _ACI_SKIP_SHOP_
-	iOutEscaveFinit();
-	aci_LocationQuantFinit();
+	// CxInfo: skip shop for the first spawn on Arena
+	if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+		iOutEscaveFinit();
+		aci_LocationQuantFinit();
+	}
 #endif
 #endif
 _MEM_STATISTIC_("AFTER FIRST ESCAVE FINIT -> ");
@@ -1024,6 +1040,10 @@ _MEM_STATISTIC_("AFTER curGMap  -> ");
 #ifdef _ACI_SKIP_SHOP_
 	XGR_SetPal(palbuf,0,255);
 #endif
+	// CxInfo: skip shop for the first spawn on Arena
+	if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+		XGR_SetPal(palbuf,0,255);
+	}
 
 	if(idOS == 1) vMap -> lockMem();
 	XGR_Flush(0,0,XGR_MAXX,XGR_MAXY);
@@ -1043,10 +1063,16 @@ _MEM_STATISTIC_("AFTER ACILOADDATA INIT -> ");
 	FirstShopPrepare(aciLoadLog);
 _MEM_STATISTIC_("AFTER FIRSTSHOP PREPARE INIT -> ");
 #ifndef _ACI_SKIP_SHOP_
-	aci_LocationQuantPrepare();
-_MEM_STATISTIC_("AFTER LOADQUANT PREPARE INIT -> ");
-	aciShowLocation();
-_MEM_STATISTIC_("AFTER SHOWLOCATION INIT -> ");
+	// CxInfo: skip shop for the first spawn on Arena
+	if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+		aci_LocationQuantPrepare();
+		_MEM_STATISTIC_("AFTER LOADQUANT PREPARE INIT -> ");
+		aciShowLocation();
+		_MEM_STATISTIC_("AFTER SHOWLOCATION INIT -> ");
+	} else {
+		aciPrepareMenus();
+		_MEM_STATISTIC_("AFTER PREPARE MENU INIT -> ");
+	}
 #else
 	aciPrepareMenus();
 _MEM_STATISTIC_("AFTER PREPARE MENU INIT -> ");
@@ -1082,7 +1108,12 @@ int FirstEscaveRTO::Quant(void)
 #ifdef ISCREEN
 	int code;
 #ifndef _ACI_SKIP_SHOP_
-	code = iQuantSecond();
+	// CxInfo: skip shop for the first spawn on Arena
+	if (!(NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0)) {
+		code = iQuantSecond();
+	} else {
+		code = 1;
+	}
 #else
 	code = 1;
 #endif
@@ -1341,7 +1372,7 @@ void PalettePrepare(void) {
 	int i,j;
 	memset(palbufC,0,768);
 
-	if(CurrentWorld < MAIN_WORLD_MAX - 1){
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)){
 		WorldPalCurrent = WorldTable[CurrentWorld]->escT[0]->Pbunch->currentStage;
 		light_modulation  = WorldLightParam[CurrentWorld][WorldPalCurrent];
 		memcpy(palbufC,WorldPalData[WorldPalCurrent],768);
@@ -1393,7 +1424,7 @@ void PalettePrepare(void) {
 		palbufInt[i*3 + 2] = b;
 		}
 #endif
-	if(CurrentWorld < MAIN_WORLD_MAX - 1) {
+	if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)) {
 		for(k = 0;k < WorldPalNum;k++)	memcpy(WorldPalData[k] + 128*3,palbufOrg + 128*3,128*3);
 	};
 
@@ -1475,6 +1506,10 @@ void ComlineAnalyze(int argc,char** argv)
 						    setLang(RUSSIAN);
 						}
 						break;
+				    case 'B':
+				    case 'b':
+                        setAi(BOT);
+                        break;
 					case '&':
 						if(argv[i][j + 2] == '^') SkipCD = 1;
 						break;
@@ -1644,9 +1679,12 @@ void KeyCenter(SDL_Event *key)
 			break;
 #endif
 #ifdef SCREENSHOT
-//  		case SDL_SCANCODE_F4:
-//  			creat_poster();
-//  			break;
+//		case SDL_SCANCODE_F4:
+//			mod = SDL_GetModState();
+//			if (mod&KMOD_SHIFT) {
+//				creat_poster();
+//			}
+//			break;
 //		case SDL_SCANCODE_F11:
 //			shotFlush();
 //			break;
@@ -1678,6 +1716,15 @@ void KeyCenter(SDL_Event *key)
 			if(!Pause){
 				camera_slope_enable = 1 - camera_slope_enable;
 				aciSetCameraMenu();
+			}
+			break;
+			// AI related stuff
+		case SDL_SCANCODE_P:
+			mod = SDL_GetModState();
+			if (mod&KMOD_CTRL && ai() != PLAYER) {
+				std::cout<<"CxInfo: Toggling Auto mode"<<std::endl;
+				//setAi(PLAYER);
+				ActD.Active->Status ^= SOBJ_AUTOMAT;
 			}
 			break;
 		}
@@ -2017,13 +2064,15 @@ void iGameMap::draw(int self)
 
 				zChat.init();
 				zChat < msg->message;
-				zchatfont.draw(
-					xc-xside+80,
-					yc-yside+20+(zCHAT_ROWLIMIT*zCHAT_ROWHEIGHT)-(zCount*zCHAT_ROWHEIGHT),
-					(unsigned char*)(zChat.GetBuf()),
-					zColor, 
-					zCOLOR_TRANSPARENT
-				);
+				if (!iChatMUTE) {
+					zchatfont.draw(
+						xc-xside+80,
+						yc-yside+20+(zCHAT_ROWLIMIT*zCHAT_ROWHEIGHT)-(zCount*zCHAT_ROWHEIGHT),
+						(unsigned char*)(zChat.GetBuf()),
+						zColor, 
+						zCOLOR_TRANSPARENT
+					);
+				}
 
 				if(msg == message_dispatcher.first()) break;
 				msg = (MessageElement*)msg->prev;

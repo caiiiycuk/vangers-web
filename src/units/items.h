@@ -173,7 +173,8 @@ struct BULLET_SHOW_TYPE_ID
 		DUST,
 		CRATER,
 		JUMPBALL,
-		LASER
+		LASER,
+		SHOTGUN
 	};
 };
 
@@ -187,7 +188,8 @@ struct BULLET_TYPE_ID
 		JUMPBALL,
 		LASER,
 		HORDE,
-		HYPNOTISE
+		HYPNOTISE,
+		SHOTGUN
 	};
 };
 

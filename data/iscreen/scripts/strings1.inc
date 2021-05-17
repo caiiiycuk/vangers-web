@@ -33,6 +33,7 @@
 #define iSTR_FULL_SCREEN	$iSTR_FULL_SCREEN1
 #define iSTR_DISK_SPACE_IN_USE		$iSTR_DISK_SPACE_IN_USE1
 #define iSTR_CLEAN_UP			$iSTR_CLEAN_UP1
+#define iSTR_LIGHTING_CYCLE			$iSTR_LIGHTING_CYCLE1
 
 #define iSTR_Sound_Options		$iSTR_Sound_Options1
 #define iSTR_SOUND_EFFECTS		$iSTR_SOUND_EFFECTS1
@@ -93,6 +94,7 @@
 #define iSTR_Fostral			$iSTR_Fostral1
 #define iSTR_Glorx			$iSTR_Glorx1
 #define iSTR_Necross			$iSTR_Necross1
+#define iSTR_Satadi			$iSTR_Satadi1
 #define iSTR_Team_Mode			$iSTR_Team_Mode1
 #define iSTR_Access			$iSTR_Access1
 #define iSTR_All_Worlds 		$iSTR_All_Worlds1

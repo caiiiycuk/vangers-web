@@ -42,7 +42,7 @@ const int 	ACI_STARTUP_CREDITS	= 500;
 const int 	AS_NUM_FONTS		= 8;
 const int 	AS_NUM_FONTS_32 	= 4;
 
-const int 	MAX_NUM_MAP		= 13;
+const int 	MAX_NUM_MAP		= 15;
 
 struct actEvent;
 

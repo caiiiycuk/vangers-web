@@ -8,6 +8,7 @@ SET(server_SRCS
 	kdsplus.cpp
 	${PROJECT_SOURCE_DIR}/src/xsocket.cpp
 	${PROJECT_SOURCE_DIR}/src/lang.cpp
+	${PROJECT_SOURCE_DIR}/src/ai.cpp
 	server.cpp
 #win32f.cpp -- candidat to remove
 )

@@ -99,7 +99,7 @@ extern int IsMainMenu;
 
 extern bool autoconnect;
 extern char *autoconnectHost;
-extern int  autoconnectPort;
+extern unsigned short  autoconnectPort;
 extern int  autoconnectJoinGame;
 extern int  autoconnectGameID;
 
@@ -375,6 +375,8 @@ const char* iSTR_WORLD_WEEXOW_CHAR = iSTR_WORLD_WEEXOW_CHAR1;
 const char* iSTR_WORLD_HMOK_CHAR = iSTR_WORLD_HMOK_CHAR1;
 const char* iSTR_WORLD_THREALL_CHAR = iSTR_WORLD_THREALL_CHAR1;
 const char* iSTR_WORLD_ARK_A_ZNOY_CHAR = iSTR_WORLD_ARK_A_ZNOY_CHAR1;
+const char* iSTR_WORLD_SATADI_CHAR = iSTR_WORLD_SATADI_CHAR1;
+const char* iSTR_WORLD_MIRAGE_CHAR = iSTR_WORLD_MIRAGE_CHAR1;
 const char* iSTR_COLOR_GREEN_CHAR = iSTR_COLOR_GREEN_CHAR1;
 const char* iSTR_COLOR_ORANGE_CHAR = iSTR_COLOR_ORANGE_CHAR1;
 const char* iSTR_COLOR_BLUE_CHAR = iSTR_COLOR_BLUE_CHAR1;
@@ -553,9 +555,8 @@ void iPreInitFirst() {
 			iPrepareResults();
 			iMultiFlag = 0;
 			iEndGameFlag = 1;
-		}
-		else
-			iScrDisp -> curScr = (iScreen*)iScrDisp -> get_object(iScrDisp -> t_scrID);
+		} else
+			iScrDisp->curScr = (iScreen *) iScrDisp->get_object(iScrDisp->t_scrID);
 #endif
 	}
 	iInitControls();
@@ -2798,6 +2799,8 @@ void iInitStrings(void)
 		iSTR_WORLD_HMOK_CHAR = iSTR_WORLD_HMOK_CHAR2;
 		iSTR_WORLD_THREALL_CHAR = iSTR_WORLD_THREALL_CHAR2;
 		iSTR_WORLD_ARK_A_ZNOY_CHAR = iSTR_WORLD_ARK_A_ZNOY_CHAR2;
+		iSTR_WORLD_SATADI_CHAR = iSTR_WORLD_SATADI_CHAR2;
+		iSTR_WORLD_MIRAGE_CHAR = iSTR_WORLD_MIRAGE_CHAR2;
 		iSTR_COLOR_GREEN_CHAR = iSTR_COLOR_GREEN_CHAR2;
 		iSTR_COLOR_ORANGE_CHAR = iSTR_COLOR_ORANGE_CHAR2;
 		iSTR_COLOR_BLUE_CHAR = iSTR_COLOR_BLUE_CHAR2;
@@ -2863,6 +2866,8 @@ void iInitStrings(void)
 		iSTR_WORLD_HMOK_CHAR = iSTR_WORLD_HMOK_CHAR1;
 		iSTR_WORLD_THREALL_CHAR = iSTR_WORLD_THREALL_CHAR1;
 		iSTR_WORLD_ARK_A_ZNOY_CHAR = iSTR_WORLD_ARK_A_ZNOY_CHAR1;
+		iSTR_WORLD_SATADI_CHAR = iSTR_WORLD_SATADI_CHAR1;
+		iSTR_WORLD_MIRAGE_CHAR = iSTR_WORLD_MIRAGE_CHAR2;
 		iSTR_COLOR_GREEN_CHAR = iSTR_COLOR_GREEN_CHAR1;
 		iSTR_COLOR_ORANGE_CHAR = iSTR_COLOR_ORANGE_CHAR1;
 		iSTR_COLOR_BLUE_CHAR = iSTR_COLOR_BLUE_CHAR1;

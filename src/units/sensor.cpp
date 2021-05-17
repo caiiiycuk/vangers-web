@@ -37,6 +37,8 @@
 #include "sensor.h"
 #include "effect.h"
 #include "mechos.h"
+#include "../iscreen/iscreen.h"
+#include "../ai.h"
 
 //#define SAVE_TNT_DATA
 
@@ -686,6 +688,42 @@ void SensorDataType::CreateSensor(XStream& in,int ind)
 	in > data5;
 	in > data6;
 //	in.seek(8*sizeof(int),XS_CUR);
+
+	Owner = NULL;
+	Mode = SensorTypeList::NONE;
+	Enable = 1;
+	StaticType = StaticObjectType::SENSOR;
+
+	cycleTor(R_curr.x,R_curr.y);
+	Status = 0;
+	ID = ID_STATIC;
+	Index = 0;
+	TableIndex = ind;
+};
+
+void SensorDataType::CreateMovableSensor(int ind)
+{
+	char *sensorName;
+	sensorName = new char[strlen("MovableSensor") + 1];
+	strcpy(sensorName,"MovableSensor");
+
+	R_curr.x = 83;
+	R_curr.y = 38;
+	R_curr.z = 255;
+
+	SensorType = SensorTypeList::SENSOR;
+	radius = 0;
+	Name = sensorName;
+	Name[13] = '\0';
+
+	z0 = 0;
+	vData.x = 0;
+	vData.y = 0;
+	vData.z = 0;
+	Power = 0;
+	z1 = 0;
+	data5 = 0;
+	data6 = 0;
 
 	Owner = NULL;
 	Mode = SensorTypeList::NONE;
@@ -1740,12 +1778,14 @@ void DangerDataType::CreateDanger(XStream& in)
 	rActive = radius / 2;
 };
 
+extern iScreenOption** iScrOpt;
 void DangerDataType::Quant(void)
 {
 	Vector vPos;
-	int r,n,d1,d2,h;
+	int r,n,d1,d2,h,activity;
 	WaterParticleObject* w;
 	int x,y,z,a;
+	double activityStart;
 
 	//if(NetworkON) return; //zmod fixed
 
@@ -1847,13 +1887,30 @@ void DangerDataType::Quant(void)
 					FireWork(200,PI/4);
 					break;
 				case WORLD_THREALL:
-					if(!ActD.ThreallDestroy) FireWork(500,PI/8);
+					if (ai() != PLAYER) {
+						FireWork(1000,PI/8);
+					} else if(!ActD.ThreallDestroy) {
+						FireWork(500,PI/8);
+					}
 					break;
 				case WORLD_ARKONOY:
-					FireWork(1000,PI/6);
+					if (ai() != PLAYER) {
+						FireWork(2000,PI/6);
+					} else {
+						FireWork(1000,PI/6);
+					}
 					break;
 				case WORLD_XPLO:
 					FireWork(800,PI / 6);
+					break;
+				case WORLD_SATADI:
+					if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) {
+                        activityStart = (double)my_server_data.Van_War.MaxTime*60 / ((double)age_of_current_game()+1000);
+						activity = pow(round(activityStart * 36),2);
+						FireWork(activity,PI/8);
+					} else {
+						FireWork(1000,PI/8);
+					}
 					break;
 			};
 			break;
@@ -1979,7 +2036,40 @@ void DangerDataType::FireWork(int rFactor,int Angle)
 				if(ActD.Active)
 					SOUND_THUNDER(getDistX(ActD.Active->R_curr.x,R_curr.x)) 
 				break;
-			
+            case WORLD_SATADI:
+                p = BulletD.CreateBullet();
+                vCheck = Vector(getDistX(ActD.Active->R_curr.x,R_curr.x),getDistY(ActD.Active->R_curr.y, R_curr.y),ActD.Active->R_curr.z - R_curr.z)*DBM((Angle >> 1) - (int)(RND(Angle)),Z_AXIS);
+
+                p->Owner = NULL;
+                if (!NetworkON) {
+                    if(RND(100) < 50)
+                        p->CreateBullet(Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                        Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),NULL,&GameBulletData[WD_BULLET_BIG_FIREBALL]);
+                    else
+                        p->CreateBullet(Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                        Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),NULL,&GameBulletData[WD_BULLET_SMALL_FIREBALL]);
+                } else {
+                    if(RND(100) < 50)
+                        p->CreateBullet(
+                                Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),
+                                NULL,
+                                &GameBulletData[WD_BULLET_BIG_FIREBALL],
+                                NULL,
+                                -2); //decrease speed
+                    else
+                        p->CreateBullet(
+                                Vector(R_curr.x,R_curr.y,radius + R_curr.z),
+                                Vector(XCYCL(vCheck.x + R_curr.x),YCYCL(vCheck.y + R_curr.y),R_curr.z + vCheck.z),
+                                NULL,
+                                &GameBulletData[WD_BULLET_SMALL_FIREBALL],
+                                NULL,
+                                -2); //decrease speed
+                }
+
+                if(ActD.Active)
+                    SOUND_THUNDER(getDistX(ActD.Active->R_curr.x,R_curr.x))
+                break;
 		};
 	};
 };

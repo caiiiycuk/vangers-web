@@ -1,3 +1,5 @@
+#include <vector>
+
 //zmod
 #include "zmod_client.h"
 
@@ -22,6 +24,19 @@ extern int GlobalExit;
 
 #define CLIENT_VERSION	1
 #define SERVER_VERSION	1
+
+#include "iscreen/iscreen_options.h"
+#include "iscreen/iscreen.h"
+extern iScreenOption** iScrOpt;
+
+std::string kvachId;
+char* kvachName = (char*) "";
+int whoIsKvach = 0;
+int is_start = 0;
+extern int kvachTime;
+
+int isRollcall = -1;
+std::vector<std::string> rollcallNicknames;
 
 //zmod
 int zserver_version = 0;
@@ -826,6 +841,9 @@ int connect_to_server(ServerFindChain* p)
 		return GlobalStationID;
 		}
 	NetworkON = 0;
+	is_start=0;
+	isRollcall=-1;
+	kvachId.clear();
 	return 0;
 }
 int restore_connection()
@@ -867,6 +885,9 @@ void disconnect_from_server()
 	delay(256);
 	events_out.clear();
 	events_in.reset();
+	is_start=0;
+	isRollcall=-1;
+	kvachId.clear();
 }
 void set_time_by_server(int n_measures)
 {
@@ -1314,11 +1335,94 @@ void PlayersList::parsing_total_body_query()
 *******************************************************************************/
 MessageElement::MessageElement(const char* player_name, char* msg,int col)
 {
-	message = new char[strlen(player_name) + strlen(msg) + 3];
-	strcpy(message,player_name);
+    char *name, *actual_msg;
+    int actual_col;
+    if (strncmp(msg, bot_tag, 5)==0) {
+        name = (char*)"$";
+        actual_msg = msg + 5;
+        actual_col = 3;
+    } else if ((strcmp(msg, "/start")==0||strcmp(msg, ".ыефке")==0) && is_start==0) {
+		name = (char*)"$";
+		actual_msg = (char*)"Старт через 20 секунд";
+		if (strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mammoth hunt")==0 || strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"mamont")==0) 
+			actual_msg = (char*)"Старт мамонта через 20 секунд, охотников через 40";
+		actual_col = 3;
+		is_start = 1;
+	} else if ((strcmp(msg, "/finish")==0||strcmp(msg, ".аштшыр")==0) && (is_start==2 || is_start==3)) {
+		name = (char*)"$";
+		actual_msg = (char*)"Финиш";
+		actual_col = 3;
+		is_start = 0;
+	} 
+	else if ((strcmp(msg, "я")==0||strcmp(msg, "z")==0 || strcmp(msg, "Я")==0||strcmp(msg, "Z")==0) && is_start==2 && whoIsKvach==1) {
+		whoIsKvach = 2;
+		kvachName = (char*)player_name;
+		name = (char*)player_name;
+        actual_msg = msg;
+        actual_col = col;
+	}
+	else if (strncmp(msg, "/kvach", 6)==0) {
+		name = (char*)"$";
+		actual_msg = (char*)player_name;
+		actual_col = 3;
+		
+		kvachTime = 0;
+		kvachId = std::string(msg).substr(6);
+	}
+	else if ((strcmp(msg, "/rekvach")==0||strcmp(msg, ".кулмфср")==0) && is_start==2 && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(), "mechokvach")==0) {
+		name = (char*)"$";
+		actual_msg = (char*)"Кто квач? (я/z)";
+		actual_col = 3;
+		whoIsKvach=1;
+		kvachTime=-1;
+	}
+	else if ((strcmp(msg, "/scancel")==0 || strcmp(msg, ".ысфтсуд")==0) && is_start==1) {
+		name = (char*)"$";
+		actual_msg = (char*)"Старт отменен";
+		actual_col = 3;
+		is_start = 0;
+	}
+	else if ((strcmp(msg, "/rollcall")==0 || strcmp(msg, ".кщддсфдд")==0) && isRollcall==-1) {
+		name = (char*)"$";
+		actual_msg = (char*)"Прекличка";
+		actual_col = 3;
+		isRollcall = 0;
+		rollcallNicknames.clear();
+	} 
+	else if ((strcmp(msg, "/rcancel")==0 || strcmp(msg, ".ксфтсуд")==0) && isRollcall!=-1) {
+		name = (char*)"$";
+		actual_msg = (char*)"Прекличка отменена";
+		actual_col = 3;
+		isRollcall = -1;
+		rollcallNicknames.clear();
+	} 
+	else if ((strcmp(msg, "я")==0||strcmp(msg, "z")==0 || strcmp(msg, "Я")==0||strcmp(msg, "Z")==0) && isRollcall>-1) {
+		name = (char*)player_name;
+        actual_msg = msg;
+        actual_col = col;
+
+		std::string nickname = std::string(player_name); int inNicknames = 0;
+
+		for (int i = 0; i < rollcallNicknames.size(); i++) {
+			if (rollcallNicknames[i] == nickname) { inNicknames = 1; break; }
+		}
+		if (!inNicknames) {
+			rollcallNicknames.push_back(nickname);
+			isRollcall += 1;
+			actual_msg = (char*) "?????";
+			actual_col = 4;
+		}
+	}
+	else {
+        name = (char*)player_name;
+        actual_msg = msg;
+        actual_col = col;
+    }
+	message = new char[strlen(name) + strlen(actual_msg) + 3];
+	strcpy(message,name);
 	strcat(message,": ");
-	strcat(message,msg);
-	color = col;
+	strcat(message,actual_msg);
+	color = actual_col;
 	//zmod
     time = SDL_GetTicks();
 }

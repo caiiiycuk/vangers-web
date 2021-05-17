@@ -17,6 +17,8 @@
 
 #include "../sound/hsound.h"
 
+#include <html5.h>
+
 #ifndef _WIN32
 #include <arpa/inet.h> // ntohl() FIXME: remove
 #endif

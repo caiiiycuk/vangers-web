@@ -133,7 +133,7 @@ struct DG_EXTERNS { enum {
 #define DG_SKIP_ALL			1005
 
 #define DG_POPONKA_MAX	4
-#define DG_ESCAVE_MAX	9
+#define DG_ESCAVE_MAX	10
 #define DG_SECRETW_MAX	6
 
 #define DG_POPONKA	0

@@ -1,0 +1,68 @@
+[quotha]
+"Зритель созерцает. Не отвлекать!"
+"Spectator is watching. Do not disturb him!"
+
+[Empty Question]
+"Не вполне понимаю твои намерения."
+"Can't quite get your intention here."
+
+[Empty Molecule]
+"Я закончил. Иди покувыркайся на поверхности!"
+"I am done now. Go squirm on the surface!"
+
+[Block Molecule:B]
+"Куда ты так спешишь?"
+"Why are you so eager to leave?"
+
+[Out Molecule:B]
+"Не терпится поучаствовать в Арене, да? Ну так давай, вперёд!"
+"You were waiting way too long for your participation in the Arena, weren't you?"
+
+[Dead Molecule]
+"Теперь я вижу зрелища поинтереснее там, в глубине..."
+"Now I see something interesting deep down in there..."
+
+[empty]
+"п"
+"e"
+
+[MP0 Start]
+"ВАН-ВАР стартовал."
+"The VAN-WAR has started."
+
+[MP1 Start]
+"МЕХОСОМА стартовала."
+"The MECHOSOMA has started."
+
+[MP2 Start]
+"ПАССЕМБЛОСС стартовал."
+"The PASSEMBLOSS has started."
+
+[MP3 Start]
+"ОХОТРОН стартовал!"
+"HUNTAGE started!"
+
+[MP4 Start]
+"МАСТОДОНТ стартовал!"
+"MUSTODONT started!"
+
+[MP0 Comment]
+"ВАН-ВАР продолжается."
+"VAN-WAR in progress."
+
+[MP1 Comment]
+"МЕХОСОМА продолжается."
+"MECHOSOMA in progress."
+
+[MP2 Comment]
+"ПАССЕМБЛОСС продолжается."
+"PASSEMBLOSS in progress."
+
+[MP3 Comment]
+"ОХОТРОН продолжается..."
+"HUNTAGE in progress..."
+
+[MP4 Comment]
+"МАСТОДОНТ продолжается..."
+"MUSTODONT in progress..."
+

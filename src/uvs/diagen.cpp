@@ -319,7 +319,7 @@ std::string cp1251_to_utf8(std::string in_string) {
 }
 
 #ifdef DIAGEN_TEST
-static char* strLine = "------------------------";
+static char* strLine = (char*) "------------------------";
 static int CommandMax;
 char* Command[16];
 XStream ffsave(1);
@@ -2439,7 +2439,7 @@ void DiagenDispatcher::init(void)
 		pr -> read(pf);
 	}
 	if(!oldVersion) {
-		for(j = 0;j < 3;j++){
+		for(j = 0;j < BIOS_MAX;j++){
 			for(i = 0;i < 3;i++) CycleName[0][j][i] = getSubj(pf -> getElement(DGF_NONE));
 //#if defined(RUSSIAN_VERSION) || defined(DIAGEN_TEST)
 			for(i = 0;i < 3;i++) CycleName[1][j][i] = pf -> getElement(DGF_NONE);

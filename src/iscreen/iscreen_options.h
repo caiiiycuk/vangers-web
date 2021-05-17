@@ -75,6 +75,7 @@ enum iScreenOptionID
 	iFULLSCREEN,			// 45
 
 	iAUTO_ACCELERATION,			// 46
+	iLIGHTING_CYCLE,			// 47
 
 	iWEB_MULTIPLAYER, // 47
 	iCX_MOD, // 48

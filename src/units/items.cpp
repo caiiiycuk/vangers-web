@@ -39,6 +39,8 @@
 
 #include "../sound/hsound.h"
 #include "magnum.h"
+#include "../iscreen/iscreen_options.h"
+#include "../iscreen/iscreen.h"
 
 
 extern int RAM16;
@@ -52,7 +54,7 @@ extern int AdvancedView;
 
 const int MAX_STUFF_SCATTER = 150;
 
-const int MAX_BULLET_ID = 8;
+const int MAX_BULLET_ID = 9;
 const int MAX_STORAGE_NAME = 2;
 
 const char* BULLET_ID_NAME[MAX_BULLET_ID] = {
@@ -63,7 +65,8 @@ const char* BULLET_ID_NAME[MAX_BULLET_ID] = {
 	"JumpBall",
 	"Laser",
 	"Horde",
-	"Hypnotise"
+	"Hypnotise",
+	"Shotgun"
 };
 
 const int MAX_BULLET_TARGET_MODE_NAME = 6;
@@ -90,7 +93,7 @@ const char* BULLET_CONTROL_MODE_NAME[MAX_BULLET_CONTROL_MODE_NAME] = {
 };
 const int BULLET_CONTROL_MODE_VALUE[MAX_BULLET_CONTROL_MODE_NAME] = {0,1,2,4,8,16,32,64,128};
 
-const int MAX_BULLET_SHOW_ID_NAME = 7;
+const int MAX_BULLET_SHOW_ID_NAME = 8;
 const char* BULLET_SHOW_ID_NAME[MAX_BULLET_SHOW_ID_NAME] = {
 		"Particle",
 		"FireBall",
@@ -98,7 +101,8 @@ const char* BULLET_SHOW_ID_NAME[MAX_BULLET_SHOW_ID_NAME] = {
 		"Dust",
 		"Crater",
 		"JumpBall",
-		"Laser"
+		"Laser",
+		"Shotgun"
 };
 
 Vector GeneralMousePoint;
@@ -109,6 +113,8 @@ int WeaponWaitTime;
 
 extern int ProtoCryptTableSize[WORLD_MAX];
 extern SensorDataType* ProtoCryptTable[WORLD_MAX];
+
+extern iScreenOption** iScrOpt;
 
 void ItemsDispatcher::Init(Parser& in)
 {
@@ -335,7 +341,11 @@ void ItemsDispatcher::Close(void)
 //				uvsKronDeleteItem(p->uvsDeviceType,p->ActIntBuffer.data0,p->ActIntBuffer.data1);
 			}else{
 				if(p->CreateMode != STUFF_CREATE_RELAX){
-					if(((int)(RND(100)) < aiCutLuck || p->Hour == ConTimer.hour || p->ActIntBuffer.type == ACI_TABUTASK_SUCCESSFUL || p->ActIntBuffer.type == ACI_TABUTASK || CurrentWorld >= MAIN_WORLD_MAX) && 
+					if(((int)(RND(100)) < aiCutLuck
+					|| p->Hour == ConTimer.hour
+					|| p->ActIntBuffer.type == ACI_TABUTASK_SUCCESSFUL
+					|| p->ActIntBuffer.type == ACI_TABUTASK
+					|| ((CurrentWorld >= MAIN_WORLD_MAX) && (CurrentWorld != WORLD_SATADI))) &&
 					   (p->ActIntBuffer.type != ACI_ZEEX && p->ActIntBuffer.type != ACI_BEEBOORAT && p->ActIntBuffer.type != ACI_ELEEPOD && p->ActIntBuffer.type != ACI_TABUTASK_FAILED && p->ActIntBuffer.type != ACI_BOORAWCHIK)){
 						g = new uvsItem(p->uvsDeviceType);
 						g->param1 = p->ActIntBuffer.data0;
@@ -1319,7 +1329,7 @@ void BulletObject::CreateBullet(GunSlot* p,WorldBulletTemplate* n)
 	Speed = n->Speed;
 	if(BulletMode & BULLET_CONTROL_MODE::SPEED) Speed += p->RealSpeed;
 
-	if(BulletID == BULLET_TYPE_ID::LASER)
+	if(BulletID == BULLET_TYPE_ID::LASER || BulletID == BULLET_TYPE_ID::SHOTGUN)
 		vDelta = Vector(Speed,3 - RND(6),0)*p->mFire;
 	else 
 		vDelta = Vector(Speed,0,0)*p->mFire;
@@ -1417,6 +1427,9 @@ void BulletObject::Event(int type)
 					case BULLET_SHOW_TYPE_ID::LASER:
 						if(CraterType >= 0) MapD.CreateCrater(R_curr,CraterType);
 						break;
+                    case BULLET_SHOW_TYPE_ID::SHOTGUN:
+                        if(CraterType >= 0) MapD.CreateCrater(R_curr,CraterType);
+                        break;
 				};
 			};
 			break;
@@ -1478,6 +1491,9 @@ void BulletObject::Event(int type)
 //					EffD.CreateDeform(R_curr + Vector(16 - RND(32),16 - RND(32),0),DEFORM_ALL,PASSING_WAVE_PROCESS);
 					if(CraterType >= 0) MapD.CreateCrater(R_curr,CraterType);
 					break;
+                case BULLET_SHOW_TYPE_ID::SHOTGUN:
+                    EffD.CreateExplosion(R_curr + Vector(0,0,20),EFF_EXPLOSION05);
+                    break;
 			};
 			break;
 	};
@@ -1692,6 +1708,11 @@ void BulletObject::DrawQuant(void)
 			vCheck += R_curr;
 			cycleTor(vCheck.x,vCheck.y);
 			ScreenLineTrace(R_curr,vCheck,FireColorTable,0);
+			break;
+        case BULLET_SHOW_TYPE_ID::SHOTGUN:
+			EffD.CreateParticle(ExtShowType,R_prev,R_curr,ShowType);
+			if(BulletScale)
+				EffD.CreateParticle(ExtShowType,R_prev,R_curr,ShowType);
 			break;
 	};
 	R_prev = vTail;
@@ -2196,6 +2217,7 @@ int uvsapiDestroyItem(int ind,int ind2)
 		};
 	}else{
 		while(n){
+            // CxInfo: If # of phlegma/toxick >= SAFE_STUFF_MAX (3), WeeZyk/eLeech won't die upon cycle change
 			keep_log = 0;
 			if(ind == UVS_ITEM_TYPE::ELEECH){
 				g = n->DeviceData;
@@ -2895,7 +2917,7 @@ void HordeObject::DrawQuant(void)
 			if(tx > UcutLeft && tx < UcutRight && ty > VcutUp && ty < VcutDown) XGR_SetPixelFast(tx,ty,p->Color >> 8);
 		};
 	}else{
-		if(CurrentWorld < MAIN_WORLD_MAX - 1){
+		if((CurrentWorld < MAIN_WORLD_MAX - 1) || (CurrentWorld == WORLD_SATADI)){
 			for(i = 0,p = Data;i < NumParticle;i++,p++){
 				p->QuantP(R_curr << 8, vDelta << 8,3 << 8,5);
 				tx = ((int)round(SPGetDistX(p->vR.x,SPViewX) * ScaleMapInvFlt) >> 8) + ScreenCX;
@@ -3063,7 +3085,7 @@ SkyFarmerObject* SkyFarmerList::CreateSkyFarmer(void)
 
 void HordeList::Init(void)
 {
-	int i,max;
+	int i,max,sourceX,sourceY;
 //zmod 1.21
 	if(NetworkON){
 		double kmax = (1.-zMod_flood_level_delta)/2;
@@ -3077,8 +3099,13 @@ void HordeList::Init(void)
 				max = MAX_HORDE_SOURCE_OBJECT / 2;
 		};
 		max = (int)((double)max * kmax);
-		for(i = 0;i < max;i++)
-			(CreateHorde())->CreateHorde(Vector(NetRnd.Get(map_size_x),NetRnd.Get(map_size_y),270),20,240,400,NULL);
+        for(i = 0;i < max;i++) {
+            sourceX = NetRnd.Get(map_size_x);
+            sourceY = NetRnd.Get(map_size_y);
+            if (!(CurrentWorld == WORLD_SATADI && sourceX > 824 && sourceX < 1224 && sourceY > 824 && sourceY < 1224)) {
+                (CreateHorde())->CreateHorde(Vector(NetRnd.Get(map_size_x),NetRnd.Get(map_size_y),270),20,240,400,NULL);
+            }
+        }
 	}else{
 		switch(CurrentWorld){
 			case WORLD_WEEXOW:
@@ -3101,7 +3128,7 @@ HordeObject* HordeList::CreateHorde(void)
 
 void HordeSourceList::Init(void)
 {
-	int i,max;	
+	int i,max,sourceX,sourceY;
 	UnitBaseListType::Init();
 //zmod 1.21 
 	if(NetworkON){
@@ -3116,8 +3143,13 @@ void HordeSourceList::Init(void)
 				max = MAX_HORDE_SOURCE_OBJECT / 2;
 		};
 		max = (int)((double)max * kmax);
-		for(i = 0;i < max;i++)
-			(CreateSource())->CreateSource(Vector(NetRnd.Get(map_size_x),NetRnd.Get(map_size_y),270),ModelD.FindModel("Horde"),20,60);
+		for(i = 0;i < max;i++) {
+		    sourceX = NetRnd.Get(map_size_x);
+		    sourceY = NetRnd.Get(map_size_y);
+            if (!(CurrentWorld == WORLD_SATADI && sourceX > 824 && sourceX < 1224 && sourceY > 824 && sourceY < 1224)) {
+                (CreateSource())->CreateSource(Vector(sourceX,sourceY,270),ModelD.FindModel("Horde"),20,60);
+            }
+		}
 	}else{
 		switch(CurrentWorld){
 			case WORLD_FOSTRAL:
@@ -3191,10 +3223,12 @@ void FishWarriorList::Init(void)
 		max /= 2;
 		switch(CurrentWorld){
 			case WORLD_GLORX:
-				if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) 
+//				if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID)
+				if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"formula")==0)
 					max = 512;
 			case WORLD_WEEXOW:
-				if (z_my_server_data.mod_id == Z_MODS_NEPTUN_ID) //zmod 1.20 neptun fix
+//				if (z_my_server_data.mod_id == Z_MODS_NEPTUN_ID) //zmod 1.20 neptun fix
+				if (NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"neptune")==0) //zmod 1.20 neptun fix
 					max = 2;
 				Data = new FishWarrior[max];
 				for(i = 0;i < max;i++){
@@ -3634,7 +3668,8 @@ void GloryPlace::Init(int ind)
 	//zNfo - GloryPlace
 	
 	//Formula-V
-	if (z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) {
+	if ((z_my_server_data.mod_id == Z_MODS_FORMULAV_ID) ||
+		(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"formula")==0)) {
 		World = WORLD_GLORX;
 		switch (ind % 4) {
 		case 0:	R_curr.x = 1341;	R_curr.y = 5971;	break;
@@ -3646,7 +3681,8 @@ void GloryPlace::Init(int ind)
 	} 
 	
 	//Trak-Trial
-	if (z_my_server_data.mod_id == Z_MODS_TRAKTRIAL_ID) {
+	if ((z_my_server_data.mod_id == Z_MODS_TRAKTRIAL_ID) ||
+		(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"truck-trial")==0)) {
 		World = WORLD_NECROSS;
 		switch (ind % 2) {
 		case 0:	R_curr.x =  620;	R_curr.y = 14771;	break;
@@ -3656,7 +3692,8 @@ void GloryPlace::Init(int ind)
 	}
 	
 	//khoxrun
-	if (z_my_server_data.mod_id == Z_MODS_KHOXRUN_ID) {
+	if ((z_my_server_data.mod_id == Z_MODS_KHOXRUN_ID) ||
+		(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"khox run")==0)) {
 		World = WORLD_KHOX;
 		switch (ind) {
 		case  0:	R_curr.x = 1358;	R_curr.y = 7036;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если чек не на трех мирах.
@@ -3675,18 +3712,84 @@ void GloryPlace::Init(int ind)
 		return;
 	}
 
+	//roulette
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"roulette")==0) {
+		World = WORLD_BOOZEENA;
+		switch (ind) {
+		case  0:	R_curr.x = 1358;	R_curr.y = 7036;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если чек не на трех мирах.
+		default:
+			switch(RND(13)) {
+			case  0:	R_curr.x = 625;	R_curr.y = 1293;	break;
+			case  1:	R_curr.x = 439;	R_curr.y = 1352;	break;
+			case  2:	R_curr.x = 818;	R_curr.y = 1328;	break;
+			case  3:	R_curr.x = 970;	R_curr.y = 1454;	break;
+			case  4:	R_curr.x =1048;	R_curr.y = 1632;	break;
+			case  5:	R_curr.x =1042;	R_curr.y = 1799;	break;
+			case  6:	R_curr.x = 947;	R_curr.y = 1972;	break;
+			case  7:	R_curr.x = 785;	R_curr.y =   30;	break;
+			case  8:	R_curr.x = 591;	R_curr.y =   48;	break;
+			case  9:	R_curr.x = 411;	R_curr.y = 2022;	break;
+			case 10:	R_curr.x = 287;	R_curr.y = 1870;	break;
+			case 11:	R_curr.x = 249;	R_curr.y = 1678;	break;
+			case 12:	R_curr.x = 305;	R_curr.y = 1491;	break;
+			}
+		}
+		return;
+	}
+
+	//zeefick
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"zeefick")==0) {
+		World = WORLD_ARKONOY;
+		switch (ind) {
+		case  0:	R_curr.x = 1321;	R_curr.y = 13542;	World = WORLD_NECROSS;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если первый чек не на трех мирах.
+		default:
+			switch(RND(6)) {
+			case  0:	R_curr.x =  318;	R_curr.y =    4;	break;
+			case  1:	R_curr.x = 1705;	R_curr.y =  390;	break;
+			case  2:	R_curr.x =  411;	R_curr.y =  645;	break;
+			case  3:	R_curr.x =  561;	R_curr.y = 1201;	break;
+			case  4:	R_curr.x = 1230;	R_curr.y =  867;	break;
+			case  5:	R_curr.x = 1525;	R_curr.y = 1494;	break;
+			}
+		}
+		return;
+	}
+
+	//aveslom
+	if (NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"aveslom")==0) {
+		World = WORLD_THREALL;
+		switch (ind) {
+		case  0:	R_curr.x = 1260;	R_curr.y = 14380;	World = WORLD_GLORX;	break; // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если первый чек не на трех мирах.
+		default:
+			switch(GloryRnd.aiRnd(10)) {
+			case  0:	R_curr.x = 1534;	R_curr.y =  591;	break;
+			case  1:	R_curr.x =  282;	R_curr.y = 1189;	break;
+			case  2:	R_curr.x = 1860;	R_curr.y =    0;	break;
+			case  3:	R_curr.x =  688;	R_curr.y =  300;	break;
+			case  4:	R_curr.x =  290;	R_curr.y = 1788;	break;
+			case  5:	R_curr.x = 1648;	R_curr.y = 1510;	break;
+			case  6:	R_curr.x =  958;	R_curr.y =  480;	break;
+			case  7:	R_curr.x = 1232;	R_curr.y =  139;	break;
+			case  8:	R_curr.x =  566;	R_curr.y =  692;	break;
+			case  9:	R_curr.x = 1482;	R_curr.y = 1637;	break;
+			}
+		}
+		return;
+	}
+
 	//classic
 	if(ind == 0) {
 		World = GloryRnd.aiRnd(3); // НЕ МЕНЯТЬ !!! Связано с багом вылета клиента при смерти в пассе. если чек не на трех мирах.
 	} else {
-		World = GloryRnd.aiRnd(WORLD_MAX);
+		World = GloryRnd.aiRnd(WORLD_MAX-2);
 
-		while (World == WORLD_HMOK)
-			World = GloryRnd.aiRnd(WORLD_MAX);
+		while (World == WORLD_HMOK || World == WORLD_SATADI || World == WORLD_MIRAGE)
+			World = GloryRnd.aiRnd(WORLD_MAX-2);
 
-		if(z_my_server_data.mod_id == Z_MODS_RAFARUN_ID ) //tarakan'i bega/ excludes hmok && threall
-			while (World==WORLD_HMOK || World==WORLD_THREALL)
-		World = GloryRnd.aiRnd(WORLD_MAX);
+//		if(z_my_server_data.mod_id == Z_MODS_RAFARUN_ID ) //tarakan'i bega/ excludes hmok && threall
+		if(NetworkON && my_server_data.GameType == PASSEMBLOSS && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"raffa run")==0) //tarakan'i bega/ excludes hmok && threall
+			while (World==WORLD_HMOK || World==WORLD_THREALL || World==WORLD_SATADI || World==WORLD_MIRAGE)
+		World = GloryRnd.aiRnd(WORLD_MAX-2);
 	};
 	R_curr.x = GloryRnd.aiRnd(WorldTable[World]->x_size);
 	if(World < MAIN_WORLD_MAX - 1)

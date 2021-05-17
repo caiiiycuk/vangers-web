@@ -2,10 +2,21 @@
 #define __NETWORK_H__
 #include "zmod_client.h"
 
+#include <vector>
+
 #include "xsocket.h"
 #include "multiplayer.h"
 
 #define DEFAULT_SERVER_PORT	2197
+
+extern int is_start;
+extern int kvachTime;
+extern int whoIsKvach;
+extern char* kvachName;
+extern std::string kvachId;
+
+extern int isRollcall;
+extern std::vector<std::string> rollcallNicknames;
 
 extern double zMod_cycle;
 extern double zMod_flood_level_delta;
@@ -121,6 +132,8 @@ struct MessageDispatcher : XList {
 	void send(char* message,int mode,int parameter);
 	void receive();
 	};
+
+const char bot_tag[6] = "[bot]";
 
 /*******************************************************************************
 			Top List

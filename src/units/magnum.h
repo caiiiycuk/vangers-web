@@ -91,6 +91,9 @@
 #define eCmpPassEarth      "Passage to Earth"
 #define rCmpPassEarth      "Коридор на Землю"
 
+#define eCmpRostrum            "Rostrum"
+#define rCmpRostrum            "Ростра"
+
 
 #define SuccessTaskMessageData	"TabuTask Complete"
 #define FailedTaskMessageData	"TabuTask Failed"
@@ -142,3 +145,6 @@
 #define rPlayerWinnerFirstMessage "Торопись, механик!"
 #define rPlayerWinnerSecondMessage " окончил игру!"
 #define rPlayerWinnerOtherMessage "Ты хочешь быть последним?"
+
+#define eCmpBotCheck          "Checkpoint for bot"
+#define rCmpBotCheck          "Контр. пункт для бота"

@@ -313,6 +313,26 @@
 #define ITM78_NAME1	"Incarnator"
 #define ITM78_NAME2	"Инкарнатор"
 
+// NettleACG
+#define ITM79_NAME1	"Nettle-ACG"
+#define ITM79_NAME2	"ГПКО Крапива"
+
+// Vervemitter
+#define ITM80_NAME1	"Vervemitter"
+#define ITM80_NAME2	"Пыломиттер"
+
+// Difford
+#define ITM81_NAME1	"Difford Reactor"
+#define ITM81_NAME2	"Диффорд-Реактор"
+
+// TrailTracer
+#define ITM82_NAME1	"Trail Tracer"
+#define ITM82_NAME2	"Трильс"
+
+// Badreeve
+#define ITM83_NAME1	"Badreeve"
+#define ITM83_NAME2	"Бадрив"
+
 /* ---------------------------- COMMENTS SECTION ---------------------------- */
 
 // MacHOTine Gun (light)
@@ -677,6 +697,26 @@
 #define ITM78_COMMENTS2 comments 2 "Специальное оружие вангеров" \
 				   "Неактивно"
 
+// NettleACG
+#define ITM79_COMMENTS1 comments 1 "Softie's weapon"
+#define ITM79_COMMENTS2 comments 1 "Оружие софти"
+
+// Vervemitter
+#define ITM80_COMMENTS1 comments 1 "A weapon of a Transmundane Bios"
+#define ITM80_COMMENTS2 comments 1 "Оружие Ушедших Биосов"
+
+// Difford
+#define ITM81_COMMENTS1 comments 1 "Softie's weapon"
+#define ITM81_COMMENTS2 comments 1 "Оружие софти"
+
+// TrailTracer
+#define ITM82_COMMENTS1 comments 1 "Unknown weapon"
+#define ITM82_COMMENTS2 comments 1 "Неизвестное оружие"
+
+// Badreeve
+#define ITM83_COMMENTS1 comments 1 "Unknown weapon"
+#define ITM83_COMMENTS2 comments 1 "Неизвестное оружие"
+
 /* ------------------------- SHOP COMMENTS SECTION -------------------------- */
 
 // MacHOTine Gun (light)
@@ -991,6 +1031,26 @@
 #define iITM78_COMMENTS1 comments	 1 "Deactivated"
 #define iITM78_COMMENTS2 comments	 1 "Неактивный"
 
+// NettleACG
+#define iITM79_COMMENTS1 comments	 0
+#define iITM79_COMMENTS2 comments	 0
+
+// Vervemitter
+#define iITM80_COMMENTS1 comments	 0
+#define iITM80_COMMENTS2 comments	 0
+
+// Difford
+#define iITM81_COMMENTS1 comments	 0
+#define iITM81_COMMENTS2 comments	 0
+
+// TrailTracer
+#define iITM82_COMMENTS1 comments	 0
+#define iITM82_COMMENTS2 comments	 0
+
+// Badreeve
+#define iITM83_COMMENTS1 comments	 0
+#define iITM83_COMMENTS2 comments	 0
+
 /* --------------------------- ITEMS INFO SECTION --------------------------- */
 
 // MacHOTine Gun (light)
@@ -1154,6 +1214,31 @@ compass at required destination"
 // Zeex
 #define ITM64_INFO1	prompt_text "More info..."
 #define ITM64_INFO2	prompt_text "Содержит информацию..."
+
+// NettleACG
+#define ITM79_INFO1	prompt_text "Put in an arms slot to use"
+#define ITM79_INFO2	prompt_text "Для использования поместить
+в оружейный паз"
+
+// Vervemitter
+#define ITM80_INFO1	prompt_text "Put in an arms slot to use"
+#define ITM80_INFO2	prompt_text "Для использования поместить
+в оружейный паз"
+
+// Difford
+#define ITM81_INFO1	prompt_text "Put in an arms slot to use"
+#define ITM81_INFO2	prompt_text "Для использования поместить
+в оружейный паз"
+
+// TrailTracer
+#define ITM82_INFO1	prompt_text "Put in an arms slot to use"
+#define ITM82_INFO2	prompt_text "Для использования поместить
+в оружейный паз"
+
+// Badreeve
+#define ITM83_INFO1	prompt_text "Put in an arms slot to use"
+#define ITM83_INFO2	prompt_text "Для использования поместить
+в оружейный паз"
 
 /* --------------------------- PARAMETERS SECTION --------------------------- */
 
@@ -1477,4 +1562,24 @@ compass at required destination"
 // Mechoscope (empty)
 #define ITM78_PARAMS1	prm_template	NONE
 #define ITM78_PARAMS2	prm_template	NONE
+
+// NettleACG
+#define ITM79_PARAMS1	prm_template	"%d shots"
+#define ITM79_PARAMS2	prm_template	"%d выстрелов"
+
+// Vervemitter
+#define ITM80_PARAMS1	prm_template	"%d shots"
+#define ITM80_PARAMS2	prm_template	"%d зарядов"
+
+// Difford
+#define ITM81_PARAMS1	prm_template	"%d shots"
+#define ITM81_PARAMS2	prm_template	"%d зарядов"
+
+// TrailTracer
+#define ITM82_PARAMS1	prm_template	"Charge: %d"
+#define ITM82_PARAMS2	prm_template	"Ресурс: %d"
+
+// Badreeve
+#define ITM83_PARAMS1	prm_template	NONE
+#define ITM83_PARAMS2	prm_template	NONE
 

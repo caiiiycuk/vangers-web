@@ -26,6 +26,7 @@
 
 #include "../sound/hsound.h"
 #include "layout.h"
+#include "../network.h"
 /* ----------------------------- STRUCT SECTION ----------------------------- */
 /* ----------------------------- EXTERN SECTION ----------------------------- */
 
@@ -126,8 +127,8 @@ extern char* aciSTR_PRICE;
 extern char* aciSTR_EMPTY_SLOT;
 extern char* aciSTR_UNNAMED_SAVE;
 extern char* aciSTR_AUTOSAVE;
-extern char* aciSTR_KILLS;
-extern char* aciSTR_DEATHS;
+extern char* aciSTR_WINS;
+extern char* aciSTR_LOSSES;
 extern char* aciSTR_LUCK;
 extern char* aciSTR_DOMINANCE;
 extern char* aciSTR_BROKEN;
@@ -149,7 +150,13 @@ extern char* aciSTR_PICKUP_ITEMS_OFF;
 extern char* aciSTR_PICKUP_WEAPONS_OFF;
 extern char* aciSTR_PutThis;
 
+extern char* aciSTR_RESTRICTIONS;
+extern char* aciSTR_STATISTICS;
+extern char* aciSTR_MINUTES;
+
 extern int aciItmTextQueueSize;
+
+extern iScreenOption** iScrOpt;
 
 /* --------------------------- PROTOTYPE SECTION ---------------------------- */
 
@@ -435,6 +442,8 @@ int aciBufRedrawFlag = 0;
 int aciProtractorEvent = 0;
 int aciMechMessiahEvent = 0;
 int aciTeleportEvent = 0;
+
+extern iScreenOption** iScrOpt;
 
 #ifdef _DEBUG
 int aciShotCount = 0;
@@ -3977,6 +3986,10 @@ void actIntDispatcher::init(void)
 		curMatrix = alloc_matrix(curMatrixID);
 	}
 #endif
+	// CxInfo: skip shop for the first spawn on Arena
+	if((NetworkON && my_server_data.GameType == VAN_WAR && strcmp(iScrOpt[iSERVER_NAME]->GetValueCHR(),"arena")==0) && !curMatrix){
+		curMatrix = alloc_matrix(16); // CxInfo: was curMatrixID, but we can place any mechos ID here
+	}
 
 	ibs = (ibsObject*)ibsList -> last;
 	while(ibs){
@@ -4303,6 +4316,11 @@ void actIntDispatcher::i_finit(void)
 
 	aciChangeWorld(CurrentWorld);
 	aciPrepareWorldsMenu();
+
+	char *game_name = iScrOpt[iSERVER_NAME]->GetValueCHR();
+	if (NetworkON && my_server_data.GameType == 3 && CurrentWorld != 14) { // HUNTAGE
+		aScrDisp->send_event(EV_TELEPORT, 14);
+	}
 
 	flags &= ~AS_ISCREEN;
 	if(iscr_iP) iscr_iP -> finit();
