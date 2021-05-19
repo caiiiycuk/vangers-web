@@ -12,7 +12,7 @@ OPTION(BINARY_SCRIPT "Use binary script for interface" ON)
 OPTION(DIAGEN_TEST "Dialog generator and test subsystem" OFF)
 
 # hide optons
-OPTION(ACTINT "Actint user interface in road game" ON) 
+OPTION(ACTINT "Actint user interface in road game" ON)
 
 SET(CMAKE_CONFIGURATION_TYPES "Release;Debug;MinSizeRel;RelWithDebInfo")
 IF(MINGW)
