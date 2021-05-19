@@ -921,7 +921,7 @@ Object "Multiplayer Option"
 	}
 	Object "Exit Option"
 	{
-		x	$EXIT_X
+		x	300
 		y	$EXIT_Y
 
 		selectable_obj

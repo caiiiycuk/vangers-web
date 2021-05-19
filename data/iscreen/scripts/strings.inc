@@ -25,8 +25,8 @@
 #define iSTR_CREDITS1			"CREDITS"
 #define iSTR_CREDITS2			"€‚’›"
 
-#define iSTR_EXIT1			"EXIT"
-#define iSTR_EXIT2			"‚›•„"
+#define iSTR_EXIT1			"EXIT FROM CX"
+#define iSTR_EXIT2			"‚›•„ ‡ CX"
 
 #define iSTR_Credits1			"Credits"
 #define iSTR_Credits2			" α®§¤ β¥«οε"
