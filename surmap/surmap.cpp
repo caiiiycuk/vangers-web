@@ -581,7 +581,7 @@ char* getTitle(void)
 {
 	static XBuffer buf;
 	buf.init();
-	buf < "<SURMAP Editor (C) by K-D Lab> Current World: [" < vMap -> wTable[vMap -> cWorld].name < "]";
+	buf < "<SURWEB @ caiiiycuk / SURMAP @ K-D Lab> Current World: [" < vMap -> wTable[vMap -> cWorld].name < "]";
 	return buf.GetBuf();
 }
 

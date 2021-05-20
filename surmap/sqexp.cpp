@@ -377,13 +377,30 @@ void iMainMenu::message(int code,sqElem* object)
 					LoadVPR();
 					break;
 				case 12: {
-					MLsave();
+					MLreset();
+					vMap -> flush();
+#ifdef SESSION
+					vMap -> sssUpdate();
+#endif
+					SaveVPR();
 
 					char cwd[256];
 					getcwd(cwd, 256);
 					chdir("thechain/mirage");
 					ZipArchive *archive = (ZipArchive*) zip_from_fs(0);
 					chdir(cwd);
+#ifdef EMSCRIPTEN
+					if (archive) {
+						EM_ASM(({
+						    var ptr = $0;
+        					var length = Module.HEAPU32[ptr / 4];
+                            var memory = Module.HEAPU8;
+                            var archive = memory.slice(ptr + 4, ptr + 4 + length);
+							Module.saveZip(archive);
+						}), archive);
+						free(archive);
+					}
+#else
 					if (archive) {
 						auto length = ((uint32_t*) archive)[0];
 						auto data = ((char*) archive + sizeof(uint32_t));
@@ -394,6 +411,7 @@ void iMainMenu::message(int code,sqElem* object)
 
 						free(archive);
 					}
+#endif
 					//					MLreset();
 					//					Quit = XT_TERMINATE_ID;
 				}	break;
@@ -1663,4 +1681,17 @@ void ibmFile::quantSave(void)
 	fff.close();
 
 	if(!--counter) shoting = 0;
+}
+
+
+extern "C" void EMSCRIPTEN_KEEPALIVE reloadWorld() {
+	MLreset();
+	vMap -> reload(0);
+	MLreload();
+	PalettePrepare();
+	curGMap -> FirstDraw = 1;
+	curGMap -> title = getTitle();
+	curGMap -> draw();
+	Track.load(0);
+	Redraw = 1;
 }

@@ -10,9 +10,10 @@ if (${EMSCRIPTEN})
         -s TOTAL_MEMORY=134217728 \
         -s ALLOW_MEMORY_GROWTH=1 \
         -s TOTAL_STACK=1MB \
-        -s INVOKE_RUN=1 \
+        -s INVOKE_RUN=0 \
         -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['addRunDependency', 'removeRunDependency', 'FS_createPath', 'FS_createPreloadedFile', \
-          'FS_createDataFile', 'lengthBytesUTF8', 'stringToUTF8', 'UTF16ToString', 'callMain']\" \
+          'FS_createDataFile', 'FS_cwd', 'FS_chdir', 'lengthBytesUTF8', 'stringToUTF8', 'UTF16ToString', 'callMain']\" \
+        -s EXPORTED_FUNCTIONS=\"['_main', '_malloc', '_free']\" \
         -s NO_EXIT_RUNTIME=1 \
         -s FORCE_FILESYSTEM=1 \
         -s ERROR_ON_UNDEFINED_SYMBOLS=1 \
@@ -190,6 +191,10 @@ TARGET_COMPILE_DEFINITIONS(surmap PUBLIC _SURMAP_ _SURMAP_ROUGH_)
 
 if(${EMSCRIPTEN})
 	TARGET_LINK_LIBRARIES(surmap ${SDL2_LIBRARY} xtool xgraph)
+	set_target_properties(surmap
+			PROPERTIES
+			RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/surweb/public/surmap"
+	)
 else()
 	TARGET_LINK_LIBRARIES(surmap ${SDL2_LIBRARY} xtool xgraph z)
 endif()

@@ -1,0 +1,220 @@
+import React, { useEffect, useRef, useState } from 'react';
+import './surweb.css';
+import "@blueprintjs/core/lib/css/blueprint.css";
+
+import { Alignment, Button, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner, FileInput } from "@blueprintjs/core";
+import { resolveUrl } from './xhr';
+
+const WIDTH = 1280;
+const HEIGHT = 720;
+
+type Binaries = { data: Uint8Array, wasm: Uint8Array, wasmJs: Uint8Array };
+
+export function SurWeb() {
+  const [module, _] = useState<any>({});
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
+  const [progress, setProgress] = useState<number>(0);
+  const [binaries, setBinaries] = useState<Binaries | null>(null);
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [archiveUrl, setArchiveUrl] = useState<string | null>(null);
+  const [fileProgress, setFileProgress] = useState<number>(0);
+  const [reader, setReader] = useState<FileReader|null>(null);
+
+  useEffect(() => {
+    async function doLoad() {
+      const [data, wasm, wasmJs] = await Promise.all([
+        resolveUrl("surmap/surmap.data", setProgress),
+        resolveUrl("surmap/surmap.wasm"),
+        resolveUrl("surmap/surmap.js")]);
+
+      setBinaries({ data, wasm, wasmJs });
+    };
+
+    doLoad().catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    if (canvasRef.current !== null) {
+      const canvas = canvasRef.current;
+      const rect = (canvas.parentElement as HTMLElement).getBoundingClientRect();
+      setCanvas(canvas);
+
+      canvas.width = WIDTH;
+      canvas.height = HEIGHT;
+      resizeCanvas(canvas, rect.width, rect.height);
+    }
+  }, [canvasRef]);
+
+  useEffect(() => {
+    if (canvas === null || binaries === null) {
+      return;
+    }
+
+    instantiateWasm(canvas, binaries, module, onArchive)
+      .then(() => setLoaded(true))
+      .catch(console.error);
+  }, [canvas, binaries, module, onArchive]);
+
+  function onResize(e: ResizeEntry[]) {
+    if (canvas !== null) {
+      resizeCanvas(canvas, e[0].contentRect.width, e[0].contentRect.height);
+    }
+  }
+
+  function onArchive(archive: Uint8Array) {
+    if (archiveUrl !== null) {
+      URL.revokeObjectURL(archiveUrl);
+    }
+
+    const blob = new Blob([archive], {
+      type: "application/zip"
+    });
+    const url = URL.createObjectURL(blob);
+    setArchiveUrl(url);
+    downloadUrl(url);
+  }
+
+  function onDownload() {
+    canvas?.focus();
+
+    if (archiveUrl !== null) {
+      downloadUrl(archiveUrl);
+    }
+  }
+
+  function onUpload(e: any) {
+    canvas?.focus();
+
+    const files = e.currentTarget.files as FileList;
+    if (files.length === 0) {
+      setReader(null);
+      return;
+    }
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", async (e) => {
+      const root = module.FS_cwd();
+
+      module.FS_chdir(root + "thechain/mirage/");
+      const bytes = new Uint8Array(reader.result as ArrayBuffer);
+      const buffer = module._malloc(bytes.length);
+      module.HEAPU8.set(bytes, buffer);
+      const retcode = module._zip_to_fs(buffer, bytes.length);
+      module._free(buffer);
+
+      module.FS_chdir(root);
+
+
+      if (retcode === 0) {
+        module._reloadWorld();
+      } else {
+        console.error("Unable to extract, retcode", retcode);
+      }
+
+      setReader(null);
+    });
+    reader.addEventListener("progress", (e) => setFileProgress(e.loaded / e.total));
+    reader.readAsArrayBuffer(file);
+    setReader(reader);
+  }
+
+  return (
+    <div className="surweb-container">
+      <Navbar>
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>SurWeb</Navbar.Heading>
+          <Navbar.Divider />
+          {
+            loaded ?
+              <div className="file-container">
+                <FileInput disabled={reader !== null} text="Select ZIP" onInputChange={onUpload} />
+                &nbsp;&nbsp;
+                <Spinner size={16} intent={Intent.PRIMARY} value={fileProgress} />
+              </div> :
+              <Navbar.Heading>Loading {progress}%</Navbar.Heading>
+          }
+          {
+            archiveUrl !== null ?
+              <Button onKeyDown={() => { }} minimal={true} onClick={onDownload}>Download ZIP</Button> :
+              null
+          }
+        </Navbar.Group>
+      </Navbar>
+      <ResizeSensor onResize={onResize}>
+        <div className="canvas-container">
+          <canvas id="canvas" ref={canvasRef} tabIndex={0}></canvas>
+          {loaded ? null : <div className="spinner-container"><Spinner size={64} /></div>}
+        </div>
+      </ResizeSensor>
+    </div>
+  );
+}
+
+function instantiateWasm(canvas: HTMLCanvasElement,
+  binaries: Binaries,
+  Module: any,
+  onArchive: (archive: Uint8Array) => void) {
+  return new Promise<void>((resolve, reject) => {
+    try {
+      Module.saveZip = onArchive;
+      Module.canvas = canvas;
+      Module.getPreloadedPackage = (name: any, size: any) => binaries.data.buffer;
+      Module.instantiateWasm = async (info: any, receiveInstance: any) => {
+        const wasmModule = await WebAssembly.compile(binaries.wasm);
+        const instance = await WebAssembly.instantiate(wasmModule, info);
+        receiveInstance(instance, wasmModule);
+      };
+
+      Module.onRuntimeInitialized = () => {
+        setTimeout(() => {
+          Module.callMain([]);
+          resolve();
+        }, 16);
+      };
+
+      const decoder = new TextDecoder();
+      const moduleFn = new (Function as any)(["Module"], decoder.decode(binaries.wasmJs));
+      moduleFn(Module);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement, innerWidth: number, innerHeight: number) {
+  const [width, height] = getSizeWithAspectRatio(innerWidth, innerHeight, WIDTH / HEIGHT);
+
+  canvas.style.position = "relative";
+  canvas.style.top = (innerHeight / 2) + "px";
+  canvas.style.left = (innerWidth / 2) + "px";
+  canvas.style.marginTop = (-1) * (height / 2) + "px";
+  canvas.style.marginLeft = (-1) * (width / 2) + "px";
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+}
+
+function getSizeWithAspectRatio(width: number, height: number, targetAspect: number) {
+  const screenAspect = width / height;
+  if (screenAspect === targetAspect) {
+    return [width, height];
+  }
+  const calculatedWidth = Math.round(height * targetAspect);
+  if (calculatedWidth <= width) {
+    return [calculatedWidth, height];
+  }
+  const calculatedHeight = Math.round(width / targetAspect);
+  return [width, calculatedHeight];
+}
+
+function downloadUrl(url: string) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "mirage.zip";
+  a.style.display = "none";
+  document.body.appendChild(a);
+
+  a.click();
+  a.remove();
+}
