@@ -1,6 +1,6 @@
 if (${EMSCRIPTEN})
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Oz -ffast-math -fno-exceptions -w -Werror=return-type -Werror=switch")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Oz -ffast-math -fno-exceptions -w -Werror=return-type -Werror=switch")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Oz -s USE_ZLIB=1 -ffast-math -fno-exceptions -w -Werror=return-type -Werror=switch")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Oz -s USE_ZLIB=1 -ffast-math -fno-exceptions -w -Werror=return-type -Werror=switch")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
 		-s USE_ZLIB=1 \
         -Oz \

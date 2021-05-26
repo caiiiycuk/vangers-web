@@ -2,6 +2,7 @@
   "name": "surweb",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://caiiiycuk.github.io/vangers-web/surweb",
   "dependencies": {
     "@blueprintjs/core": "^3.44.3",
     "@testing-library/jest-dom": "^5.11.4",

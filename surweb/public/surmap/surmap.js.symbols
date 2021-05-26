@@ -1632,7 +1632,7 @@
 1631:twobyte_strstr
 1632:try_realloc_chunk
 1633:threebyte_strstr
-1634:strupr\28char*\29
+1634:strupr
 1635:strtold_l
 1636:strtold
 1637:strtof
