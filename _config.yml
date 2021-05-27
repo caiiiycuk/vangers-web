@@ -3,7 +3,7 @@ email: caiiiycuk@gmail.com
 description: >- 
   Вангеры - одна из легендарных и запоминающихся игр сделанная российскими разработчиками. 
   Эта страничка посвящена веб версии Вангеров. Да-да, теперь в Вангеров можно играть в браузере и не только играть!
-baseurl: "" #"vangers-web"
+baseurl: "vangers-web"
 url: "https://caiiiycuk.github.io"
 twitter_username: caiiiycuk
 github_username:  caiiiycuk
