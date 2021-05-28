@@ -11,7 +11,7 @@ const HEIGHT = 720;
 type Binaries = { data: Uint8Array, wasm: Uint8Array, wasmJs: Uint8Array };
 
 export function SurWeb() {
-  const [module, _] = useState<any>({});
+  const module = useState<any>({})[0];
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [progress, setProgress] = useState<number>(0);
@@ -54,7 +54,9 @@ export function SurWeb() {
     instantiateWasm(canvas, binaries, module, onArchive)
       .then(() => setLoaded(true))
       .catch(console.error);
-  }, [canvas, binaries, module, onArchive]);
+
+    // eslint-disable-next-line
+  }, [canvas, binaries, module]);
 
   function onResize(e: ResizeEntry[]) {
     if (canvas !== null) {
