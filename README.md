@@ -5,7 +5,7 @@
 
 ![SurWeb](https://user-images.githubusercontent.com/1727152/119936527-8537a600-bfb3-11eb-834a-38c48de262ad.jpg)
 
-https://caiiiycuk.github.io/vangers-web/
+https://caiiiycuk.github.io/vangers-web/surweb/index.html
 
 ## How to build
 
