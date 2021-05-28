@@ -1,0 +1,30 @@
+name: SurWeb Emscripten Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: emsdk
+      run: |
+        git clone --depth 1 https://github.com/emscripten-core/emsdk.git emsdk
+        cd emsdk
+        chmod 777 ./emsdk
+        ./emsdk install latest
+        ./emsdk activate latest
+      working-directory: /tmp
+    - name: surmap
+      run: |
+        source /tmp/emsdk/emsdk_env.sh
+        mkdir emscripten
+        cd emscripten
+        emcmake cmake ..
+        make surmap
+    - name: surweb
+      run: |
+        source /tmp/emsdk/emsdk_env.sh
+        yarn
+        yarn build
+      working-directory: surweb
