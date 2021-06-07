@@ -8,7 +8,7 @@
 
 Браузерная версия доступна по этим ссылкам:
 * [GamePix Vangers](https://gamepix.com/play/vangers)
-* `???`
+* [Yandex](https://yandex.ru/games/play/152268)
 
 Любую обратную связь лучше отправлять в публичный [трекер](https://github.com/caiiiycuk/vangers-web/issues) проекта.
 
