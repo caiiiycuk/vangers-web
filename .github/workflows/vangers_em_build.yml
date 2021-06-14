@@ -28,3 +28,7 @@ jobs:
         yarn
         yarn build
       working-directory: surweb
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Surweb
+        path: surweb/build
