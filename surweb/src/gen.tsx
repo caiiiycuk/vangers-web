@@ -56,7 +56,7 @@ Default Terrain Type=${terainType}
 					</div>
 					<div className="in-a-row">
 						<label className="open-left-label">Noise Amplitude ({amplitude})</label>
-						<NumericInput className="short-input" min={0} max={10} value={amplitude} onValueChange={setAmplitude} />
+						<NumericInput className="short-input" min={1} max={10} value={amplitude} onValueChange={setAmplitude} />
 					</div>
 					<div className="in-a-row">
 						<label className="open-left-label">Terain Type ({terainType})</label>

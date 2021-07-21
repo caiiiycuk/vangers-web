@@ -17,8 +17,7 @@ if (${EMSCRIPTEN})
         -s NO_EXIT_RUNTIME=1 \
         -s FORCE_FILESYSTEM=1 \
         -s ERROR_ON_UNDEFINED_SYMBOLS=1 \
-        -lidbfs.js \
-		--preload-file \"${PROJECT_SOURCE_DIR}/surmap_data@\"")
+        -lidbfs.js")
 endif()
 
 INCLUDE_DIRECTORIES(AFTER
@@ -196,7 +195,11 @@ if(${EMSCRIPTEN})
 			PROPERTIES
 			RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/surweb/public/surmap"
 	)
-else()
-	TARGET_LINK_LIBRARIES(surmap ${SDL2_LIBRARY} xtool xgraph z)
-endif()
+
+	add_custom_target(data
+			COMMAND python3 "${EMSCRIPTEN_ROOT_PATH}/tools/file_packager.py" "${PROJECT_SOURCE_DIR}/surweb/public/surmap/bin.data" --no-heap-copy --from-emcc --preload "${PROJECT_SOURCE_DIR}/surmap_data@" --js-output="${PROJECT_SOURCE_DIR}/surweb/public/surmap/bin.data.js"
+			)
+	else()
+		TARGET_LINK_LIBRARIES(surmap ${SDL2_LIBRARY} xtool xgraph z)
+	endif()
 

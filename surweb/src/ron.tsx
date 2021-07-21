@@ -2,7 +2,6 @@ import {
 	Button, Callout, FileInput, Spinner
 } from '@blueprintjs/core';
 import React, { useState } from 'react';
-import "./landing.css";
 import { AppProps } from './router';
 
 declare function ron2vmp(ron_multi_png: Uint8Array, height_png: Uint8Array, material_hi_png: Uint8Array, material_lo_png: Uint8Array): Uint8Array;

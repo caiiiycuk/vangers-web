@@ -1,4 +1,5 @@
-import { Alignment, Button, FileInput, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner } from "@blueprintjs/core";
+import { Alignment, AnchorButton, Button, FileInput, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner } from "@blueprintjs/core";
+import { rejects } from "assert";
 import React, { useEffect, useRef, useState } from 'react';
 import { AppProps } from './router';
 import './surweb.css';
@@ -8,7 +9,7 @@ import { resolveUrl } from './xhr';
 const WIDTH = 1280;
 const HEIGHT = 720;
 
-type Binaries = { data: Uint8Array, wasm: Uint8Array, wasmJs: Uint8Array };
+type Binaries = { dataJs: Uint8Array, data: Uint8Array, wasm: Uint8Array, wasmJs: Uint8Array };
 
 export function SurWeb(props: AppProps) {
   const module = useState<any>({})[0];
@@ -23,12 +24,13 @@ export function SurWeb(props: AppProps) {
 
   useEffect(() => {
     async function doLoad() {
-      const [data, wasm, wasmJs] = await Promise.all([
-        resolveUrl("surmap/surmap.data", setProgress),
+      const [dataJs, data, wasm, wasmJs] = await Promise.all([
+        resolveUrl("surmap/bin.data.js", setProgress),
+        resolveUrl("surmap/bin.data", setProgress),
         resolveUrl("surmap/surmap.wasm"),
         resolveUrl("surmap/surmap.js")]);
 
-      setBinaries({ data, wasm, wasmJs });
+      setBinaries({ dataJs, data, wasm, wasmJs });
     };
 
     doLoad().catch(console.error);
@@ -74,7 +76,6 @@ export function SurWeb(props: AppProps) {
     });
     const url = URL.createObjectURL(blob);
     setArchiveUrl(url);
-    alert("Ok");
     // downloadUrl(url);
   }
 
@@ -98,24 +99,14 @@ export function SurWeb(props: AppProps) {
     const file = files[0];
     const reader = new FileReader();
     reader.addEventListener("load", async (e) => {
-      const root = module.FS_cwd();
-
-      module.FS_chdir(root + "thechain/mirage/");
       const bytes = new Uint8Array(reader.result as ArrayBuffer);
       const buffer = module._malloc(bytes.length);
       module.HEAPU8.set(bytes, buffer);
       const retcode = module._zip_to_fs(buffer, bytes.length);
       module._free(buffer);
-
-      module.FS_chdir(root);
-
-
-      if (retcode === 0) {
-        module._reloadWorld();
-      } else {
+      if (retcode !== 0) {
         console.error("Unable to extract, retcode", retcode);
       }
-
       setReader(null);
     });
     reader.addEventListener("progress", (e) => setFileProgress(e.loaded / e.total));
@@ -127,12 +118,12 @@ export function SurWeb(props: AppProps) {
     <div className="surweb-container">
       <Navbar>
         <Navbar.Group align={Alignment.LEFT}>
-          <Navbar.Heading>SurWeb</Navbar.Heading>
+          <Navbar.Heading><AnchorButton intent={Intent.PRIMARY} minimal={true} onClick={() => window.location.reload()}>SurWeb</AnchorButton></Navbar.Heading>
           <Navbar.Divider />
           {
             loaded ?
               <div className="file-container">
-                <FileInput disabled={reader !== null} text="Select ZIP" onInputChange={onUpload} />
+                <FileInput disabled={reader !== null} text="Add ZIP" onInputChange={onUpload} />
                 &nbsp;&nbsp;
                 <Spinner size={16} intent={Intent.PRIMARY} value={fileProgress} />
               </div> :
@@ -163,13 +154,10 @@ function instantiateWasm(canvas: HTMLCanvasElement,
   return new Promise<void>((resolve, reject) => {
     try {
       Module.saveZip = (archive: Uint8Array) => {
-        Module.FS.syncfs((err: any) => {
-          console.log("Synced", err);
-        });
+        Module.FS.syncfs((err: any) => { });
         onArchive(archive);
       }
       Module.canvas = canvas;
-      Module.getPreloadedPackage = (name: any, size: any) => binaries.data.buffer;
       Module.instantiateWasm = async (info: any, receiveInstance: any) => {
         const wasmModule = await WebAssembly.compile(binaries.wasm);
         const instance = await WebAssembly.instantiate(wasmModule, info);
@@ -177,11 +165,12 @@ function instantiateWasm(canvas: HTMLCanvasElement,
       };
 
       Module.onRuntimeInitialized = () => {
-        setTimeout(async () => {
-          const args = await instantiateProps(Module, props);
-          Module.callMain(args);
-          resolve();
-        }, 16);
+        instantiateProps(Module, props, binaries).then((args) => {
+          setTimeout(() => {
+            Module.callMain(args);
+            resolve();
+          }, 16);
+        }).catch(console.error);
       };
 
       const decoder = new TextDecoder();
@@ -193,24 +182,44 @@ function instantiateWasm(canvas: HTMLCanvasElement,
   });
 }
 
-function instantiateProps(module: any, props: AppProps): Promise<string[]> {
-  return new Promise<string[]>((resolve) => {
-    module.FS.syncfs(true, (err: any) => {
-      console.log("restored", err);
+function instantiateProps(Module: any, props: AppProps, binaries: Binaries): Promise<string[]> {
+  return new Promise<string[]>((resolve, reject) => {
+    Module.FS.chdir("/idbfs");
+    Module.FS.syncfs(true, (err: any) => {
+      const root = Module.FS_cwd() + "/";
+      const worldFile = "thechain/mirage/world.ini";
+      const palFile = "thechain/mirage/harmony.pal";
+
+      try {
+        Module.FS.lookupPath(root + worldFile);
+      } catch (e) {
+        // recreate FS
+        Module.getPreloadedPackage = (name: any, size: any) => binaries.data.buffer;
+        // eslint-disable-next-line
+        eval(new TextDecoder().decode(binaries.dataJs));
+        Module.FS.syncfs(() => { });
+      }
+
       if (props.route === "gen" && props.gen !== null) {
-        (window as any).m = module;
+        (window as any).m = Module;
         const enc = new TextEncoder();
-        const root = module.FS_cwd();
-        const worldFile = "thechain/mirage/world.ini";
-        const palFile = "thechain/mirage/harmony.pal";
-        module.FS.unlink(root + worldFile);
-        module.FS.createDataFile(root, worldFile, enc.encode(props.gen.worldIni), true, true, true);
+        Module.FS.unlink(root + worldFile);
+        Module.FS.createDataFile(root, worldFile, enc.encode(props.gen.worldIni), true, true, true);
         if (props.gen.palette !== "mirage") {
-          module.FS.unlink(root + palFile);
-          const data = module.FS.readFile(root + "_palette/" + props.gen.palette + ".pal");
-          module.FS.createDataFile(root, palFile, data, true, true, true);
+          Module.FS.unlink(root + palFile);
+          const data = Module.FS.readFile(root + "_palette/" + props.gen.palette + ".pal");
+          Module.FS.createDataFile(root, palFile, data, true, true, true);
         }
         resolve(["/I" + props.gen.size, "/G0"]);
+      } else if (props.route === "zip" && props.zip !== null) {
+        Module.FS.chdir(root + "thechain/mirage/");
+        const bytes = props.zip;
+        const buffer = Module._malloc(bytes.length);
+        Module.HEAPU8.set(bytes, buffer);
+        Module._zip_to_fs(buffer, bytes.length);
+        Module._free(buffer);
+        Module.FS.chdir(root);
+        resolve([]);
       } else {
         resolve([]);
       }

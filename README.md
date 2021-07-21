@@ -42,3 +42,8 @@ To test locally you should remove homepage from `package.json` and then run `yar
 
 Preloaded data is located in folder `surmap_data`. Everything from this folder will be available in web version.
 
+To build data execute
+```shell
+make data
+```
+

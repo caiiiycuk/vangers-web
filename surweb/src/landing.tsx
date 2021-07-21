@@ -3,8 +3,8 @@ import {
 } from '@blueprintjs/core';
 import React, { useState } from 'react';
 import { Gen } from './gen';
+import { Zip } from './zip';
 import "./landing.css";
-import { Ron } from './ron';
 import { AppProps } from './router';
 
 export function Landing(props: AppProps) {
@@ -21,7 +21,7 @@ export function Landing(props: AppProps) {
 		<Card interactive={true} elevation={Elevation.TWO}>
 			<div className="start-options">
 				<div className="open-option">
-					<AnchorButton minimal={true} intent={Intent.PRIMARY} onClick={() => props.openLastSession() }>Open SurWeb last session</AnchorButton>
+					<AnchorButton minimal={true} intent={Intent.PRIMARY} onClick={() => props.openLastSession()}>Open SurWeb last session</AnchorButton>
 				</div>
 				<div className="open-or">
 					OR
@@ -29,25 +29,25 @@ export function Landing(props: AppProps) {
 				{
 					opened !== "gen" ?
 						<div className="open-option">
-							<AnchorButton minimal={true} onClick={() => setOpened("gen")}>Generate world</AnchorButton>
+							<AnchorButton intent={Intent.PRIMARY} minimal={true} onClick={() => setOpened("zip")}>Restore from ZIP</AnchorButton>
 						</div> :
 						null
 				}
-				<Collapse isOpen={opened === "gen"}>
-					<Gen {...props} />
+				<Collapse isOpen={opened === "zip"}>
+					<Zip {...props} />
 				</Collapse>
 				<div className="open-or">
 					OR
 				</div>
 				{
-					opened !== "ron" ?
+					opened !== "gen" ?
 						<div className="open-option">
-							<AnchorButton minimal={true} onClick={() => setOpened("ron")}>Create world with ron</AnchorButton>
+							<AnchorButton intent={Intent.PRIMARY} minimal={true} onClick={() => setOpened("gen")}>Generate world</AnchorButton>
 						</div> :
 						null
 				}
-				<Collapse isOpen={opened === "ron"}>
-					<Ron {...props} />
+				<Collapse isOpen={opened === "gen"}>
+					<Gen {...props} />
 				</Collapse>
 			</div>
 		</Card>

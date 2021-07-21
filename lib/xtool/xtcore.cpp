@@ -117,6 +117,8 @@ extern void gpx_tick();
 bool initEm() {
 #ifdef EMSCRIPTEN
 	EM_ASM((
+			FS.mkdir("/idbfs");
+			FS.mount(IDBFS, {}, "/idbfs");
 			Module.FS = FS;
 		));
 	return true;

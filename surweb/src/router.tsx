@@ -9,6 +9,9 @@ export interface AppProps {
 	gen: GenProps | null,
 	openGen: (palette: string, worldIni: string, size: number) => void;
 
+	zip: Uint8Array | null,
+	openZip: (zip: Uint8Array) => void;
+
 	openLastSession: () => void;
 
 	getVmp: () => Uint8Array | undefined;
@@ -24,6 +27,7 @@ export interface GenProps {
 export function AppRouter() {
 	const [route, setRoute] = useState<string>("");
 	const [gen, setGen] = useState<GenProps|null>(null);
+	const [zip, setZip] = useState<Uint8Array|null>(null);
 
 	const props: AppProps = {
 		route,
@@ -31,6 +35,11 @@ export function AppRouter() {
 		openGen: (palette: string, worldIni: string, size: number) => {
 			setGen({ palette, worldIni, size});
 			setRoute("gen");
+		},
+		zip,
+		openZip: (zip: Uint8Array) => {
+			setZip(zip);
+			setRoute("zip");
 		},
 		openLastSession: () => {
 			setRoute("lastSession");
