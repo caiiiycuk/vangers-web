@@ -1,16 +1,16 @@
+import { Alignment, Button, FileInput, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner } from "@blueprintjs/core";
 import React, { useEffect, useRef, useState } from 'react';
+import { AppProps } from './router';
 import './surweb.css';
-import "@blueprintjs/core/lib/css/blueprint.css";
-
-import { Alignment, Button, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner, FileInput } from "@blueprintjs/core";
 import { resolveUrl } from './xhr';
+
 
 const WIDTH = 1280;
 const HEIGHT = 720;
 
 type Binaries = { data: Uint8Array, wasm: Uint8Array, wasmJs: Uint8Array };
 
-export function SurWeb() {
+export function SurWeb(props: AppProps) {
   const module = useState<any>({})[0];
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
@@ -19,7 +19,7 @@ export function SurWeb() {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [archiveUrl, setArchiveUrl] = useState<string | null>(null);
   const [fileProgress, setFileProgress] = useState<number>(0);
-  const [reader, setReader] = useState<FileReader|null>(null);
+  const [reader, setReader] = useState<FileReader | null>(null);
 
   useEffect(() => {
     async function doLoad() {
@@ -51,7 +51,7 @@ export function SurWeb() {
       return;
     }
 
-    instantiateWasm(canvas, binaries, module, onArchive)
+    instantiateWasm(canvas, binaries, module, onArchive, props)
       .then(() => setLoaded(true))
       .catch(console.error);
 
@@ -74,7 +74,8 @@ export function SurWeb() {
     });
     const url = URL.createObjectURL(blob);
     setArchiveUrl(url);
-    downloadUrl(url);
+    alert("Ok");
+    // downloadUrl(url);
   }
 
   function onDownload() {
@@ -157,10 +158,16 @@ export function SurWeb() {
 function instantiateWasm(canvas: HTMLCanvasElement,
   binaries: Binaries,
   Module: any,
-  onArchive: (archive: Uint8Array) => void) {
+  onArchive: (archive: Uint8Array) => void,
+  props: AppProps) {
   return new Promise<void>((resolve, reject) => {
     try {
-      Module.saveZip = onArchive;
+      Module.saveZip = (archive: Uint8Array) => {
+        Module.FS.syncfs((err: any) => {
+          console.log("Synced", err);
+        });
+        onArchive(archive);
+      }
       Module.canvas = canvas;
       Module.getPreloadedPackage = (name: any, size: any) => binaries.data.buffer;
       Module.instantiateWasm = async (info: any, receiveInstance: any) => {
@@ -170,8 +177,9 @@ function instantiateWasm(canvas: HTMLCanvasElement,
       };
 
       Module.onRuntimeInitialized = () => {
-        setTimeout(() => {
-          Module.callMain([]);
+        setTimeout(async () => {
+          const args = await instantiateProps(Module, props);
+          Module.callMain(args);
           resolve();
         }, 16);
       };
@@ -182,6 +190,31 @@ function instantiateWasm(canvas: HTMLCanvasElement,
     } catch (e) {
       reject(e);
     }
+  });
+}
+
+function instantiateProps(module: any, props: AppProps): Promise<string[]> {
+  return new Promise<string[]>((resolve) => {
+    module.FS.syncfs(true, (err: any) => {
+      console.log("restored", err);
+      if (props.route === "gen" && props.gen !== null) {
+        (window as any).m = module;
+        const enc = new TextEncoder();
+        const root = module.FS_cwd();
+        const worldFile = "thechain/mirage/world.ini";
+        const palFile = "thechain/mirage/harmony.pal";
+        module.FS.unlink(root + worldFile);
+        module.FS.createDataFile(root, worldFile, enc.encode(props.gen.worldIni), true, true, true);
+        if (props.gen.palette !== "mirage") {
+          module.FS.unlink(root + palFile);
+          const data = module.FS.readFile(root + "_palette/" + props.gen.palette + ".pal");
+          module.FS.createDataFile(root, palFile, data, true, true, true);
+        }
+        resolve(["/I" + props.gen.size, "/G0"]);
+      } else {
+        resolve([]);
+      }
+    });
   });
 }
 

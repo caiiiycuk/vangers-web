@@ -114,6 +114,18 @@ XRuntimeObject* XObj;
 
 extern void gpx_tick();
 
+bool initEm() {
+#ifdef EMSCRIPTEN
+	EM_ASM((
+			Module.FS = FS;
+		));
+	return true;
+#endif
+	return false;
+}
+
+bool _emInited = initEm();
+
 bool normal_loop() {
     if (!XObj) {
         return false;

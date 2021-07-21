@@ -32,6 +32,12 @@
     <title>SurWeb</title>
   </head>
   <body>
+    <script type="module">
+      import init, { ron2vmp } from "%PUBLIC_URL%/convert/convert.js";
+      init().then(() => {
+        window.ron2vmp = ron2vmp;
+      }).catch(console.error);
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

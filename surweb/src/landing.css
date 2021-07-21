@@ -1,0 +1,45 @@
+.start-options {
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+	align-items: center;
+}
+
+.open-option {
+	margin-bottom: 25px;
+	text-transform: uppercase;
+}
+
+.open-or {
+	margin-bottom: 25px;
+	font-weight: bold;
+}
+
+.open-inputs {
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+}
+
+.open-inputs div, .open-inputs label {
+	margin-bottom: 5px;
+}
+
+.open-left-label {
+	width: 150px;
+	display: inline-block;
+}
+
+.in-a-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.short-input .bp3-input {
+	flex-shrink: 1;
+	width: 7ch;
+}
+
+.open-textarea {
+	width: 500px;
+}

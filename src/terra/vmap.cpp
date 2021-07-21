@@ -523,10 +523,19 @@ void vrtMap::squeeze(void)
 }
 #endif
 
+uchar *mirror = 0;
 void vrtMap::openMirror(void)
 {
-#ifdef _SURMAP_ROUGH_
-	printf("WARN: openMirror is not emplimented\n");
+#ifdef _SURMAP_
+	if(!fmap.open(fname,XS_IN | XS_OUT)) ErrH.Abort("VMP not found");
+
+	mirror = new uchar [V_SIZE * H2_SIZE];
+	uchar *p = mirror;
+	memset(lineT = new uchar*[V_SIZE],0,V_SIZE*sizeof(uchar*));
+	memset(lineTcolor = new uchar*[V_SIZE],0,V_SIZE*sizeof(uchar*));
+	for(uint i = 0;i < V_SIZE;i++,p += H2_SIZE) {
+		lineT[i] = p;
+	}
 #else
 	if(!fmap.open(fname,XS_IN | XS_OUT)) ErrH.Abort("VMP not found");
 
@@ -545,7 +554,15 @@ void vrtMap::openMirror(void)
 
 void vrtMap::closeMirror(void)
 {
-#ifndef _SURMAP_ROUGH_
+#ifdef _SURMAP_ROUGH_
+	fmap.seek(fmap.tell(), XS_BEG);
+	fmap.write(mirror, V_SIZE & H2_SIZE);
+
+	delete[] mirror;
+	delete lineT;
+	delete lineTcolor;
+	fmap.close();
+#else
 	win32_VMPMirrorOFF(dHeap);
 	delete lineT;
 	delete lineTcolor;
@@ -772,6 +789,10 @@ void vrtMap::load(const char* name,int nWorld)
 	cWorld = nWorld;
 
 	fileLoad();
+
+	if (InitLog) {
+		buildWorld();
+	}
 
 	if(!fmap.open(fname,XS_IN|XS_NOSHARING)) {
 		ErrH.Abort("WorldData not found");

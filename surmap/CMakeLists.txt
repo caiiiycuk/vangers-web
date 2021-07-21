@@ -17,6 +17,7 @@ if (${EMSCRIPTEN})
         -s NO_EXIT_RUNTIME=1 \
         -s FORCE_FILESYSTEM=1 \
         -s ERROR_ON_UNDEFINED_SYMBOLS=1 \
+        -lidbfs.js \
 		--preload-file \"${PROJECT_SOURCE_DIR}/surmap_data@\"")
 endif()
 

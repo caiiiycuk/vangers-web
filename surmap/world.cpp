@@ -1276,11 +1276,14 @@ void buildWorld(void)
 			}
 		ff.close();
 
+// @caiiiycuk: recoloring not working properly
+/*
 		XCon < "\n\n\n\nRecoloring in progress...";
 		CGenLog = 1;
 		InitLog = 0;
 		buildWorld();
 		return;
+*/
 		}
 	else {
 		SaveVPR();

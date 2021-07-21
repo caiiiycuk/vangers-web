@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "@blueprintjs/core/lib/css/blueprint.css";
 
 import './index.css';
-import { SurWeb } from './surweb';
+import { AppRouter } from './router';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SurWeb />
+    <AppRouter />
   </React.StrictMode>,
   document.getElementById('root')
 );

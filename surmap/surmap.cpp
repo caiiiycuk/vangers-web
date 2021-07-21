@@ -204,7 +204,10 @@ int xtInitApplication(void)
 	realRNDVAL = 838383;
 #endif
 
-	loadState();
+
+	if (!InitLog) {
+		loadState();
+	}
 
 	XCon < "\nPrecalculating...";
 	costab();
