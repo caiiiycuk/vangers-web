@@ -36,7 +36,7 @@ At the end of build all files will copy to frontend public directory `surweb/pub
 
 4. Testing locally
 
-To test locally you should remove homepage from `package.json` and then run `yarn start`
+Run `yarn start`
 
 ## Data
 

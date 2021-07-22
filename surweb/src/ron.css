@@ -1,0 +1,27 @@
+.ron-container {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.ron-container div {
+	margin-right: 25px;
+}
+
+.ron-container button {
+	margin-bottom: 10px;
+}
+
+.ron-download {
+	justify-content: start;
+}
+
+.ron-close {
+	cursor: pointer;
+}
+
+.ron-powered-by {
+	margin-top: 15px;
+	font-size: 12px;
+}

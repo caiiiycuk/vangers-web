@@ -1,9 +1,10 @@
-import { Alignment, AnchorButton, Button, FileInput, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner } from "@blueprintjs/core";
-import { rejects } from "assert";
+import { Alignment, AnchorButton, Button, FileInput, Intent, Navbar, ResizeEntry, ResizeSensor, Spinner, Overlay } from "@blueprintjs/core";
 import React, { useEffect, useRef, useState } from 'react';
+import { Ron } from "./ron";
 import { AppProps } from './router';
 import './surweb.css';
 import { resolveUrl } from './xhr';
+import { worldFile, palFile, bitmapFolder, shapeFolder } from "./config";
 
 
 const WIDTH = 1280;
@@ -21,6 +22,7 @@ export function SurWeb(props: AppProps) {
   const [archiveUrl, setArchiveUrl] = useState<string | null>(null);
   const [fileProgress, setFileProgress] = useState<number>(0);
   const [reader, setReader] = useState<FileReader | null>(null);
+  const [ron, setRon] = useState<boolean>(false);
 
   useEffect(() => {
     async function doLoad() {
@@ -100,12 +102,28 @@ export function SurWeb(props: AppProps) {
     const reader = new FileReader();
     reader.addEventListener("load", async (e) => {
       const bytes = new Uint8Array(reader.result as ArrayBuffer);
-      const buffer = module._malloc(bytes.length);
-      module.HEAPU8.set(bytes, buffer);
-      const retcode = module._zip_to_fs(buffer, bytes.length);
-      module._free(buffer);
-      if (retcode !== 0) {
-        console.error("Unable to extract, retcode", retcode);
+      const FS = module.FS;
+      const root = FS.cwd() + "/";
+      if (file.name.endsWith(".bmp") || file.name.endsWith(".pal")) {
+        try {
+          FS.unlink(root + bitmapFolder + file.name);
+        } catch {
+          //
+        }
+        FS.createDataFile(root, bitmapFolder + file.name, bytes, true, true, true);
+        FS.syncfs((err: any) => { });
+        alert("Ok");
+      } else if (file.name.endsWith(".c3d")) {
+        try {
+          FS.unlink(root + shapeFolder + file.name);
+        } catch {
+          //
+        }
+        FS.createDataFile(root, shapeFolder + file.name, bytes, true, true, true);
+        FS.syncfs((err: any) => { });
+        alert("Ok");
+      } else {
+        alert("Only bmp / c3d / pal files are supported");
       }
       setReader(null);
     });
@@ -123,15 +141,19 @@ export function SurWeb(props: AppProps) {
           {
             loaded ?
               <div className="file-container">
-                <FileInput disabled={reader !== null} text="Add ZIP" onInputChange={onUpload} />
+                <FileInput disabled={reader !== null} text="Add file" onInputChange={onUpload} />
                 &nbsp;&nbsp;
                 <Spinner size={16} intent={Intent.PRIMARY} value={fileProgress} />
               </div> :
               <Navbar.Heading>Loading {progress}%</Navbar.Heading>
           }
+          {loaded ?
+            <Button minimal={true} onKeyDown={() => { }} onClick={() => setRon(!ron)}>RON</Button> :
+            null
+          }
           {
             archiveUrl !== null ?
-              <Button onKeyDown={() => { }} minimal={true} onClick={onDownload}>Download ZIP</Button> :
+              <Button intent={Intent.PRIMARY} onKeyDown={() => { }} minimal={true} onClick={onDownload}>Download ZIP</Button> :
               null
           }
         </Navbar.Group>
@@ -142,6 +164,9 @@ export function SurWeb(props: AppProps) {
           {loaded ? null : <div className="spinner-container"><Spinner size={64} /></div>}
         </div>
       </ResizeSensor>
+      <Overlay isOpen={ron} lazy={true} hasBackdrop={false}>
+        <Ron {...props} Module={module} close={() => setRon(false)} />
+      </Overlay>
     </div>
   );
 }
@@ -187,8 +212,6 @@ function instantiateProps(Module: any, props: AppProps, binaries: Binaries): Pro
     Module.FS.chdir("/idbfs");
     Module.FS.syncfs(true, (err: any) => {
       const root = Module.FS_cwd() + "/";
-      const worldFile = "thechain/mirage/world.ini";
-      const palFile = "thechain/mirage/harmony.pal";
 
       try {
         Module.FS.lookupPath(root + worldFile);
@@ -255,7 +278,7 @@ function getSizeWithAspectRatio(width: number, height: number, targetAspect: num
 function downloadUrl(url: string) {
   const a = document.createElement("a");
   a.href = url;
-  a.download = "mirage.zip";
+  a.download = "world.zip";
   a.style.display = "none";
   document.body.appendChild(a);
 

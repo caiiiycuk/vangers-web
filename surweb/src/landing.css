@@ -43,3 +43,9 @@
 .open-textarea {
 	width: 500px;
 }
+
+.try-zip {
+	margin-top: -15px;
+	font-size: 12px;
+	margin-bottom: 25px;
+}

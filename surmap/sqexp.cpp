@@ -301,7 +301,7 @@ iMainMenu::iMainMenu(sqElem* _owner,int _x,int _y)
 	*menu * new sqMenuBar((uchar*)"Quit (without saving)",menu);
 	*menu * new sqMenuBar((uchar*)"Update session",menu);
 	*menu * new sqMenuBar((uchar*)"Kill session (Undo)",menu);
-	*menu * new sqMenuBar((uchar*)"ZIP Results",menu);
+	*menu * new sqMenuBar((uchar*)"Update world ZIP",menu);
 	//*menu * new sqMenuBar((uchar*)"Exit (with saving)",menu);
 
 	sy = 30 + font -> sy*num;
@@ -320,14 +320,54 @@ iMainMenu::iMainMenu(sqElem* _owner,int _x,int _y)
 	sqInputBox::draw();
 }
 
+extern "C" void EMSCRIPTEN_KEEPALIVE updateZipArchive() {
+	MLreset();
+	vMap -> flush();
+#ifdef SESSION
+	vMap -> sssUpdate();
+#endif
+	SaveVPR();
+
+	char cwd[256];
+	getcwd(cwd, 256);
+	chdir("thechain/mirage");
+	ZipArchive *archive = (ZipArchive*) zip_from_fs(0);
+	chdir(cwd);
+#ifdef EMSCRIPTEN
+	if (archive) {
+		EM_ASM(({
+		  var ptr = $0;
+		  var length = Module.HEAPU32[ptr / 4];
+		  var memory = Module.HEAPU8;
+		  var archive = memory.slice(ptr + 4, ptr + 4 + length);
+		  Module.saveZip(archive);
+		}), archive);
+		free(archive);
+	}
+#else
+	if (archive) {
+		auto length = ((uint32_t*) archive)[0];
+		auto data = ((char*) archive + sizeof(uint32_t));
+
+		auto* f = fopen("mirage.zip", "wb");
+		fwrite(data, sizeof(char), length, f);
+		fclose(f);
+
+		free(archive);
+	}
+#endif
+//					MLreset();
+//					Quit = XT_TERMINATE_ID;
+}
+
 void iMainMenu::message(int code,sqElem* object)
 {
 	switch(code){
-		case M_CHOICE:
-		case M_SETOPTION:
-			switch(menu -> getptr(menu -> pointer)){
-				case 0:
-					sqE -> put(E_GOTOFORM,E_COMMON,XGR_MAXX/2,XGR_MAXY/2);
+	case M_CHOICE:
+	case M_SETOPTION:
+		switch(menu -> getptr(menu -> pointer)){
+		case 0:
+			sqE -> put(E_GOTOFORM,E_COMMON,XGR_MAXX/2,XGR_MAXY/2);
 					break;
 				case 1:
 					sqE -> put(E_PRMMENU,E_COMMON,XGR_MAXX/2,XGR_MAXY/2);
@@ -377,43 +417,7 @@ void iMainMenu::message(int code,sqElem* object)
 					LoadVPR();
 					break;
 				case 12: {
-					MLreset();
-					vMap -> flush();
-#ifdef SESSION
-					vMap -> sssUpdate();
-#endif
-					SaveVPR();
-
-					char cwd[256];
-					getcwd(cwd, 256);
-					chdir("thechain/mirage");
-					ZipArchive *archive = (ZipArchive*) zip_from_fs(0);
-					chdir(cwd);
-#ifdef EMSCRIPTEN
-					if (archive) {
-						EM_ASM(({
-						    var ptr = $0;
-        					var length = Module.HEAPU32[ptr / 4];
-                            var memory = Module.HEAPU8;
-                            var archive = memory.slice(ptr + 4, ptr + 4 + length);
-							Module.saveZip(archive);
-						}), archive);
-						free(archive);
-					}
-#else
-					if (archive) {
-						auto length = ((uint32_t*) archive)[0];
-						auto data = ((char*) archive + sizeof(uint32_t));
-
-						auto* f = fopen("mirage.zip", "wb");
-						fwrite(data, sizeof(char), length, f);
-						fclose(f);
-
-						free(archive);
-					}
-#endif
-					//					MLreset();
-					//					Quit = XT_TERMINATE_ID;
+					updateZipArchive();
 				}	break;
 				}
 			copt = menu -> getptr(menu -> pointer);

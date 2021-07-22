@@ -1,6 +1,6 @@
 
 import {
-	Button, Callout, FileInput, Spinner
+	Button, Callout, FileInput
 } from '@blueprintjs/core';
 import React, { useState } from 'react';
 import { AppProps } from "./router";
@@ -25,6 +25,7 @@ export function Zip(props: AppProps) {
 	return <div>
 		<Callout>
 			<h5>Restore world from ZIP</h5>
+			<p className="try-zip">Try (<a href="worlds/satadi.zip">satadi.zip</a>) OR (<a href="worlds/empty.zip">empty.zip</a>)</p>
 			<div className="open-inputs">
 				<FileInput hasSelection={zipFile !== undefined} text={zipFile ? zipFile.name : "Select 'zip' File"} 
 					onChange={onFileChange}/>
