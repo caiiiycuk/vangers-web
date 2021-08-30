@@ -49,3 +49,14 @@
 	font-size: 12px;
 	margin-bottom: 25px;
 }
+
+.root-card {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+.tutorials {
+	display: flex;
+	flex-direction: column;
+}

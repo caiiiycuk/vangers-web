@@ -666,6 +666,9 @@ void vrtMap::analyzeINI(const char* name)
 #ifdef _SURMAP_
 	if(ForcedCompressed) isCompressed = 1;
 	if(ForcedUncompressed) isCompressed = 0;
+	if (isCompressed) {
+		ErrH.Abort("SurWeb: Compressed file format is not supported");
+	}
 #endif
 
 	fileName = strdup(iniparser_getstring(dict_name,"Storage:File Name", NULL));

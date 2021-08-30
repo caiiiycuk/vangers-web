@@ -25,10 +25,23 @@ export function Zip(props: AppProps) {
 	return <div>
 		<Callout>
 			<h5>Restore world from ZIP</h5>
-			<p className="try-zip">Try (<a href="worlds/satadi.zip">satadi.zip</a>) OR (<a href="worlds/empty.zip">empty.zip</a>)</p>
+			<ul>
+				<li><a href="worlds/satadi.zip">satadi.zip</a></li>
+				<li><a href="worlds/empty.zip">empty.zip</a></li>
+				<li><a href="worlds/ark-a-znoy.zip">ark-a-znoy.zip</a></li>
+				<li><a href="worlds/boozeena.zip">boozeena.zip</a></li>
+				<li><a href="worlds/fostral.zip">fostral.zip</a></li>
+				<li><a href="worlds/glorx.zip">glorx.zip</a></li>
+				<li><a href="worlds/hmok.zip">hmok.zip</a></li>
+				<li><a href="worlds/khox.zip">khox.zip</a></li>
+				<li><a href="worlds/necross.zip">necross.zip</a></li>
+				<li><a href="worlds/threall.zip">threall.zip</a></li>
+				<li><a href="worlds/weexow.zip">weexow.zip</a></li>
+				<li><a href="worlds/xplo.zip">xplo.zip</a></li>
+			</ul>
 			<div className="open-inputs">
-				<FileInput hasSelection={zipFile !== undefined} text={zipFile ? zipFile.name : "Select 'zip' File"} 
-					onChange={onFileChange}/>
+				<FileInput hasSelection={zipFile !== undefined} text={zipFile ? zipFile.name : "Select 'zip' File"}
+					onChange={onFileChange} />
 				<Button disabled={!zipFile || busy} onClick={restore}>Restore</Button>
 			</div>
 		</Callout>

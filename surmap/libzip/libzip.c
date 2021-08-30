@@ -1,3 +1,5 @@
+#define _XOPEN_SOURCE 700
+
 #include <zip.h>
 #include <libzip.h>
 
@@ -8,6 +10,8 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
+
+#include <ftw.h>
 
 #include <sys/stat.h>
 
@@ -248,4 +252,26 @@ void EMSCRIPTEN_KEEPALIVE libzip_destroy() {
 #ifdef EMSCRIPTEN
     emscripten_force_exit(0);
 #endif
+}
+
+
+int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf) {
+	int rv = remove(fpath);
+
+	if (rv)
+		perror(fpath);
+
+	return rv;
+}
+
+int rmrf(char *path) {
+	return nftw(path, unlink_cb, 64, FTW_DEPTH | FTW_PHYS);
+}
+
+void EMSCRIPTEN_KEEPALIVE clear_cwd() {
+	const int max = 2048;
+	char dir[max];
+	getcwd(dir, max);
+	rmrf(dir);
+	mkdir(dir, 0700);
 }

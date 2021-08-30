@@ -236,6 +236,7 @@ function instantiateProps(Module: any, props: AppProps, binaries: Binaries): Pro
         resolve(["/I" + props.gen.size, "/G0"]);
       } else if (props.route === "zip" && props.zip !== null) {
         Module.FS.chdir(root + "thechain/mirage/");
+        Module._clear_cwd();
         const bytes = props.zip;
         const buffer = Module._malloc(bytes.length);
         Module.HEAPU8.set(bytes, buffer);
