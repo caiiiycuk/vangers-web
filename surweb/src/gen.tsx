@@ -47,7 +47,7 @@ Default Terrain Type=${terainType}
 							value={palette} />
 					</div>
 					<div className="in-a-row">
-						<label className="open-left-label">World size ({size})</label>
+						<label className="open-left-label">World size ({size}:{2 ** size})</label>
 						<NumericInput className="short-input" min={10} max={14} value={size} onValueChange={setSize} />
 					</div>
 					<div className="in-a-row">

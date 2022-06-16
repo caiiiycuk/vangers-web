@@ -25,7 +25,6 @@ https://caiiiycuk.github.io/vangers-web/surweb/index.html
     emcmake cmake ..
     make surmap
 ```
-At the end of build all files will copy to frontend public directory `surweb/public/surmap`
 
 3. Build frontend
 ```sh

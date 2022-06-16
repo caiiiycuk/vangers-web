@@ -7,7 +7,7 @@ import { worldFile, palFile, vmpFile, vprFile } from "./config";
 
 import "./ron.css";
 
-declare function ron2vmp(ron_multi_png: Uint8Array, height_png: Uint8Array, material_hi_png: Uint8Array, material_lo_png: Uint8Array): Uint8Array;
+declare function ron2vmp(ron_multi_png: Uint8Array, height_png: Uint8Array, material_lo_png: Uint8Array, material_hi_png: Uint8Array): Uint8Array;
 declare function vmp2ron(ini: string, vmp: Uint8Array, vpr: Uint8Array, palette: Uint8Array): void;
 declare function get_ron_multi_png(): Uint8Array;
 declare function get_height_png(): Uint8Array;
@@ -45,7 +45,7 @@ export function Ron(props: RonProps) {
 		const height = await readContents(heightFile);
 		const hi = await readContents(hiFile);
 		const lo = await readContents(loFile);
-		const vmp = ron2vmp(ron, height, hi, lo);
+		const vmp = ron2vmp(ron, height, lo, hi);
 
 		const Module = props.Module;
 		const FS = Module.FS;
