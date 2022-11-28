@@ -1,3 +1,6 @@
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb/stb_image_write.h"
+
 #include "../src/global.h"
 
 //#define SCREENSHOT
@@ -32,6 +35,12 @@
 #endif
 
 #define RANDOMIZE
+
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#else
+#define EMSCRIPTEN_KEEPALIVE /*EMSCRIPTEN_KEEPALIVE*/
+#endif
 
 extern const int MAX_MAP_IN_MEMORY_POWER;
 
@@ -624,6 +633,97 @@ void sqScreen::handler(sqEvent* e)
 void GotoXY(int x,int y)
 {
 	curGMap -> gotoxy(x,y);
+}
+
+
+void create_poster() {
+	curGMap->createPoster();
+}
+
+void iGameMap::createPoster() {
+	int x, y;
+	SDL_Color color;
+	
+	SDL_Surface *surf = SDL_CreateRGBSurface(0, TOR_XSIZE, TOR_YSIZE, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_LockSurface(surf);
+	auto palette = XGR_Obj.get_palette();
+	
+	for (int cy = 0; cy < TOR_YSIZE; cy += xgrScreenSizeY) {
+		for (int cx = 0; cx < TOR_XSIZE; cx += xgrScreenSizeX) {
+			XGR_Obj.set_default_render_buffer();
+			XGR_Obj.fill(0);
+			vMap -> scaling(xgrScreenSizeX,
+						    (cx + CX) & TOR_XSIZE - 1, (cy + CY) & TOR_YSIZE - 1,
+							xgrScreenSizeX / 2,xgrScreenSizeY / 2,
+							xgrScreenSizeX / 2,xgrScreenSizeY / 2);
+			XGR_Obj.flip();
+			
+			auto screenPixels = XGR_Obj.get_default_render_buffer();
+			for (y = 0; y < xgrScreenSizeY; ++y) {
+				if (y + cy >= TOR_YSIZE) {
+					screenPixels += xgrScreenSizeX;
+					continue;
+				}
+				
+				auto dst = (uint32_t*) surf->pixels 
+						   + surf->pitch / surf->format->BytesPerPixel * (y + cy)
+					       + cx;
+				
+				for (x = 0; x < xgrScreenSizeX; ++x) {
+					if (x + cx >= TOR_XSIZE) {
+						screenPixels++;
+						continue;
+					}
+					
+					*(dst++) = palette[*screenPixels];
+					screenPixels++;
+				}
+			}
+		}
+	}
+	
+	auto alpha = (uint8_t*) surf->pixels;
+	for (y = 0; y < TOR_YSIZE; ++y) {
+		for (x = 0; x < TOR_XSIZE; ++x) {
+			auto red = alpha[0];
+			alpha[0] = alpha[2];
+			alpha[2] = red;
+			alpha[3] = 255;
+			alpha += 4;
+		} 
+	}
+
+	stbi_write_png("./poster.png", TOR_XSIZE, TOR_YSIZE, 4, surf->pixels, surf->pitch);
+
+	SDL_UnlockSurface(surf);
+	SDL_FreeSurface(surf);
+	
+#ifdef EMSCRIPTEN
+	FILE *file;
+	char *buffer;
+	long filelen;
+
+	file = fopen("./poster.png", "rb"); 
+	fseek(file, 0, SEEK_END);
+	filelen = ftell(file);  
+	rewind(file);
+
+	buffer = (char *)malloc(filelen * sizeof(char));
+	fread(buffer, filelen, 1, file);
+	fclose(file);
+
+	free(buffer);
+	
+	EM_ASM(({
+		var ptr = $0;
+		var length =  $1;
+		var memory = Module.HEAPU8;
+		var poster = memory.slice(ptr, ptr + length);
+		Module.onPoster(poster);
+	}), buffer, filelen);
+#endif
+
+	draw();
 }
 
 void iGameMap::keytrap(int key)

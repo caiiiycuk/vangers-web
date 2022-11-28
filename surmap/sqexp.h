@@ -79,6 +79,7 @@ struct iGameMap : sqInputBox {
 
 	void setFloodLvl(void);
 	void restoreFloodLvl(void);
+	void createPoster();
 	};
 
 extern iGameMap* curGMap;

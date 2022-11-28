@@ -13,7 +13,11 @@ const HEIGHT = 720;
 type Binaries = { dataJs: Uint8Array, data: Uint8Array, wasm: Uint8Array, wasmJs: Uint8Array };
 
 export function SurWeb(props: AppProps) {
-  const module = useState<any>({})[0];
+  const module = useState<any>(() => {
+    const module = {};
+    (window as any).module = module;
+    return module;
+  })[0];
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [progress, setProgress] = useState<number>(0);
@@ -55,7 +59,7 @@ export function SurWeb(props: AppProps) {
       return;
     }
 
-    instantiateWasm(canvas, binaries, module, onArchive, props)
+    instantiateWasm(canvas, binaries, module, onArchive, (data) => savePng("poster.png", data), props)
       .then(() => setLoaded(true))
       .catch(console.error);
 
@@ -80,6 +84,14 @@ export function SurWeb(props: AppProps) {
     setArchiveUrl(url);
     // downloadUrl(url);
   }
+
+  function savePng(fileName: string, byte: Uint8Array) {
+    var blob = new Blob([byte], { type: "image/png" });
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+  };
 
   function onDownload() {
     canvas?.focus();
@@ -175,6 +187,7 @@ function instantiateWasm(canvas: HTMLCanvasElement,
   binaries: Binaries,
   Module: any,
   onArchive: (archive: Uint8Array) => void,
+  onPoster: (poster: Uint8Array) => void,
   props: AppProps) {
   return new Promise<void>((resolve, reject) => {
     try {
@@ -182,6 +195,7 @@ function instantiateWasm(canvas: HTMLCanvasElement,
         Module.FS.syncfs((err: any) => { });
         onArchive(archive);
       }
+      Module.onPoster = onPoster;
       Module.canvas = canvas;
       Module.instantiateWasm = async (info: any, receiveInstance: any) => {
         const wasmModule = await WebAssembly.compile(binaries.wasm);

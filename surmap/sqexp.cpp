@@ -38,6 +38,7 @@
 #define TM_INTERPOLATE	 1
 
 /* ----------------------------- EXTERN SECTION ---------------------------- */
+extern void create_poster();
 extern sqFont sysfont;
 extern int Quit;
 extern int Regen;
@@ -285,7 +286,8 @@ iMainMenu::iMainMenu(sqElem* _owner,int _x,int _y)
 	*menu * new sqMenuBar((uchar*)"Mobile Locations Menu",menu);
 	*menu * new sqMenuBar((uchar*)"Valoc Management Menu",menu);
 	*menu * new sqMenuBar((uchar*)"Load Another World",menu);
-	*menu * new sqMenuBar((uchar*)"Quit (without saving)",menu);
+	*menu * new sqMenuBar((uchar*)"Make poster",menu);
+	//*menu * new sqMenuBar((uchar*)"Quit (without saving)",menu);
 	*menu * new sqMenuBar((uchar*)"Update session",menu);
 	*menu * new sqMenuBar((uchar*)"Kill session (Undo)",menu);
 	*menu * new sqMenuBar((uchar*)"Update world ZIP",menu);
@@ -381,11 +383,12 @@ void iMainMenu::message(int code,sqElem* object)
 					sqE -> put(E_WORLDCHOICE,E_COMMON,XGR_MAXX/2,XGR_MAXY/2);
 					break;
 				case 9:
-					MLreset();
-					Quit = XT_TERMINATE_ID;
-#ifdef SESSION
-					sssUpdateLog = 0;
-#endif
+					create_poster();	
+//					MLreset();
+//					Quit = XT_TERMINATE_ID;
+//#ifdef SESSION
+//					sssUpdateLog = 0;
+//#endif
 					break;
 				case 10:
 					MLreset();

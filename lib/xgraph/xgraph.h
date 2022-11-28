@@ -182,6 +182,7 @@ struct XGR_Screen
 	uint8_t* get_2d_render_buffer();
 	void set_default_render_buffer();
 	void set_2d_render_buffer();
+	uint32_t* get_palette() { return XGR32_PaletteCache; }
 
 	SDL_Surface* get_screenshot();
 
