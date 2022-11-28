@@ -67,8 +67,8 @@ INCLUDE_DIRECTORIES(SYSTEM
 )
 
 INCLUDE(CheckCXXCompilerFlag)
-SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
-SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2 -ftree-vectorize -ffast-math")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -fno-exceptions")
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2 -ftree-vectorize -ffast-math -fno-exceptions")
 CHECK_CXX_COMPILER_FLAG("-msse2" HAVE_SIMDSSE)
 IF(HAVE_SIMDSSE)
   SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -msse2")

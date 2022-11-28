@@ -22,7 +22,7 @@ https://caiiiycuk.github.io/vangers-web/surweb/index.html
 ```sh
     mkdir emscripten
     cd emscripten
-    emcmake cmake ..
+    emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
     make surmap
 ```
 

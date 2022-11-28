@@ -175,19 +175,6 @@ uchar markBMP[7][7] = {
 			0,0,0,COL1,0,0,0,
 			0,0,0,COL1,0,0,0 };
 
-static const char* RUS(const char* s,int back = 0)
-{
-        printf("RUS function is not supported\n");
-	//@caiiiycuk TODO: write converter that used internal buffer to avoid memory leak
-	return strdup(s);
-//	static char buffer[512];
-//	if(!back)
-//		KDWIN::CharToOemBuff(s,buffer,strlen(s) + 1);
-//	else
-//		KDWIN::OemToCharBuff(s,buffer,strlen(s) + 1);
-//	return buffer;
-}
-
 void sqStateSave(XStream& ff)
 {
 	ff	< LBM_mode[0] < LBM_mode[1]
@@ -845,31 +832,31 @@ iInputForm::iInputForm(sqElem* _owner,int _x,int _y,int _mode)
 		switch(MLstatus){
 		case 0:
 			if(!MLprocess)
-				*menu * new sqMenuBar((uchar*)RUS("������� ML-�������"),menu);
+				*menu * new sqMenuBar((uchar*)"Allow ML-animation",menu);
 			else
-				*menu * new sqMenuBar((uchar*)RUS("������� ML-�������"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�������� ������ ML-��ꥪ�"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�����஢�� ।���஢���� ��������� ML-��ꥪ⮢..."),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�������� ML-��ꥪ⮢..."),menu);
-			*menu * new sqMenuBar((uchar*)RUS("������஢���� ��ࠬ��஢ � ��������� ML-��ꥪ⮢..."),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�������� ���� �� ��������� ML-��ꥪ⮢..."),menu);
+				*menu * new sqMenuBar((uchar*)"Disallow ML-animation",menu);
+			*menu * new sqMenuBar((uchar*)"Make new ML-object",menu);
+			*menu * new sqMenuBar((uchar*)"Edit ML-objects frame by frame...",menu);
+			*menu * new sqMenuBar((uchar*)"Delete ML-objects...",menu);
+			*menu * new sqMenuBar((uchar*)"Edit properites of existing ML-objects...",menu);
+			*menu * new sqMenuBar((uchar*)"Show one of existing ML-objects...",menu);
 			break;
 		case 1:
-			*menu * new sqMenuBar((uchar*)RUS("�������� ����"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�������� ᮧ����� ML-��ꥪ� � ������� ���"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�४���� ᮧ����� ML-��ꥪ� ��� ��࠭���� १���⮢"),menu);
+			*menu * new sqMenuBar((uchar*)"Add frame",menu);
+			*menu * new sqMenuBar((uchar*)"Stop creation of ML-object and write it",menu);
+			*menu * new sqMenuBar((uchar*)"Stop creation of ML-object without saving",menu);
 			break;
 		case 2:
-			*menu * new sqMenuBar((uchar*)RUS("[G] ��३� �� ���� �� ��������� ���஢..."),menu);
-			*menu * new sqMenuBar((uchar*)RUS("[A] ��������� ��������� ⥪�饣� ����"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("[Q] ����⠭����� ���� � ��� ��砫쭮� ���ﭨ�"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("[N] ��⠢��� ���� ����"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("[D] ������� ⥪�騩 ����"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�������� ��ࠬ���� ML-��ꥪ�"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�������� ।���஢���� ML-��ꥪ� � ��࠭��� �� ���������"),menu);
-			*menu * new sqMenuBar((uchar*)RUS("�४���� ।���஢���� ��� ��࠭���� ��� ���������"),menu);
+			*menu * new sqMenuBar((uchar*)"[G] Goto one of frama...",menu);
+			*menu * new sqMenuBar((uchar*)"[A] Memorize current frame changes",menu);
+			*menu * new sqMenuBar((uchar*)"[Q] Reset current frame to initial state",menu);
+			*menu * new sqMenuBar((uchar*)"[N] Insert new frame",menu);
+			*menu * new sqMenuBar((uchar*)"[D] Delete current frame",menu);
+			*menu * new sqMenuBar((uchar*)"Edit properties of ML-object",menu);
+			*menu * new sqMenuBar((uchar*)"Stop editing of ML-object and write all changed",menu);
+			*menu * new sqMenuBar((uchar*)"Stop editing without saving changes",menu);
 			break;
-		}
+		}	
 			if(copt >= 6) copt = 5;
 			menu -> setpointer(menu -> getbar(copt),0);
 			xadd = menu -> len*8 + 16;

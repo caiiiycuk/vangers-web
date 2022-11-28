@@ -113,7 +113,7 @@ int zip_recursively(zip_t *zipArchive, const char *directory, double changedAfte
                             zip_strerror(zipArchive));
                     return 0;
                 }
-                auto index = zip_file_add(zipArchive, nameInArchive, source, ZIP_FL_ENC_UTF_8);
+				zip_int64_t index = zip_file_add(zipArchive, nameInArchive, source, ZIP_FL_ENC_UTF_8);
                 if (index == -1) {
                     zip_source_free(source);
                     fprintf(stderr, "zip_from_fs: can't create file %s, cause %s\n", nameInFs,
