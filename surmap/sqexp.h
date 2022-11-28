@@ -1,3 +1,7 @@
+#ifndef SQEXP_H_
+#define SQEXP_H_
+
+#include "sqint.h"
 
 #define E_LBMREEV	23
 
@@ -155,3 +159,4 @@ struct ibmFile {
 	void quantSave(void);
 	};
 
+#endif /*SQEXP_H_*/

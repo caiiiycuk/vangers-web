@@ -87,10 +87,8 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 # subdirs
-# ADD_SUBDIRECTORY("src")
 ADD_SUBDIRECTORY("lib/xgraph")
 ADD_SUBDIRECTORY("lib/xsound")
 ADD_SUBDIRECTORY("lib/xtool")
 ADD_SUBDIRECTORY("lib/utils")
-# ADD_SUBDIRECTORY("server")
 ADD_SUBDIRECTORY("surmap")
